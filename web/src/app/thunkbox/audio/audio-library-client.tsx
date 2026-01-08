@@ -27,11 +27,9 @@ interface AudioLibraryClientProps {
 }
 
 export function AudioLibraryClient({ audioReports }: AudioLibraryClientProps) {
-  const [_currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [expandedReport, setExpandedReport] = useState<string | null>(null);
 
   const handlePlay = (slug: string) => {
-    setCurrentlyPlaying(slug);
     setExpandedReport(slug);
   };
 

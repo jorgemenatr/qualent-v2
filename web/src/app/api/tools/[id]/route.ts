@@ -6,7 +6,7 @@ import { z } from "zod";
 const updateToolSchema = z.object({
   cognitoId: z.string().min(1, "Authentication required"),
   name: z.string().min(1).optional(),
-  data: z.record(z.unknown()).optional(),
+  data: z.record(z.string(), z.unknown()).optional(),
 });
 
 // GET /api/tools/[id] - Get a specific tool save

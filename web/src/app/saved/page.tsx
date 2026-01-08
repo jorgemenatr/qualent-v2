@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -63,18 +63,7 @@ export default function SavedPage() {
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      setIsLoading(false);
-      return;
-    }
-
-    if (isAuthenticated && cognitoId) {
-      fetchSaves();
-    }
-  }, [isAuthenticated, authLoading, cognitoId]);
-
-  const fetchSaves = async () => {
+  const fetchSaves = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch("/api/tools", {
@@ -96,7 +85,18 @@ export default function SavedPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [cognitoId]);
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setIsLoading(false);
+      return;
+    }
+
+    if (isAuthenticated && cognitoId) {
+      fetchSaves();
+    }
+  }, [isAuthenticated, authLoading, cognitoId, fetchSaves]);
 
   const handleDelete = async (id: string) => {
     try {

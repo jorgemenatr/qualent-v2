@@ -7,7 +7,7 @@ const createToolSchema = z.object({
   cognitoId: z.string().min(1, "Authentication required"),
   toolType: z.string().min(1, "Tool type is required"),
   name: z.string().min(1, "Name is required"),
-  data: z.record(z.unknown()),
+  data: z.record(z.string(), z.unknown()),
 });
 
 // GET /api/tools - List all tool saves for the user

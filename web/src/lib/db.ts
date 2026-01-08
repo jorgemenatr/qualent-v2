@@ -14,6 +14,11 @@ async function createPrismaClient(): Promise<PrismaClientType> {
   const connectionString = process.env.DATABASE_URL;
 
   if (!connectionString) {
+    // Log available env vars (without values) for debugging
+    const envKeys = Object.keys(process.env).filter(k =>
+      k.includes('DATABASE') || k.includes('PRISMA') || k.includes('AMPLIFY')
+    );
+    console.error("DATABASE_URL not found. Related env vars:", envKeys);
     throw new Error("DATABASE_URL environment variable is not set");
   }
 

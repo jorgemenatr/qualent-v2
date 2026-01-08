@@ -1,0 +1,134 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// User & Authentication
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  cognitoId     String    @unique @map("cognito_id")
+  email         String    @unique
+  name          String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  toolSaves     ToolSave[]
+  chatSessions  ChatSession[]
+  downloads     Download[]
+
+  @@map("users")
+}
+
+// ============================================================================
+// Contacts (for PDF gating)
+// ============================================================================
+
+model Contact {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  company       String?
+  source        String?   // e.g., "pdf_download", "newsletter"
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  downloads     Download[]
+
+  @@map("contacts")
+}
+
+// ============================================================================
+// Downloads (tracking PDF downloads)
+// ============================================================================
+
+model Download {
+  id            String    @id @default(cuid())
+  reportSlug    String    @map("report_slug")
+  downloadedAt  DateTime  @default(now()) @map("downloaded_at")
+
+  // Relations
+  contactId     String?   @map("contact_id")
+  contact       Contact?  @relation(fields: [contactId], references: [id])
+  userId        String?   @map("user_id")
+  user          User?     @relation(fields: [userId], references: [id])
+
+  @@map("downloads")
+}
+
+// ============================================================================
+// Tool Saves (for FIVES, Build vs Buy, etc.)
+// ============================================================================
+
+model ToolSave {
+  id            String    @id @default(cuid())
+  toolType      String    @map("tool_type") // "fives", "build_vs_buy", "prioritization"
+  name          String    // User-given name for this save
+  data          Json      // The actual tool state/data
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  userId        String    @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, toolType])
+  @@map("tool_saves")
+}
+
+// ============================================================================
+// Chat Sessions
+// ============================================================================
+
+model ChatSession {
+  id            String    @id @default(cuid())
+  title         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  userId        String?   @map("user_id")
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages      ChatMessage[]
+
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id            String    @id @default(cuid())
+  role          String    // "user" or "assistant"
+  content       String
+  citations     Json?     // Array of citation objects
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  sessionId     String    @map("session_id")
+  session       ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("chat_messages")
+}
+
+// ============================================================================
+// Thunk Box Requests
+// ============================================================================
+
+model ThunkBoxRequest {
+  id            String    @id @default(cuid())
+  email         String
+  name          String?
+  company       String?
+  request       String    @db.Text
+  status        String    @default("pending") // "pending", "in_progress", "completed"
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("thunk_box_requests")
+}

@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: picklellama-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: picklellama
+      POSTGRES_PASSWORD: picklellama_local
+      POSTGRES_DB: picklellama
+    ports:
+      - "5433:5432"
+    volumes:
+      - picklellama_pgdata:/var/lib/postgresql/data
+
+volumes:
+  picklellama_pgdata:

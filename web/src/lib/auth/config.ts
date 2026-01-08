@@ -1,11 +1,14 @@
 import { WebStorageStateStore, type UserManagerSettings } from "oidc-client-ts";
 
+// OAuth hosted UI domain (e.g., "myapp.auth.ca-central-1.amazoncognito.com")
 const cognitoDomain = process.env.NEXT_PUBLIC_COGNITO_DOMAIN;
+// Issuer URL (e.g., "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_xxxxx")
+const cognitoIssuer = process.env.NEXT_PUBLIC_COGNITO_ISSUER;
 const clientId = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID;
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const oidcConfig: UserManagerSettings & { clientId: string } = {
-  authority: `https://${cognitoDomain}`,
+  authority: cognitoIssuer || `https://${cognitoDomain}`,
   client_id: clientId || "",
   clientId: clientId || "",
   redirect_uri: `${appUrl}/auth/callback`,
@@ -20,12 +23,12 @@ export const oidcConfig: UserManagerSettings & { clientId: string } = {
       : undefined,
   metadata: cognitoDomain
     ? {
-        issuer: `https://${cognitoDomain}`,
+        issuer: cognitoIssuer || `https://${cognitoDomain}`,
         authorization_endpoint: `https://${cognitoDomain}/oauth2/authorize`,
         token_endpoint: `https://${cognitoDomain}/oauth2/token`,
         userinfo_endpoint: `https://${cognitoDomain}/oauth2/userInfo`,
         end_session_endpoint: `https://${cognitoDomain}/logout`,
-        jwks_uri: `https://${cognitoDomain}/.well-known/jwks.json`,
+        jwks_uri: `${cognitoIssuer}/.well-known/jwks.json`,
       }
     : undefined,
 };

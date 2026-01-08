@@ -80,8 +80,8 @@ variable "cognito_callback_urls" {
   description = "List of allowed callback URLs for Cognito"
   type        = list(string)
   default = [
-    "http://localhost:3000/api/auth/callback",
-    "https://picklellama.studio/api/auth/callback"
+    "http://localhost:3000/auth/callback",
+    "https://picklellama.studio/auth/callback"
   ]
 }
 

@@ -34,8 +34,8 @@ app_domain = "picklellama.studio"
 
 # Cognito callback URLs (update with your actual domains)
 cognito_callback_urls = [
-  "http://localhost:3000/api/auth/callback",
-  "https://picklellama.studio/api/auth/callback"
+  "http://localhost:3000/auth/callback",
+  "https://picklellama.studio/auth/callback"
 ]
 
 cognito_logout_urls = [

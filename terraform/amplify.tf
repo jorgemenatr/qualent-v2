@@ -94,7 +94,7 @@ resource "aws_amplify_app" "website" {
     NEXT_PUBLIC_COGNITO_USER_POOL_ID = aws_cognito_user_pool.main.id
     NEXT_PUBLIC_COGNITO_CLIENT_ID    = aws_cognito_user_pool_client.web.id
     NEXT_PUBLIC_COGNITO_DOMAIN       = "${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com"
-    COGNITO_ISSUER                   = "https://cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.main.id}"
+    NEXT_PUBLIC_COGNITO_ISSUER       = "https://cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.main.id}"
 
     # S3 (Note: Can't use AWS_ prefix - reserved by Amplify)
     S3_BUCKET_NAME = aws_s3_bucket.content.id
@@ -112,18 +112,8 @@ resource "aws_amplify_app" "website" {
   # Platform - use WEB_COMPUTE for Next.js SSR support
   platform = "WEB_COMPUTE"
 
-  # Custom rules for Next.js routing
-  custom_rule {
-    source = "/<*>"
-    status = "404-200"
-    target = "/index.html"
-  }
-
-  custom_rule {
-    source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>"
-    status = "200"
-    target = "/index.html"
-  }
+  # Note: No custom_rule blocks needed for Next.js SSR
+  # Amplify's WEB_COMPUTE platform handles routing automatically
 }
 
 # -----------------------------------------------------------------------------

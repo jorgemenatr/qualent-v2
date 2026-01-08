@@ -109,7 +109,7 @@ export default function ServicesPage() {
 
         <Container className="relative">
           <div className="grid gap-8 md:grid-cols-2">
-            {services.map((service, index) => (
+            {services.map((service) => (
               <Card
                 key={service.title}
                 className="flex flex-col border-2 border-transparent bg-card/80 backdrop-blur-sm transition-all hover:border-primary/20 hover:shadow-lg"

@@ -114,7 +114,7 @@ export function AudioPlayer({
     audio.currentTime = Math.max(0, Math.min(audio.currentTime + seconds, duration));
   };
 
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const _progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div className="rounded-lg border border-border bg-card p-4">

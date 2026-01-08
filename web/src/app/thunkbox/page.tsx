@@ -4,7 +4,6 @@ import {
   ArrowRight,
   FileText,
   Target,
-  Calculator,
   CheckCircle,
   Shield,
   ClipboardList,

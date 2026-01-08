@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { getPresignedUrl, getAudioKey } from "@/lib/s3";
-import { getAllSlugs } from "@/lib/content";
+import { getAllSlugs as _getAllSlugs } from "@/lib/content";
 
 // Valid audio report slugs
 const validSlugs = new Set([

@@ -49,3 +49,10 @@ s3_bucket_name = "picklellama-content"
 # SES
 ses_email_domain = "picklellama.studio"
 ses_from_email   = "hello@picklellama.studio"
+
+# GitHub / Amplify
+# Create a personal access token at:
+# https://github.com/settings/tokens
+# Required scopes: repo (full control)
+github_repository    = "https://github.com/PickleLlama-Studio/home-2.0"
+github_access_token  = "ghp_your_github_personal_access_token"

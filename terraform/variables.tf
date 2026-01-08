@@ -119,3 +119,19 @@ variable "ses_from_email" {
   type        = string
   default     = "hello@picklellama.studio"
 }
+
+# -----------------------------------------------------------------------------
+# GitHub / Amplify Variables
+# -----------------------------------------------------------------------------
+
+variable "github_repository" {
+  description = "GitHub repository URL for Amplify"
+  type        = string
+  default     = "https://github.com/PickleLlama-Studio/home-2.0"
+}
+
+variable "github_access_token" {
+  description = "GitHub personal access token for Amplify to access the repository"
+  type        = string
+  sensitive   = true
+}

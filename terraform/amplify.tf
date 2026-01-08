@@ -1,0 +1,197 @@
+# -----------------------------------------------------------------------------
+# IAM Role for Amplify
+# -----------------------------------------------------------------------------
+
+resource "aws_iam_role" "amplify_service_role" {
+  name = "${var.project_name}-amplify-service-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "amplify.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "amplify_s3_access" {
+  name = "${var.project_name}-amplify-s3-access"
+  role = aws_iam_role.amplify_service_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.content.arn,
+          "${aws_s3_bucket.content.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "amplify_ses_access" {
+  name = "${var.project_name}-amplify-ses-access"
+  role = aws_iam_role.amplify_service_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "ses:FromAddress" = var.ses_from_email
+          }
+        }
+      }
+    ]
+  })
+}
+
+# -----------------------------------------------------------------------------
+# AWS Amplify App
+# -----------------------------------------------------------------------------
+
+resource "aws_amplify_app" "website" {
+  name       = "${var.project_name}-website"
+  repository = var.github_repository
+
+  # IAM role for accessing AWS services (S3, SES)
+  iam_service_role_arn = aws_iam_role.amplify_service_role.arn
+
+  # GitHub personal access token for repo access
+  access_token = var.github_access_token
+
+  # Build settings for Next.js monorepo
+  build_spec = <<-EOT
+    version: 1
+    applications:
+      - appRoot: web
+        frontend:
+          phases:
+            preBuild:
+              commands:
+                - npm ci
+            build:
+              commands:
+                - npm run build
+          artifacts:
+            baseDirectory: .next
+            files:
+              - '**/*'
+          cache:
+            paths:
+              - node_modules/**/*
+              - .next/cache/**/*
+  EOT
+
+  # Enable auto branch creation for feature branches (optional)
+  enable_auto_branch_creation = false
+
+  # Environment variables for the app
+  environment_variables = {
+    # Database
+    DATABASE_URL = "postgresql://${var.db_username}:${random_password.db_password.result}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
+
+    # AWS Cognito
+    NEXT_PUBLIC_COGNITO_USER_POOL_ID = aws_cognito_user_pool.main.id
+    NEXT_PUBLIC_COGNITO_CLIENT_ID    = aws_cognito_user_pool_client.web.id
+    NEXT_PUBLIC_COGNITO_DOMAIN       = "${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com"
+    COGNITO_ISSUER                   = "https://cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.main.id}"
+
+    # S3 (Note: Can't use AWS_ prefix - reserved by Amplify)
+    S3_BUCKET_NAME = aws_s3_bucket.content.id
+
+    # SES
+    SES_FROM_EMAIL = var.ses_from_email
+
+    # App
+    NEXT_PUBLIC_APP_URL = "https://${var.app_domain}"
+
+    # Amplify specific
+    AMPLIFY_MONOREPO_APP_ROOT = "web"
+  }
+
+  # Platform - use WEB_COMPUTE for Next.js SSR support
+  platform = "WEB_COMPUTE"
+
+  # Custom rules for Next.js routing
+  custom_rule {
+    source = "/<*>"
+    status = "404-200"
+    target = "/index.html"
+  }
+
+  custom_rule {
+    source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>"
+    status = "200"
+    target = "/index.html"
+  }
+}
+
+# -----------------------------------------------------------------------------
+# Main Branch (Production)
+# -----------------------------------------------------------------------------
+
+resource "aws_amplify_branch" "main" {
+  app_id      = aws_amplify_app.website.id
+  branch_name = "main"
+
+  # Production environment
+  stage = "PRODUCTION"
+
+  # Enable auto-build on push
+  enable_auto_build = true
+
+  # Framework detection
+  framework = "Next.js - SSR"
+
+  # Branch-specific environment variables (if needed)
+  environment_variables = {
+    NODE_ENV = "production"
+  }
+}
+
+# -----------------------------------------------------------------------------
+# Custom Domain (picklellama.studio)
+# -----------------------------------------------------------------------------
+# NOTE: Commented out - domain is currently associated with live site.
+# Uncomment when ready to migrate domain to this new Amplify app.
+# -----------------------------------------------------------------------------
+
+# resource "aws_amplify_domain_association" "main" {
+#   app_id      = aws_amplify_app.website.id
+#   domain_name = var.app_domain
+#
+#   # Wait for certificate validation
+#   wait_for_verification = true
+#
+#   # Root domain
+#   sub_domain {
+#     branch_name = aws_amplify_branch.main.branch_name
+#     prefix      = ""
+#   }
+#
+#   # www subdomain
+#   sub_domain {
+#     branch_name = aws_amplify_branch.main.branch_name
+#     prefix      = "www"
+#   }
+# }

@@ -120,6 +120,36 @@ output "lambda_security_group_id" {
 }
 
 # -----------------------------------------------------------------------------
+# Amplify Outputs
+# -----------------------------------------------------------------------------
+
+output "amplify_app_id" {
+  description = "Amplify App ID"
+  value       = aws_amplify_app.website.id
+}
+
+output "amplify_app_arn" {
+  description = "Amplify App ARN"
+  value       = aws_amplify_app.website.arn
+}
+
+output "amplify_default_domain" {
+  description = "Amplify default domain"
+  value       = aws_amplify_app.website.default_domain
+}
+
+output "amplify_production_url" {
+  description = "Production branch URL"
+  value       = "https://${aws_amplify_branch.main.branch_name}.${aws_amplify_app.website.default_domain}"
+}
+
+# Commented out - domain association is disabled until migration
+# output "amplify_custom_domain" {
+#   description = "Custom domain URL"
+#   value       = "https://${var.app_domain}"
+# }
+
+# -----------------------------------------------------------------------------
 # Environment Variables Export
 # -----------------------------------------------------------------------------
 
@@ -137,12 +167,10 @@ output "env_file_content" {
     NEXT_PUBLIC_COGNITO_DOMAIN="${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com"
     COGNITO_ISSUER="https://cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.main.id}"
 
-    # AWS S3
-    AWS_S3_BUCKET="${aws_s3_bucket.content.id}"
-    AWS_S3_REGION="${var.aws_region}"
+    # S3 (Note: Can't use AWS_ prefix in Amplify)
+    S3_BUCKET_NAME="${aws_s3_bucket.content.id}"
 
-    # AWS SES
-    AWS_SES_REGION="${var.aws_region}"
+    # SES
     SES_FROM_EMAIL="${var.ses_from_email}"
 
     # App

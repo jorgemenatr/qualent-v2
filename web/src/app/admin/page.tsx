@@ -1,0 +1,704 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import {
+  Users,
+  ClipboardList,
+  Wrench,
+  Mail,
+  Loader2,
+  ShieldX,
+  LogIn,
+  Calendar,
+  Building2,
+  FileText,
+} from "lucide-react";
+import { Container } from "@/components/layout";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useAuth } from "@/lib/auth";
+import { isAdmin } from "@/lib/admin";
+
+interface Stats {
+  users: number;
+  worksheets: number;
+  tools: number;
+  contacts: number;
+}
+
+interface AdminUser {
+  id: string;
+  email: string;
+  name: string | null;
+  createdAt: string;
+  companyProfile: {
+    companyName: string;
+    industry: string | null;
+    companySize: string | null;
+    userRole: string | null;
+  } | null;
+  counts: {
+    tools: number;
+    worksheets: number;
+  };
+}
+
+interface AdminWorksheet {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    email: string;
+    name: string | null;
+  };
+}
+
+interface AdminTool {
+  id: string;
+  name: string;
+  toolType: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    email: string;
+    name: string | null;
+  };
+}
+
+interface AdminContact {
+  id: string;
+  email: string;
+  name: string | null;
+  company: string | null;
+  source: string | null;
+  createdAt: string;
+  downloadsCount: number;
+}
+
+const toolTypeLabels: Record<string, string> = {
+  fives: "FIVES",
+  build_vs_buy: "Build vs Buy",
+  prioritization: "Prioritization",
+};
+
+export default function AdminPage() {
+  const { isAuthenticated, isLoading: authLoading, cognitoId, email, login } = useAuth();
+
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [worksheets, setWorksheets] = useState<AdminWorksheet[]>([]);
+  const [tools, setTools] = useState<AdminTool[]>([]);
+  const [contacts, setContacts] = useState<AdminContact[]>([]);
+
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [worksheetsLoading, setWorksheetsLoading] = useState(true);
+  const [toolsLoading, setToolsLoading] = useState(true);
+  const [contactsLoading, setContactsLoading] = useState(true);
+
+  const [error, setError] = useState<string | null>(null);
+  const [isAdminUser, setIsAdminUser] = useState<boolean | null>(null);
+
+  // Check admin status
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && email) {
+      setIsAdminUser(isAdmin(email));
+    }
+  }, [authLoading, isAuthenticated, email]);
+
+  // Fetch stats
+  const fetchStats = useCallback(async () => {
+    try {
+      setStatsLoading(true);
+      const response = await fetch("/api/admin/stats", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setStats(data.stats);
+      } else if (response.status === 403) {
+        setIsAdminUser(false);
+      }
+    } catch {
+      setError("Failed to load stats");
+    } finally {
+      setStatsLoading(false);
+    }
+  }, [cognitoId]);
+
+  // Fetch users
+  const fetchUsers = useCallback(async () => {
+    try {
+      setUsersLoading(true);
+      const response = await fetch("/api/admin/users", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setUsers(data.users);
+      }
+    } catch {
+      console.error("Failed to load users");
+    } finally {
+      setUsersLoading(false);
+    }
+  }, [cognitoId]);
+
+  // Fetch worksheets
+  const fetchWorksheets = useCallback(async () => {
+    try {
+      setWorksheetsLoading(true);
+      const response = await fetch("/api/admin/worksheets", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setWorksheets(data.worksheets);
+      }
+    } catch {
+      console.error("Failed to load worksheets");
+    } finally {
+      setWorksheetsLoading(false);
+    }
+  }, [cognitoId]);
+
+  // Fetch tools
+  const fetchTools = useCallback(async () => {
+    try {
+      setToolsLoading(true);
+      const response = await fetch("/api/admin/tools", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setTools(data.tools);
+      }
+    } catch {
+      console.error("Failed to load tools");
+    } finally {
+      setToolsLoading(false);
+    }
+  }, [cognitoId]);
+
+  // Fetch contacts
+  const fetchContacts = useCallback(async () => {
+    try {
+      setContactsLoading(true);
+      const response = await fetch("/api/admin/contacts", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setContacts(data.contacts);
+      }
+    } catch {
+      console.error("Failed to load contacts");
+    } finally {
+      setContactsLoading(false);
+    }
+  }, [cognitoId]);
+
+  // Fetch all data when authenticated admin
+  useEffect(() => {
+    if (isAdminUser && cognitoId) {
+      fetchStats();
+      fetchUsers();
+      fetchWorksheets();
+      fetchTools();
+      fetchContacts();
+    }
+  }, [isAdminUser, cognitoId, fetchStats, fetchUsers, fetchWorksheets, fetchTools, fetchContacts]);
+
+  // Show login prompt if not authenticated
+  if (!authLoading && !isAuthenticated) {
+    return (
+      <section className="py-20">
+        <Container size="small">
+          <div className="text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+              <LogIn className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h1 className="mt-6 text-2xl font-bold">Admin Access Required</h1>
+            <p className="mt-2 text-muted-foreground">
+              Please sign in to access the admin dashboard.
+            </p>
+            <Button className="mt-6" onClick={login}>
+              Sign In
+            </Button>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // Show access denied if not admin
+  if (isAdminUser === false) {
+    return (
+      <section className="py-20">
+        <Container size="small">
+          <div className="text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
+              <ShieldX className="h-8 w-8 text-destructive" />
+            </div>
+            <h1 className="mt-6 text-2xl font-bold">Access Denied</h1>
+            <p className="mt-2 text-muted-foreground">
+              You don&apos;t have permission to access the admin dashboard.
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Signed in as: {email}
+            </p>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // Loading state
+  if (authLoading || isAdminUser === null) {
+    return (
+      <section className="py-20">
+        <Container size="small">
+          <div className="flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  return (
+    <>
+      {/* Header */}
+      <section className="border-b border-border py-8">
+        <Container>
+          <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
+          <p className="mt-1 text-muted-foreground">
+            Overview of all users and activity
+          </p>
+        </Container>
+      </section>
+
+      {/* Stats */}
+      <section className="py-8">
+        <Container>
+          {statsLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            </div>
+          ) : stats ? (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Total Users
+                  </CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stats.users}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Worksheets
+                  </CardTitle>
+                  <ClipboardList className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stats.worksheets}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Saved Tools
+                  </CardTitle>
+                  <Wrench className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stats.tools}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Contacts
+                  </CardTitle>
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stats.contacts}</div>
+                </CardContent>
+              </Card>
+            </div>
+          ) : error ? (
+            <p className="text-destructive">{error}</p>
+          ) : null}
+        </Container>
+      </section>
+
+      {/* Data Tables */}
+      <section className="pb-12">
+        <Container>
+          <Tabs defaultValue="users" className="space-y-6">
+            <TabsList>
+              <TabsTrigger value="users" className="gap-2">
+                <Users className="h-4 w-4" />
+                Users
+              </TabsTrigger>
+              <TabsTrigger value="worksheets" className="gap-2">
+                <ClipboardList className="h-4 w-4" />
+                Worksheets
+              </TabsTrigger>
+              <TabsTrigger value="tools" className="gap-2">
+                <Wrench className="h-4 w-4" />
+                Tools
+              </TabsTrigger>
+              <TabsTrigger value="contacts" className="gap-2">
+                <Mail className="h-4 w-4" />
+                Contacts
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Users Tab */}
+            <TabsContent value="users">
+              <Card>
+                <CardHeader>
+                  <CardTitle>All Users</CardTitle>
+                  <CardDescription>
+                    Users who have created an account
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {usersLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : users.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                      No users yet
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>User</TableHead>
+                            <TableHead>Company</TableHead>
+                            <TableHead>Role</TableHead>
+                            <TableHead>Activity</TableHead>
+                            <TableHead>Joined</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {users.map((user) => (
+                            <TableRow key={user.id}>
+                              <TableCell>
+                                <div>
+                                  <p className="font-medium">
+                                    {user.name || "—"}
+                                  </p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {user.email}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {user.companyProfile ? (
+                                  <div className="flex items-center gap-2">
+                                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                                    <span>{user.companyProfile.companyName}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {user.companyProfile?.userRole || (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-3 text-sm">
+                                  <span
+                                    className="flex items-center gap-1"
+                                    title="Saved tools"
+                                  >
+                                    <FileText className="h-3 w-3" />
+                                    {user.counts.tools}
+                                  </span>
+                                  <span
+                                    className="flex items-center gap-1"
+                                    title="Worksheets"
+                                  >
+                                    <ClipboardList className="h-3 w-3" />
+                                    {user.counts.worksheets}
+                                  </span>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                  <Calendar className="h-3 w-3" />
+                                  {new Date(user.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    }
+                                  )}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Worksheets Tab */}
+            <TabsContent value="worksheets">
+              <Card>
+                <CardHeader>
+                  <CardTitle>All Worksheets</CardTitle>
+                  <CardDescription>
+                    Pre-meeting worksheets submitted by users
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {worksheetsLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : worksheets.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                      No worksheets yet
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Worksheet</TableHead>
+                            <TableHead>User</TableHead>
+                            <TableHead>Created</TableHead>
+                            <TableHead>Updated</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {worksheets.map((worksheet) => (
+                            <TableRow key={worksheet.id}>
+                              <TableCell className="font-medium">
+                                {worksheet.name}
+                              </TableCell>
+                              <TableCell>
+                                <div>
+                                  <p>{worksheet.user.name || "—"}</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {worksheet.user.email}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {new Date(worksheet.createdAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {new Date(worksheet.updatedAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Tools Tab */}
+            <TabsContent value="tools">
+              <Card>
+                <CardHeader>
+                  <CardTitle>All Saved Tools</CardTitle>
+                  <CardDescription>
+                    Tool assessments saved by users
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {toolsLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : tools.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                      No saved tools yet
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Type</TableHead>
+                            <TableHead>User</TableHead>
+                            <TableHead>Created</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {tools.map((tool) => (
+                            <TableRow key={tool.id}>
+                              <TableCell className="font-medium">
+                                {tool.name}
+                              </TableCell>
+                              <TableCell>
+                                <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                                  {toolTypeLabels[tool.toolType] || tool.toolType}
+                                </span>
+                              </TableCell>
+                              <TableCell>
+                                <div>
+                                  <p>{tool.user.name || "—"}</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {tool.user.email}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {new Date(tool.createdAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Contacts Tab */}
+            <TabsContent value="contacts">
+              <Card>
+                <CardHeader>
+                  <CardTitle>All Contacts</CardTitle>
+                  <CardDescription>
+                    Contacts collected from PDF downloads and forms
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {contactsLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : contacts.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                      No contacts yet
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Contact</TableHead>
+                            <TableHead>Company</TableHead>
+                            <TableHead>Source</TableHead>
+                            <TableHead>Downloads</TableHead>
+                            <TableHead>Added</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {contacts.map((contact) => (
+                            <TableRow key={contact.id}>
+                              <TableCell>
+                                <div>
+                                  <p className="font-medium">
+                                    {contact.name || "—"}
+                                  </p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {contact.email}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {contact.company || (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {contact.source ? (
+                                  <span className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs">
+                                    {contact.source}
+                                  </span>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </TableCell>
+                              <TableCell>{contact.downloadsCount}</TableCell>
+                              <TableCell>
+                                {new Date(contact.createdAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </Container>
+      </section>
+    </>
+  );
+}

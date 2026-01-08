@@ -23,6 +23,7 @@ export function useAuth() {
       error: undefined,
       login: () => {},
       logout: () => {},
+      cognitoId: undefined,
       email: undefined,
       name: undefined,
       accessToken: undefined,
@@ -38,6 +39,7 @@ export function useAuth() {
     login,
     logout,
     // Convenience accessors
+    cognitoId: auth.user?.profile?.sub as string | undefined,
     email: auth.user?.profile?.email as string | undefined,
     name: auth.user?.profile?.name as string | undefined,
     accessToken: auth.user?.access_token,

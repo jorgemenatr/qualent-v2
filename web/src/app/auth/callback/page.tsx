@@ -1,23 +1,44 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Container } from "@/components/layout";
 import { useAuth } from "@/lib/auth";
 
 export default function AuthCallbackPage() {
-  const { isAuthenticated, error } = useAuth();
+  const { isAuthenticated, error, cognitoId, email, name } = useAuth();
   const router = useRouter();
+  const syncedRef = useRef(false);
 
   useEffect(() => {
     // Handle the callback
-    if (isAuthenticated) {
-      // Redirect to the intended destination or home
-      const returnTo = sessionStorage.getItem("auth_return_to") || "/";
-      sessionStorage.removeItem("auth_return_to");
-      router.replace(returnTo);
+    if (isAuthenticated && cognitoId && email && !syncedRef.current) {
+      syncedRef.current = true;
+
+      // Sync user to database
+      fetch("/api/auth/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cognitoId, email, name }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            // Store user ID for future API calls
+            sessionStorage.setItem("user_id", data.user.id);
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to sync user:", err);
+        })
+        .finally(() => {
+          // Redirect to the intended destination or home
+          const returnTo = sessionStorage.getItem("auth_return_to") || "/";
+          sessionStorage.removeItem("auth_return_to");
+          router.replace(returnTo);
+        });
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, cognitoId, email, name, router]);
 
   if (error) {
     return (

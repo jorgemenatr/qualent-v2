@@ -51,8 +51,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching tool saves:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { success: false, error: "Failed to fetch saves" },
+      { success: false, error: "Failed to fetch saves", details: errorMessage },
       { status: 500 }
     );
   }

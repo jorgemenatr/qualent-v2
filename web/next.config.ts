@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Output configuration for AWS Amplify
-  output: "standalone",
+  // Note: Don't use output: "standalone" with Amplify WEB_COMPUTE
+  // Amplify handles bundling itself
 
   // Image optimization
   images: {

@@ -49,7 +49,7 @@ resource "aws_db_instance" "main" {
   # Network configuration
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
-  publicly_accessible    = false
+  publicly_accessible    = true  # Required for Amplify SSR Lambda access
   multi_az               = var.environment == "production" ? true : false
 
   # Parameter group

@@ -35,6 +35,14 @@ resource "aws_security_group" "rds" {
     cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
+  ingress {
+    description = "PostgreSQL from Amplify SSR (external)"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Required for Amplify SSR Lambda access
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

@@ -1,0 +1,51 @@
+# -----------------------------------------------------------------------------
+# PickleLlama Website - Terraform Variables
+# -----------------------------------------------------------------------------
+# Copy this file to terraform.tfvars and fill in your values.
+# NEVER commit terraform.tfvars to version control!
+# -----------------------------------------------------------------------------
+
+# General
+aws_region   = "ca-central-1"
+environment  = "production"
+project_name = "picklellama"
+
+# Database
+# Note: Password is auto-generated and stored in AWS Secrets Manager
+db_instance_class          = "db.t3.micro"
+db_name                    = "picklellama"
+db_username                = "picklellama_admin"
+db_allocated_storage       = 20
+db_backup_retention_period = 7
+
+# Cognito / Google OAuth
+# Get these from Google Cloud Console:
+# 1. Go to console.cloud.google.com
+# 2. Create a new project or select existing
+# 3. Go to "APIs & Services" > "Credentials"
+# 4. Create OAuth 2.0 Client ID (Web application)
+# 5. Add authorized redirect URIs:
+#    - https://YOUR_COGNITO_DOMAIN.auth.ca-central-1.amazoncognito.com/oauth2/idpresponse
+google_client_id     = "your-google-client-id.apps.googleusercontent.com"
+google_client_secret = "your-google-client-secret"
+
+# Application domain
+app_domain = "picklellama.studio"
+
+# Cognito callback URLs (update with your actual domains)
+cognito_callback_urls = [
+  "http://localhost:3000/api/auth/callback",
+  "https://picklellama.studio/api/auth/callback"
+]
+
+cognito_logout_urls = [
+  "http://localhost:3000",
+  "https://picklellama.studio"
+]
+
+# S3
+s3_bucket_name = "picklellama-content"
+
+# SES
+ses_email_domain = "picklellama.studio"
+ses_from_email   = "hello@picklellama.studio"

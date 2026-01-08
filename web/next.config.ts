@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Prevent bundling issues with AWS SDK in Amplify
+  serverExternalPackages: [
+    "@aws-sdk/client-s3",
+    "@aws-sdk/client-ses",
+    "@aws-sdk/s3-request-presigner",
+  ],
+
   // Experimental features
   experimental: {
     // Enable server actions

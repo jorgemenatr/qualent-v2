@@ -22,7 +22,12 @@ async function createPrismaClient(): Promise<PrismaClientType> {
     throw new Error("DATABASE_URL environment variable is not set");
   }
 
-  const pool = new Pool({ connectionString });
+  const pool = new Pool({
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false, // Required for RDS
+    },
+  });
   const adapter = new PrismaPg(pool);
 
   return new PrismaClient({

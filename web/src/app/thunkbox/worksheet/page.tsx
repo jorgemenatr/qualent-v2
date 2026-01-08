@@ -37,7 +37,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAuth } from "@/lib/auth";
+
+// Helper to get problems that have been filled out
+function getFilledProblems(problems: Problem[]): { index: number; description: string }[] {
+  return problems
+    .map((p, i) => ({ index: i, description: p.description }))
+    .filter((p) => p.description.trim() !== "");
+}
 
 interface Problem {
   description: string;
@@ -379,7 +393,9 @@ function WorksheetContent() {
       {/* Form Sections */}
       <section className="py-12 md:py-16">
         <Container>
-          <div className="mx-auto max-w-3xl">
+          <div className="flex gap-8">
+            {/* Main Form */}
+            <div className="flex-1 max-w-3xl">
             {/* Section 1: Your Top Problems */}
             {currentSection === 1 && (
               <Card>
@@ -496,21 +512,34 @@ function WorksheetContent() {
 
                       <div>
                         <Label htmlFor={`cost-name-${index}`}>
-                          Problem Name
+                          Select Problem
                         </Label>
-                        <Input
-                          id={`cost-name-${index}`}
-                          placeholder="Which problem from Section 1?"
+                        <Select
                           value={cost.problemName}
-                          onChange={(e) =>
-                            updateProblemCost(
-                              index,
-                              "problemName",
-                              e.target.value
-                            )
+                          onValueChange={(value) =>
+                            updateProblemCost(index, "problemName", value)
                           }
-                          className="mt-1"
-                        />
+                        >
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select a problem from Section 1" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {getFilledProblems(formData.problems).length === 0 ? (
+                              <SelectItem value="_empty" disabled>
+                                No problems entered yet
+                              </SelectItem>
+                            ) : (
+                              getFilledProblems(formData.problems).map((p) => (
+                                <SelectItem key={p.index} value={p.description}>
+                                  <span className="font-medium">#{p.index + 1}:</span>{" "}
+                                  {p.description.length > 50
+                                    ? p.description.slice(0, 50) + "..."
+                                    : p.description}
+                                </SelectItem>
+                              ))
+                            )}
+                          </SelectContent>
+                        </Select>
                       </div>
 
                       <div className="grid gap-4 sm:grid-cols-3">
@@ -1003,6 +1032,105 @@ function WorksheetContent() {
                   </Button>
                 </div>
               )}
+            </div>
+            </div>
+
+            {/* Sidebar Summary - visible on large screens */}
+            <div className="hidden lg:block w-80 shrink-0">
+              <div className="sticky top-24 space-y-4">
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-medium">Summary</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4 text-sm">
+                    {/* Problems Summary */}
+                    <div>
+                      <p className="font-medium text-muted-foreground mb-2">Problems</p>
+                      {getFilledProblems(formData.problems).length === 0 ? (
+                        <p className="text-muted-foreground/60 italic">No problems entered</p>
+                      ) : (
+                        <ul className="space-y-1">
+                          {getFilledProblems(formData.problems).map((p) => (
+                            <li key={p.index} className="flex items-start gap-2">
+                              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                                {p.index + 1}
+                              </span>
+                              <span className="line-clamp-2">{p.description}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* Cost Estimates Summary */}
+                    <div className="border-t pt-4">
+                      <p className="font-medium text-muted-foreground mb-2">Cost Estimates</p>
+                      {formData.problemCosts.filter((c) => c.problemName).length === 0 ? (
+                        <p className="text-muted-foreground/60 italic">No costs calculated</p>
+                      ) : (
+                        <ul className="space-y-2">
+                          {formData.problemCosts
+                            .filter((c) => c.problemName)
+                            .map((cost, i) => (
+                              <li key={i} className="space-y-1">
+                                <p className="font-medium line-clamp-1">{cost.problemName}</p>
+                                <p className="text-primary font-semibold">
+                                  {calculateAnnualCost(cost)}/year
+                                </p>
+                              </li>
+                            ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* What You've Tried Summary */}
+                    <div className="border-t pt-4">
+                      <p className="font-medium text-muted-foreground mb-2">Previous Attempts</p>
+                      {(() => {
+                        const attempts = [];
+                        if (formData.previousAttempts.triedHiring) attempts.push("Tried hiring");
+                        if (formData.previousAttempts.lookedAtSoftware) attempts.push("Looked at software");
+                        if (formData.previousAttempts.builtInternally) attempts.push("Built internally");
+                        if (formData.previousAttempts.askedVendor) attempts.push("Asked vendor");
+                        if (formData.previousAttempts.livedWithIt) attempts.push("Lived with it");
+                        return attempts.length === 0 ? (
+                          <p className="text-muted-foreground/60 italic">None selected</p>
+                        ) : (
+                          <ul className="space-y-1">
+                            {attempts.map((a) => (
+                              <li key={a} className="flex items-center gap-2">
+                                <CheckCircle className="h-3 w-3 text-primary" />
+                                {a}
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      })()}
+                    </div>
+
+                    {/* Success Metrics Summary */}
+                    <div className="border-t pt-4">
+                      <p className="font-medium text-muted-foreground mb-2">Success Metrics</p>
+                      {(() => {
+                        const metrics = [];
+                        if (formData.successMetrics.timeSaved) metrics.push(`${formData.successMetrics.timeSaved} hrs/week saved`);
+                        if (formData.successMetrics.errorsReduced) metrics.push(`${formData.successMetrics.errorsReduced}% fewer errors`);
+                        if (formData.successMetrics.capacityFreedFor) metrics.push(`Capacity for: ${formData.successMetrics.capacityFreedFor}`);
+                        if (formData.successMetrics.riskEliminated) metrics.push(`Risk eliminated: ${formData.successMetrics.riskEliminated}`);
+                        return metrics.length === 0 ? (
+                          <p className="text-muted-foreground/60 italic">None defined</p>
+                        ) : (
+                          <ul className="space-y-1">
+                            {metrics.map((m, i) => (
+                              <li key={i} className="line-clamp-2">{m}</li>
+                            ))}
+                          </ul>
+                        );
+                      })()}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </Container>

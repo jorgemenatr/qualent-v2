@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   ArrowRight,
   ArrowLeft,
@@ -13,6 +14,8 @@ import {
   Users,
   Target,
   MessageSquare,
+  Save,
+  Loader2,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
@@ -26,6 +29,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useAuth } from "@/lib/auth";
 
 interface Problem {
   description: string;
@@ -117,9 +129,87 @@ const promptQuestions = [
   "What would you fix tomorrow if it were free?",
 ];
 
-export default function WorksheetPage() {
+function WorksheetContent() {
+  const { isAuthenticated, cognitoId, login } = useAuth();
+  const searchParams = useSearchParams();
+
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [currentSection, setCurrentSection] = useState(1);
+
+  // Save functionality state
+  const [worksheetId, setWorksheetId] = useState<string | null>(null);
+  const [worksheetName, setWorksheetName] = useState("My Worksheet");
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  // Load worksheet from URL param
+  const loadWorksheet = useCallback(async (id: string) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/worksheets/${id}`, {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success && data.worksheet) {
+        setWorksheetId(data.worksheet.id);
+        setWorksheetName(data.worksheet.name);
+        setFormData(data.worksheet.data as FormData);
+      }
+    } catch (error) {
+      console.error("Error loading worksheet:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [cognitoId]);
+
+  useEffect(() => {
+    const loadId = searchParams.get("load");
+    if (loadId && cognitoId) {
+      loadWorksheet(loadId);
+    }
+  }, [searchParams, cognitoId, loadWorksheet]);
+
+  // Save worksheet
+  const handleSave = async () => {
+    if (!cognitoId) return;
+
+    try {
+      setIsSaving(true);
+      setSaveError(null);
+
+      const url = worksheetId ? `/api/worksheets/${worksheetId}` : "/api/worksheets";
+      const method = worksheetId ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cognitoId,
+          name: worksheetName,
+          data: formData,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setWorksheetId(data.worksheet.id);
+        setShowSaveDialog(false);
+        // Update URL without navigation
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set("load", data.worksheet.id);
+        window.history.replaceState({}, "", newUrl.toString());
+      } else {
+        setSaveError(data.error || "Failed to save worksheet");
+      }
+    } catch {
+      setSaveError("Failed to save worksheet");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const updateProblem = (
     index: number,
@@ -888,10 +978,23 @@ export default function WorksheetPage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               ) : (
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3 justify-end">
                   <Button variant="outline" onClick={handleCopyToClipboard}>
                     Copy to Clipboard
                   </Button>
+                  {isAuthenticated ? (
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowSaveDialog(true)}
+                    >
+                      <Save className="mr-2 h-4 w-4" />
+                      {worksheetId ? "Update" : "Save to Profile"}
+                    </Button>
+                  ) : (
+                    <Button variant="outline" onClick={login}>
+                      Sign in to Save
+                    </Button>
+                  )}
                   <Button asChild>
                     <Link href="/thunkbox#book-diagnostic">
                       Book Your Diagnostic
@@ -904,6 +1007,84 @@ export default function WorksheetPage() {
           </div>
         </Container>
       </section>
+
+      {/* Save Dialog */}
+      <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {worksheetId ? "Update Worksheet" : "Save Worksheet"}
+            </DialogTitle>
+            <DialogDescription>
+              {worksheetId
+                ? "Update your saved worksheet with the current data."
+                : "Save this worksheet to your profile so you can access it later."}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {saveError && (
+              <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+                {saveError}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="worksheet-name">Worksheet Name</Label>
+              <Input
+                id="worksheet-name"
+                value={worksheetName}
+                onChange={(e) => setWorksheetName(e.target.value)}
+                placeholder="My Worksheet"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowSaveDialog(false)}
+              disabled={isSaving}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleSave} disabled={isSaving || !worksheetName.trim()}>
+              {isSaving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  {worksheetId ? "Update" : "Save"}
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-muted-foreground">Loading worksheet...</p>
+          </div>
+        </div>
+      )}
     </>
+  );
+}
+
+export default function WorksheetPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <WorksheetContent />
+    </Suspense>
   );
 }

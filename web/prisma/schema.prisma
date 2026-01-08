@@ -20,9 +20,11 @@ model User {
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   // Relations
-  toolSaves     ToolSave[]
-  chatSessions  ChatSession[]
-  downloads     Download[]
+  toolSaves            ToolSave[]
+  chatSessions         ChatSession[]
+  downloads            Download[]
+  companyProfile       CompanyProfile?
+  worksheetSubmissions WorksheetSubmission[]
 
   @@map("users")
 }
@@ -82,6 +84,45 @@ model ToolSave {
 
   @@index([userId, toolType])
   @@map("tool_saves")
+}
+
+// ============================================================================
+// Company Profile
+// ============================================================================
+
+model CompanyProfile {
+  id            String    @id @default(cuid())
+  companyName   String    @map("company_name")
+  industry      String?
+  companySize   String?   @map("company_size") // "1-10", "11-50", "51-200", "201-500", "500+"
+  userRole      String?   @map("user_role")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations (one-to-one with User)
+  userId        String    @unique @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("company_profiles")
+}
+
+// ============================================================================
+// Worksheet Submissions
+// ============================================================================
+
+model WorksheetSubmission {
+  id            String    @id @default(cuid())
+  name          String    @default("My Worksheet")
+  data          Json      // Full worksheet FormData
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  userId        String    @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("worksheet_submissions")
 }
 
 // ============================================================================

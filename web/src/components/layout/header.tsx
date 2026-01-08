@@ -111,9 +111,9 @@ export function Header() {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/saved" className="cursor-pointer">
+                  <Link href="/profile" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />
-                    Saved Tools
+                    Profile
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -182,12 +182,12 @@ export function Header() {
                       </div>
                     </div>
                     <Link
-                      href="/saved"
+                      href="/profile"
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
                     >
                       <User className="h-4 w-4" />
-                      Saved Tools
+                      Profile
                     </Link>
                     <Button
                       variant="outline"

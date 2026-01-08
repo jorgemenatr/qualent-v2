@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   // Required for Next.js SSR on Amplify
   output: "standalone",
 
+  // Embed server-side env vars at build time for Amplify SSR
+  // Amplify doesn't pass env vars to Lambda runtime, only build time
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL,
+  },
+
   // Image optimization
   images: {
     remotePatterns: [

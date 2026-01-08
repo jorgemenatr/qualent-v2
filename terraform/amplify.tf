@@ -79,28 +79,8 @@ resource "aws_amplify_app" "website" {
   # GitHub personal access token for repo access
   access_token = var.github_access_token
 
-  # Build settings for Next.js monorepo
-  build_spec = <<-EOT
-    version: 1
-    applications:
-      - appRoot: web
-        frontend:
-          phases:
-            preBuild:
-              commands:
-                - npm ci
-            build:
-              commands:
-                - npm run build
-          artifacts:
-            baseDirectory: .next
-            files:
-              - '**/*'
-          cache:
-            paths:
-              - node_modules/**/*
-              - .next/cache/**/*
-  EOT
+  # Build settings are defined in amplify.yml in the repo root
+  # This allows the build config to be version controlled with the code
 
   # Enable auto branch creation for feature branches (optional)
   enable_auto_branch_creation = false

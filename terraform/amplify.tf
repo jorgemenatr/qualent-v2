@@ -88,7 +88,7 @@ resource "aws_amplify_app" "website" {
   # Environment variables for the app
   environment_variables = {
     # Database
-    DATABASE_URL = "postgresql://${var.db_username}:${random_password.db_password.result}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
+    DATABASE_URL = "postgresql://${var.db_username}:${urlencode(random_password.db_password.result)}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
 
     # AWS Cognito
     NEXT_PUBLIC_COGNITO_USER_POOL_ID = aws_cognito_user_pool.main.id

@@ -158,7 +158,7 @@ output "env_file_content" {
   sensitive   = true
   value       = <<-EOT
     # Database
-    DATABASE_URL="postgresql://${var.db_username}:${random_password.db_password.result}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
+    DATABASE_URL="postgresql://${var.db_username}:${urlencode(random_password.db_password.result)}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
     DATABASE_SECRET_ARN="${aws_secretsmanager_secret.db_password.arn}"
 
     # AWS Cognito

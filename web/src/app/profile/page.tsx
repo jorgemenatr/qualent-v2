@@ -318,7 +318,7 @@ export default function ProfilePage() {
   };
 
   const handleOpenWorksheet = (worksheet: WorksheetSubmission) => {
-    router.push(`/thunkbox/worksheet?load=${worksheet.id}`);
+    router.push(`/thunkbox/worksheet/${worksheet.id}`);
   };
 
   // Get initials for avatar

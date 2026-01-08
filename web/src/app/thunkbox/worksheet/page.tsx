@@ -45,6 +45,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/lib/auth";
+import { WorksheetView } from "@/components/worksheet";
+import { WorksheetFormData } from "@/lib/worksheet-utils";
 
 // Helper to get problems that have been filled out
 function getFilledProblems(problems: Problem[]): { index: number; description: string }[] {
@@ -154,6 +156,7 @@ function WorksheetContent() {
   const [worksheetId, setWorksheetId] = useState<string | null>(null);
   const [worksheetName, setWorksheetName] = useState("My Worksheet");
   const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -211,6 +214,7 @@ function WorksheetContent() {
       if (data.success) {
         setWorksheetId(data.worksheet.id);
         setShowSaveDialog(false);
+        setShowConfirmation(true);
         // Update URL without navigation
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.set("load", data.worksheet.id);
@@ -327,6 +331,48 @@ function WorksheetContent() {
 
     return text;
   };
+
+  // Show confirmation view after saving
+  if (showConfirmation && worksheetId) {
+    return (
+      <section className="py-8 md:py-12">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-6 rounded-lg border border-primary/20 bg-primary/5 p-4">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">Worksheet Saved!</p>
+                  <p className="text-sm text-muted-foreground">
+                    Your worksheet has been saved to your profile.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <WorksheetView
+              data={formData as WorksheetFormData}
+              name={worksheetName}
+              worksheetId={worksheetId}
+              showActions={true}
+              showBackLink={false}
+              onContinueEditing={() => setShowConfirmation(false)}
+            />
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button variant="outline" onClick={() => setShowConfirmation(false)}>
+                Continue Editing
+              </Button>
+              <Button asChild>
+                <Link href="/thunkbox#book-diagnostic">
+                  Book Your Diagnostic
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <>

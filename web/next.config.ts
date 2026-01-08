@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Note: Don't use output: "standalone" with Amplify WEB_COMPUTE
-  // Amplify handles bundling itself
+  // Required for Next.js SSR on Amplify
+  output: "standalone",
 
   // Image optimization
   images: {

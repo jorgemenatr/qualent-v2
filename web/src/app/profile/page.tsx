@@ -717,7 +717,7 @@ export default function ProfilePage() {
                   <h2 className="text-xl font-semibold">Saved Tools</h2>
                 </div>
                 <Button variant="outline" size="sm" asChild>
-                  <Link href="/learn">Explore Tools</Link>
+                  <Link href="/learn/tools">Explore Tools</Link>
                 </Button>
               </div>
 
@@ -748,7 +748,7 @@ export default function ProfilePage() {
                     them here.
                   </p>
                   <Button className="mt-4" variant="outline" asChild>
-                    <Link href="/learn">Explore Tools</Link>
+                    <Link href="/learn/tools">Explore Tools</Link>
                   </Button>
                 </div>
               ) : (

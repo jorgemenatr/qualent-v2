@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPrisma } from "@/lib/db";
 import { getAuthenticatedUser } from "@/lib/auth/server";
 import { z } from "zod";
+import type { Prisma } from "@prisma/client";
 
 const updateToolSchema = z.object({
   cognitoId: z.string().min(1, "Authentication required"),
@@ -104,7 +105,7 @@ export async function PUT(
       where: { id },
       data: {
         ...(validated.name ? { name: validated.name } : {}),
-        ...(validated.data ? { data: validated.data } : {}),
+        ...(validated.data ? { data: validated.data as Prisma.InputJsonValue } : {}),
       },
     });
 

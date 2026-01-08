@@ -18,6 +18,30 @@ data "aws_subnet" "default" {
   id       = each.value
 }
 
+# Get the existing Internet Gateway attached to the default VPC
+data "aws_internet_gateway" "default" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
+
+# Get the main route table for the default VPC
+data "aws_route_table" "main" {
+  vpc_id = data.aws_vpc.default.id
+  filter {
+    name   = "association.main"
+    values = ["true"]
+  }
+}
+
+# Add route to IGW for public internet access (required for RDS public accessibility)
+resource "aws_route" "igw" {
+  route_table_id         = data.aws_route_table.main.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = data.aws_internet_gateway.default.id
+}
+
 # -----------------------------------------------------------------------------
 # Security Groups
 # -----------------------------------------------------------------------------

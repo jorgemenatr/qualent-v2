@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState, useMemo } from "react";
 import { useChat } from "@ai-sdk/react";
-import { TextStreamChatTransport, UIMessage } from "ai";
+import { DefaultChatTransport, UIMessage } from "ai";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { ChatMessage } from "./chat-message";
 import { ChatInput } from "./chat-input";
@@ -32,7 +32,7 @@ export function ChatInterface({ initialMessage }: ChatInterfaceProps) {
   const [input, setInput] = useState("");
 
   const transport = useMemo(
-    () => new TextStreamChatTransport({ api: "/api/chat" }),
+    () => new DefaultChatTransport({ api: "/api/chat" }),
     []
   );
 

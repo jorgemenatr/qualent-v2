@@ -1,6 +1,12 @@
 import { anthropic } from "@ai-sdk/anthropic";
-import { streamText } from "ai";
+import { streamText, createUIMessageStream, createUIMessageStreamResponse, generateId } from "ai";
 import { retrieveContext, formatContextForPrompt } from "@/lib/rag";
+
+// Message type for streamText
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+};
 
 export const maxDuration = 30;
 
@@ -31,6 +37,28 @@ When formatting responses:
 - Use bullet points for lists
 - Bold key terms when helpful`;
 
+// Helper to extract text content from message (handles both formats)
+function getMessageText(message: { content?: string; parts?: Array<{ type: string; text?: string }> }): string {
+  if (message.content) {
+    return message.content;
+  }
+  if (message.parts) {
+    return message.parts
+      .filter((part): part is { type: string; text: string } => part.type === "text" && !!part.text)
+      .map((part) => part.text)
+      .join("");
+  }
+  return "";
+}
+
+// Convert incoming messages to the format expected by streamText
+function convertToMessages(messages: Array<{ role: string; content?: string; parts?: Array<{ type: string; text?: string }> }>): Message[] {
+  return messages.map((msg) => ({
+    role: msg.role as "user" | "assistant",
+    content: getMessageText(msg),
+  }));
+}
+
 export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
@@ -49,9 +77,10 @@ export async function POST(req: Request) {
 
     let contextPrompt = "";
 
-    if (lastUserMessage?.content) {
+    const lastUserText = lastUserMessage ? getMessageText(lastUserMessage) : "";
+    if (lastUserText) {
       // Retrieve relevant context from knowledge base
-      const context = await retrieveContext(lastUserMessage.content);
+      const context = await retrieveContext(lastUserText);
       contextPrompt = formatContextForPrompt(context);
     }
 
@@ -60,14 +89,35 @@ export async function POST(req: Request) {
       ? `${SYSTEM_PROMPT}\n\n${contextPrompt}`
       : SYSTEM_PROMPT;
 
+    // Convert messages to the format expected by streamText
+    const formattedMessages = convertToMessages(messages);
+
     // Stream the response using Claude
     const result = streamText({
       model: anthropic("claude-sonnet-4-20250514"),
       system: fullSystemPrompt,
-      messages,
+      messages: formattedMessages,
     });
 
-    return result.toTextStreamResponse();
+    // Create a UI message stream for the frontend
+    const textPartId = generateId();
+    const stream = createUIMessageStream({
+      execute: async ({ writer }) => {
+        // Signal text start
+        writer.write({ type: "text-start", id: textPartId });
+
+        // Stream text chunks to the writer
+        for await (const chunk of result.textStream) {
+          writer.write({ type: "text-delta", delta: chunk, id: textPartId });
+        }
+
+        // Signal text end
+        writer.write({ type: "text-end", id: textPartId });
+      },
+    });
+
+    // Return the UI message stream response
+    return createUIMessageStreamResponse({ stream });
   } catch (error) {
     console.error("Chat API error:", error);
 

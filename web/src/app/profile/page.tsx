@@ -17,6 +17,10 @@ import {
   Pencil,
   Save,
   X,
+  MessageSquare,
+  Headphones,
+  Send,
+  ArrowRight,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
@@ -833,6 +837,83 @@ export default function ProfilePage() {
                   ))}
                 </div>
               )}
+            </div>
+
+            {/* Quick Access Tools */}
+            <div>
+              <div className="mb-6 flex items-center gap-2">
+                <Wrench className="h-5 w-5 text-muted-foreground" />
+                <h2 className="text-xl font-semibold">Quick Access</h2>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <Card className="group hover:border-primary/50 transition-colors">
+                  <CardContent className="pt-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                      <MessageSquare className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="font-medium">Ask Anything</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Chat with our AI assistant
+                    </p>
+                    <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                      <Link href="/thunkbox/ask">
+                        Start Chat <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="group hover:border-primary/50 transition-colors">
+                  <CardContent className="pt-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                      <Headphones className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="font-medium">Audio Library</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Listen to reports on the go
+                    </p>
+                    <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                      <Link href="/thunkbox/audio">
+                        Browse Audio <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="group hover:border-primary/50 transition-colors">
+                  <CardContent className="pt-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                      <ClipboardList className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="font-medium">New Worksheet</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Start a pre-meeting worksheet
+                    </p>
+                    <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                      <Link href="/thunkbox/worksheet">
+                        Create New <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="group hover:border-primary/50 transition-colors">
+                  <CardContent className="pt-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                      <Send className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="font-medium">Submit Request</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Send us a detailed question
+                    </p>
+                    <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                      <Link href="/thunkbox/request">
+                        Submit <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </Container>

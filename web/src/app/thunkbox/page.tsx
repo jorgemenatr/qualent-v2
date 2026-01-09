@@ -7,6 +7,10 @@ import {
   CheckCircle,
   Shield,
   ClipboardList,
+  MessageSquare,
+  Headphones,
+  Wrench,
+  Send,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
@@ -197,6 +201,98 @@ export default function ThunkBoxPage() {
             <p className="text-sm text-muted-foreground">
               Plus: worksheets, executive summaries, and decision frameworks.
             </p>
+          </div>
+        </Container>
+      </section>
+
+      {/* Interactive Tools */}
+      <section className="border-t border-border py-16 md:py-20">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center mb-10">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              Interactive Tools
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Self-serve tools to help you evaluate opportunities and prepare for conversations.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <Card className="flex flex-col group hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <MessageSquare className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle className="mt-4 text-base">Ask Anything</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col">
+                <CardDescription className="flex-1">
+                  Chat with our AI assistant about AI, automation, and technology strategy.
+                </CardDescription>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/ask">
+                    Start Chat <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="flex flex-col group hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <Headphones className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle className="mt-4 text-base">Audio Library</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col">
+                <CardDescription className="flex-1">
+                  Listen to our reports in audio format. Learn about AI while on the go.
+                </CardDescription>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/audio">
+                    Browse Audio <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="flex flex-col group hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <Wrench className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle className="mt-4 text-base">Assessment Tools</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col">
+                <CardDescription className="flex-1">
+                  FIVES framework, Build vs Buy analysis, and more interactive assessments.
+                </CardDescription>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/learn/tools">
+                    Explore Tools <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="flex flex-col group hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <Send className="h-5 w-5 text-primary" />
+                </div>
+                <CardTitle className="mt-4 text-base">Submit a Request</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col">
+                <CardDescription className="flex-1">
+                  Have a specific question or problem? Send us a detailed request.
+                </CardDescription>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/request">
+                    Submit Request <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </Container>
       </section>

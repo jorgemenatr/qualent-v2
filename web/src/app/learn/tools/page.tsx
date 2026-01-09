@@ -6,6 +6,10 @@ import {
   Scale,
   CheckCircle,
   Sparkles,
+  MessageSquare,
+  Headphones,
+  ClipboardList,
+  Send,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
@@ -138,6 +142,90 @@ export default function ToolsPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Additional Tools */}
+      <section className="border-t border-border bg-muted/30 py-16 md:py-20">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center mb-10">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              More Ways to Learn
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Additional resources to help you on your AI and automation journey.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <Card className="group hover:border-primary/50 transition-colors">
+              <CardContent className="pt-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                  <MessageSquare className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-medium">Ask Anything</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Chat with our AI about automation, AI strategy, and technology decisions.
+                </p>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/ask">
+                    Start Chat <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:border-primary/50 transition-colors">
+              <CardContent className="pt-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                  <Headphones className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-medium">Audio Library</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Listen to our reports in audio format while on the go.
+                </p>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/audio">
+                    Browse Audio <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:border-primary/50 transition-colors">
+              <CardContent className="pt-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                  <ClipboardList className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-medium">Pre-Meeting Worksheet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Prepare for your diagnostic call by identifying top problems.
+                </p>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/worksheet">
+                    Start Worksheet <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:border-primary/50 transition-colors">
+              <CardContent className="pt-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-3">
+                  <Send className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-medium">Submit a Request</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Have a specific question? Send us a detailed request.
+                </p>
+                <Button variant="outline" size="sm" className="mt-4 w-full" asChild>
+                  <Link href="/thunkbox/request">
+                    Submit Request <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </Container>
       </section>

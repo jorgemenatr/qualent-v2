@@ -9,6 +9,11 @@ applications:
             - npx prisma generate
         build:
           commands:
+            # Create .env.production with runtime env vars for SSR
+            - echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY" >> .env.production
+            - echo "GOOGLE_AI_API_KEY=$GOOGLE_AI_API_KEY" >> .env.production
+            - echo "GEMINI_CORPUS_NAME=$GEMINI_CORPUS_NAME" >> .env.production
+            - echo "DATABASE_URL=$DATABASE_URL" >> .env.production
             - npm run build
       artifacts:
         baseDirectory: .next

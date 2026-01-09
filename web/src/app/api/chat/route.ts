@@ -1,4 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { streamText, createUIMessageStream, createUIMessageStreamResponse, generateId } from "ai";
 import { retrieveContext, formatContextForPrompt } from "@/lib/rag";
 
@@ -60,11 +60,20 @@ function convertToMessages(messages: Array<{ role: string; content?: string; par
 }
 
 export async function POST(req: Request) {
-  // Debug: Check environment variables
+  // Get API key from environment
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
-  console.log("ANTHROPIC_API_KEY exists:", !!anthropicKey);
-  console.log("ANTHROPIC_API_KEY length:", anthropicKey?.length || 0);
-  console.log("ANTHROPIC_API_KEY prefix:", anthropicKey?.substring(0, 15) || "N/A");
+
+  if (!anthropicKey) {
+    return new Response(
+      JSON.stringify({ error: "Anthropic API key not configured" }),
+      { status: 503, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
+  // Create Anthropic client with explicit API key
+  const anthropic = createAnthropic({
+    apiKey: anthropicKey,
+  });
 
   try {
     const { messages } = await req.json();

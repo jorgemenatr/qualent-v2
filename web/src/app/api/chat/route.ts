@@ -103,16 +103,40 @@ export async function POST(req: Request) {
     const textPartId = generateId();
     const stream = createUIMessageStream({
       execute: async ({ writer }) => {
-        // Signal text start
-        writer.write({ type: "text-start", id: textPartId });
+        try {
+          // Signal text start
+          writer.write({ type: "text-start", id: textPartId });
 
-        // Stream text chunks to the writer
-        for await (const chunk of result.textStream) {
-          writer.write({ type: "text-delta", delta: chunk, id: textPartId });
+          // Stream text chunks to the writer
+          let hasContent = false;
+          for await (const chunk of result.textStream) {
+            hasContent = true;
+            writer.write({ type: "text-delta", delta: chunk, id: textPartId });
+          }
+
+          // If no content was streamed, check for errors
+          if (!hasContent) {
+            // Wait for the result to complete to get any errors
+            const finalText = await result.text;
+            if (finalText) {
+              writer.write({ type: "text-delta", delta: finalText, id: textPartId });
+            }
+          }
+
+          // Signal text end
+          writer.write({ type: "text-end", id: textPartId });
+        } catch (streamError) {
+          console.error("Stream execution error:", streamError);
+          // Write error to the stream
+          writer.write({
+            type: "error",
+            errorText: streamError instanceof Error ? streamError.message : "Stream error occurred"
+          });
         }
-
-        // Signal text end
-        writer.write({ type: "text-end", id: textPartId });
+      },
+      onError: (error) => {
+        console.error("UI Message Stream error:", error);
+        return error instanceof Error ? error.message : "An error occurred";
       },
     });
 

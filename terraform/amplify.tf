@@ -107,6 +107,11 @@ resource "aws_amplify_app" "website" {
 
     # Amplify specific
     AMPLIFY_MONOREPO_APP_ROOT = "web"
+
+    # AI Services
+    ANTHROPIC_API_KEY  = var.anthropic_api_key
+    GOOGLE_AI_API_KEY  = var.google_api_key
+    GEMINI_CORPUS_NAME = var.gemini_corpus_name
   }
 
   # Platform - use WEB_COMPUTE for Next.js SSR support
@@ -136,8 +141,11 @@ resource "aws_amplify_branch" "main" {
   # Branch-specific environment variables
   # Note: SSR compute functions require env vars at branch level, not just app level
   environment_variables = {
-    NODE_ENV     = "production"
-    DATABASE_URL = "postgresql://${var.db_username}:${urlencode(random_password.db_password.result)}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
+    NODE_ENV           = "production"
+    DATABASE_URL       = "postgresql://${var.db_username}:${urlencode(random_password.db_password.result)}@${aws_db_instance.main.endpoint}/${aws_db_instance.main.db_name}?schema=public"
+    ANTHROPIC_API_KEY  = var.anthropic_api_key
+    GOOGLE_AI_API_KEY  = var.google_api_key
+    GEMINI_CORPUS_NAME = var.gemini_corpus_name
   }
 }
 

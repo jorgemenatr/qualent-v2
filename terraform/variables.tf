@@ -135,3 +135,25 @@ variable "github_access_token" {
   type        = string
   sensitive   = true
 }
+
+# -----------------------------------------------------------------------------
+# AI Service Variables
+# -----------------------------------------------------------------------------
+
+variable "anthropic_api_key" {
+  description = "Anthropic API key for Claude chat responses"
+  type        = string
+  sensitive   = true
+}
+
+variable "google_api_key" {
+  description = "Google AI API key for Gemini RAG retrieval"
+  type        = string
+  sensitive   = true
+}
+
+variable "gemini_corpus_name" {
+  description = "Gemini corpus name for knowledge base retrieval"
+  type        = string
+  default     = "pickle-knowledge-base"
+}

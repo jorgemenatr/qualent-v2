@@ -60,6 +60,12 @@ function convertToMessages(messages: Array<{ role: string; content?: string; par
 }
 
 export async function POST(req: Request) {
+  // Debug: Check environment variables
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  console.log("ANTHROPIC_API_KEY exists:", !!anthropicKey);
+  console.log("ANTHROPIC_API_KEY length:", anthropicKey?.length || 0);
+  console.log("ANTHROPIC_API_KEY prefix:", anthropicKey?.substring(0, 15) || "N/A");
+
   try {
     const { messages } = await req.json();
 
@@ -116,10 +122,25 @@ export async function POST(req: Request) {
 
           // If no content was streamed, check for errors
           if (!hasContent) {
-            // Wait for the result to complete to get any errors
-            const finalText = await result.text;
-            if (finalText) {
-              writer.write({ type: "text-delta", delta: finalText, id: textPartId });
+            try {
+              // Wait for the result to complete to get any errors
+              const finalText = await result.text;
+              if (finalText) {
+                writer.write({ type: "text-delta", delta: finalText, id: textPartId });
+              } else {
+                // Check if API key is configured
+                const hasApiKey = !!process.env.ANTHROPIC_API_KEY;
+                writer.write({
+                  type: "error",
+                  errorText: `No output generated. API key configured: ${hasApiKey}. Check the stream for errors.`
+                });
+              }
+            } catch (textError) {
+              console.error("Error getting final text:", textError);
+              writer.write({
+                type: "error",
+                errorText: textError instanceof Error ? `API Error: ${textError.message}` : "Unknown API error"
+              });
             }
           }
 

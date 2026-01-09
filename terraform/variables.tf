@@ -152,8 +152,8 @@ variable "google_api_key" {
   sensitive   = true
 }
 
-variable "gemini_corpus_name" {
-  description = "Gemini corpus name for knowledge base retrieval"
+variable "gemini_file_search_store" {
+  description = "Gemini File Search Store name for RAG retrieval"
   type        = string
-  default     = "pickle-knowledge-base"
+  default     = "fileSearchStores/picklellamaknowledgebase-b1ambzi0s32z"
 }

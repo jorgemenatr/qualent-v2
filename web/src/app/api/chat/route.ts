@@ -85,18 +85,20 @@ export async function POST(req: Request) {
       });
     }
 
-    // Get the latest user message for retrieval
-    const lastUserMessage = messages
-      .filter((m: { role: string }) => m.role === "user")
-      .pop();
-
-    let contextPrompt = "";
-
+    // Get the latest user message for RAG retrieval
+    const lastUserMessage = messages.filter((m: { role: string }) => m.role === "user").pop();
     const lastUserText = lastUserMessage ? getMessageText(lastUserMessage) : "";
+
+    // Retrieve relevant context from knowledge base
+    let contextPrompt = "";
     if (lastUserText) {
-      // Retrieve relevant context from knowledge base
-      const context = await retrieveContext(lastUserText);
-      contextPrompt = formatContextForPrompt(context);
+      try {
+        const context = await retrieveContext(lastUserText);
+        contextPrompt = formatContextForPrompt(context);
+      } catch (error) {
+        console.error("RAG retrieval error:", error);
+        // Continue without context if retrieval fails
+      }
     }
 
     // Build the full system prompt with retrieved context

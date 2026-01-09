@@ -17,14 +17,14 @@ export interface RAGContext {
 }
 
 /**
- * Retrieve relevant content from Gemini's grounded generation
- * using the uploaded report corpus
+ * Retrieve relevant content using Gemini's File Search tool
+ * This queries the uploaded document corpus for relevant information
  */
 export async function retrieveContext(query: string): Promise<RAGContext> {
-  const corpusName = process.env.GEMINI_CORPUS_NAME;
+  const fileSearchStore = process.env.GEMINI_FILE_SEARCH_STORE;
 
-  if (!corpusName) {
-    console.warn("GEMINI_CORPUS_NAME not set, using fallback retrieval");
+  if (!fileSearchStore) {
+    console.warn("GEMINI_FILE_SEARCH_STORE not set, skipping RAG retrieval");
     return {
       query,
       retrievedContent: [],
@@ -32,23 +32,39 @@ export async function retrieveContext(query: string): Promise<RAGContext> {
   }
 
   try {
-    // Use Gemini's grounded generation with retrieval
+    // Use Gemini with File Search tool to find relevant content
     const result = await genai.models.generateContent({
       model: "gemini-2.0-flash",
-      contents: `Based on the PickleLlama knowledge base, find relevant information for this question: "${query}"
+      contents: `Based on the documents in the knowledge base, find and return relevant excerpts that would help answer this question: "${query}"
 
-Return ONLY the relevant excerpts and their sources. Do not answer the question directly.
-Format each excerpt as:
-[SOURCE: document name]
-Excerpt content here...
----`,
+Return the most relevant passages with their source document names. Format as:
+[SOURCE: document-name]
+Relevant excerpt here...
+---
+
+If no relevant information is found, respond with "NO_RELEVANT_CONTENT".`,
       config: {
+        tools: [
+          {
+            fileSearch: {
+              fileSearchStoreNames: [fileSearchStore]
+            }
+          }
+        ],
         temperature: 0.1,
         maxOutputTokens: 2000,
       },
     });
 
     const text = result.text ?? "";
+
+    // Check if no relevant content was found
+    if (text.includes("NO_RELEVANT_CONTENT")) {
+      return {
+        query,
+        retrievedContent: [],
+      };
+    }
 
     // Parse the response into structured results
     const retrievedContent = parseRetrievalResponse(text);
@@ -59,7 +75,7 @@ Excerpt content here...
       totalTokens: result.usageMetadata?.totalTokenCount,
     };
   } catch (error) {
-    console.error("Error retrieving context from Gemini:", error);
+    console.error("Error retrieving context from Gemini File Search:", error);
     return {
       query,
       retrievedContent: [],
@@ -106,17 +122,4 @@ export function formatContextForPrompt(context: RAGContext): string {
 
   formatted += `</retrieved_context>\n`;
   return formatted;
-}
-
-/**
- * Simple keyword-based fallback retrieval from local content
- * Used when Gemini API is not available
- */
-export async function fallbackRetrieval(query: string): Promise<RAGContext> {
-  // This would search local MDX content
-  // For now, return empty - the chat will work without RAG
-  return {
-    query,
-    retrievedContent: [],
-  };
 }

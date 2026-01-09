@@ -1,6 +1,8 @@
+import { NextRequest } from "next/server";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { streamText, createUIMessageStream, createUIMessageStreamResponse, generateId } from "ai";
 import { retrieveContext, formatContextForPrompt } from "@/lib/rag";
+import { getAuthenticatedUser } from "@/lib/auth/server";
 
 // Message type for streamText
 type Message = {
@@ -59,7 +61,16 @@ function convertToMessages(messages: Array<{ role: string; content?: string; par
   }));
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  // Check authentication - only logged in users can use chat
+  const user = await getAuthenticatedUser(req);
+  if (!user) {
+    return new Response(
+      JSON.stringify({ error: "Authentication required to use chat" }),
+      { status: 401, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   // Get API key from environment
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, FileText, Search, Zap, Handshake } from "lucide-react";
+import { ArrowRight, FileText, Search, Goal, Zap, Handshake } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,6 +25,13 @@ const steps = [
     cost: "$5,000 (credited if you proceed)",
     icon: Search,
     href: "/services/research",
+  },
+  {
+    title: "Problem Identification",
+    description: "We quantify problems and prioritize by ROI",
+    cost: "Included in research",
+    icon: Goal,
+    href: "/services/problem-identification",
   },
   {
     title: "Implementation",
@@ -273,7 +280,92 @@ export default function ServicesPage() {
         </Container>
       </section>
 
-      {/* Section 3: When We Build, We Do It Differently */}
+      {/* Section 3: Problem Identification */}
+      <section className="border-t border-border py-16 md:py-20">
+        <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-6" />
+          <h2 className="text-2xl md:text-3xl font-bold">
+            Finding the Problems Worth Solving
+          </h2>
+          <div className="mt-8 space-y-6 text-muted-foreground leading-relaxed">
+            <p>
+              Most companies have dozens of problems they could throw technology
+              at. The hard part isn&apos;t building solutions—it&apos;s knowing which
+              problems are worth solving.
+            </p>
+            <p>
+              We&apos;ve seen companies spend months building solutions to problems
+              that cost them $10,000/year. That&apos;s a bad trade. We&apos;ve also seen
+              companies ignore problems that were costing them $500,000/year
+              because they didn&apos;t realize how much it added up.
+            </p>
+            <p className="text-foreground font-medium">
+              Problem identification isn&apos;t just listing what&apos;s broken. It&apos;s
+              quantifying the cost and prioritizing by ROI.
+            </p>
+          </div>
+
+          {/* What We Look For */}
+          <div className="mt-10">
+            <h3 className="text-xl font-semibold mb-4">What We Look For</h3>
+            <div className="grid gap-4 mt-6">
+              {[
+                {
+                  title: "Time drains",
+                  description:
+                    "Where are your people spending hours on tasks that should take minutes?",
+                },
+                {
+                  title: "Error hotspots",
+                  description:
+                    "Where do mistakes happen most often? What do they cost to fix?",
+                },
+                {
+                  title: "Bottlenecks",
+                  description:
+                    "What's slowing everything else down? What could scale if this was fixed?",
+                },
+                {
+                  title: "Hidden costs",
+                  description:
+                    "What frustrations are driving good people away? What opportunities are you missing?",
+                },
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-4 p-4 rounded-lg border border-border bg-background/50"
+                >
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <span className="font-semibold text-foreground">
+                      {item.title}:
+                    </span>{" "}
+                    <span>{item.description}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <p className="mt-10 text-foreground font-medium">
+            We don&apos;t just make a list. We put numbers on everything—so you can
+            make informed decisions about what&apos;s worth fixing and in what order.
+          </p>
+
+          <div className="mt-8">
+            <Button variant="outline" asChild>
+              <Link href="/services/problem-identification">
+                Learn more about Problem Identification
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </Container>
+      </section>
+
+      {/* Section 4: When We Build, We Do It Differently */}
       <section className="border-t border-border py-16 md:py-20">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
@@ -382,7 +474,7 @@ export default function ServicesPage() {
             <h2 className="text-2xl md:text-3xl font-bold">The Offer</h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {steps.map((step) => (
               <Card
                 key={step.title}

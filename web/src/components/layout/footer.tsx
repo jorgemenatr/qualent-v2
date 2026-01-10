@@ -3,14 +3,16 @@ import Image from "next/image";
 import { Container } from "./container";
 
 const footerLinks = {
-  services: [
+  process: [
+    { name: "First Meeting", href: "/services/understanding" },
+    { name: "Research Report", href: "/services/research" },
     { name: "Problem Identification", href: "/services/problem-identification" },
     { name: "Implementation", href: "/services/implementation" },
-    { name: "Ongoing Partnership", href: "/services/partnership" },
+    { name: "Partnership", href: "/services/partnership" },
   ],
   resources: [
     { name: "Learn", href: "/learn" },
-    { name: "Case Studies", href: "/proof" },
+    { name: "Pricing", href: "/pricing" },
     { name: "Thunk Box", href: "/thunkbox" },
   ],
   company: [
@@ -39,11 +41,11 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Services */}
+          {/* Process */}
           <div>
-            <h3 className="text-sm font-semibold">Services</h3>
+            <h3 className="text-sm font-semibold">Process</h3>
             <ul className="mt-4 space-y-3">
-              {footerLinks.services.map((link) => (
+              {footerLinks.process.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}

@@ -1,4 +1,4 @@
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const s3Client = new S3Client({
@@ -24,12 +24,36 @@ export async function getPresignedUrl(
   return url;
 }
 
+// Alias for consistency
+export const getPresignedDownloadUrl = getPresignedUrl;
+
+export async function getPresignedUploadUrl(
+  key: string,
+  contentType: string,
+  expiresIn: number = 3600
+): Promise<string> {
+  const command = new PutObjectCommand({
+    Bucket: BUCKET_NAME,
+    Key: key,
+    ContentType: contentType,
+  });
+
+  const url = await getSignedUrl(s3Client, command, { expiresIn });
+  return url;
+}
+
 export function getReportPdfKey(slug: string): string {
   return `reports/pdfs/${slug}.pdf`;
 }
 
 export function getAudioKey(slug: string): string {
   return `audio/${slug}.mp3`;
+}
+
+export function getProjectDocumentKey(projectId: string, fileName: string): string {
+  const timestamp = Date.now();
+  const sanitized = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
+  return `projects/${projectId}/documents/${timestamp}-${sanitized}`;
 }
 
 export { s3Client, BUCKET_NAME };

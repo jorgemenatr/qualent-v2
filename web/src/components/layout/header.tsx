@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Menu, User, LogOut } from "lucide-react";
+import { Menu, User, LogOut, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -111,6 +111,12 @@ export function Header() {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
+                  <Link href="/projects" className="cursor-pointer">
+                    <FolderOpen className="mr-2 h-4 w-4" />
+                    Projects
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/profile" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />
                     Profile
@@ -181,6 +187,14 @@ export function Header() {
                         )}
                       </div>
                     </div>
+                    <Link
+                      href="/projects"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                    >
+                      <FolderOpen className="h-4 w-4" />
+                      Projects
+                    </Link>
                     <Link
                       href="/profile"
                       onClick={() => setMobileMenuOpen(false)}

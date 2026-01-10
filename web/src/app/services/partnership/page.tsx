@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Rocket, CheckCircle } from "lucide-react";
+import { ArrowRight, Handshake, CheckCircle } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: "Ongoing Partnership",
   description:
-    "Long-term support to keep your solutions running, evolving, and delivering value as your business grows.",
+    "We don't disappear after launch. Solutions need to evolve, and we become an extension of your team.",
 };
 
 export default function PartnershipPage() {
@@ -16,75 +16,61 @@ export default function PartnershipPage() {
       <section className="py-20 md:py-28">
         <Container size="small">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-            <Rocket className="h-6 w-6 text-primary" />
+            <Handshake className="h-6 w-6 text-primary" />
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight md:text-5xl">
             Ongoing Partnership
           </h1>
+          <p className="mt-2 text-xl text-primary font-medium">
+            Long-term Support and Evolution
+          </p>
           <p className="mt-6 text-lg text-muted-foreground">
-            Long-term support to keep your solutions running, evolving, and
-            delivering value. We become an extension of your team.
+            We don&apos;t disappear after launch. Solutions need to evolve, and we
+            become an extension of your team.
+          </p>
+          <p className="mt-4 text-lg font-medium text-foreground">
+            Custom arrangements based on your needs
           </p>
         </Container>
       </section>
 
-      {/* Why Partnership */}
-      <section className="border-t border-border py-20">
-        <Container size="small">
-          <h2 className="text-2xl font-bold">Why Ongoing Partnership?</h2>
-          <div className="mt-6 space-y-4 text-muted-foreground">
-            <p>
-              Building software is just the beginning. The real value comes from
-              continuously improving it based on how your team actually uses it.
-            </p>
-            <p>
-              An ongoing partnership means you have a dedicated team that knows
-              your systems inside and out—ready to fix issues, add features, and
-              help you make the most of your technology investments.
-            </p>
-          </div>
-        </Container>
-      </section>
-
       {/* What's Included */}
-      <section className="bg-muted/50 py-20">
+      <section className="border-t border-border py-20">
         <Container size="small">
           <h2 className="text-2xl font-bold">What&apos;s Included</h2>
           <div className="mt-8 space-y-6">
             {[
               {
-                title: "Maintenance & Support",
+                title: "Maintenance and support",
                 description:
-                  "Bug fixes, security updates, and performance monitoring. We keep things running smoothly.",
+                  "Keeping things running smoothly. Bug fixes, security updates, and making sure nothing breaks.",
               },
               {
-                title: "Continuous Improvement",
+                title: "Continuous improvement",
                 description:
-                  "Regular check-ins to identify optimization opportunities and enhance existing solutions.",
+                  "Optimizing based on real usage data. We watch how people actually use the software and make it better.",
               },
               {
-                title: "New Feature Development",
+                title: "New feature development",
                 description:
-                  "Dedicated capacity for building new features and capabilities as your needs evolve.",
+                  "As your needs evolve, so does the software. We add capabilities as you discover new requirements.",
               },
               {
-                title: "Strategic Guidance",
+                title: "Strategic guidance",
                 description:
-                  "Ongoing advice on technology decisions, vendor selection, and future roadmap planning.",
+                  "Technology decisions as your business grows. We help you think through what's next.",
               },
               {
-                title: "Priority Response",
+                title: "Priority response",
                 description:
                   "When something breaks, you go to the front of the line. We treat your problems as our problems.",
               },
             ].map((item) => (
               <div key={item.title} className="flex gap-4">
-                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
+                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
                 <div>
                   <h3 className="font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-muted-foreground">
-                    {item.description}
-                  </p>
+                  <p className="mt-1 text-muted-foreground">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -93,24 +79,54 @@ export default function PartnershipPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20">
+      <section className="bg-muted/50 py-20">
         <Container size="small">
           <h2 className="text-2xl font-bold">How It Works</h2>
-          <div className="mt-6 space-y-4 text-muted-foreground">
-            <p>
-              Partnership engagements are structured as monthly retainers. You
-              get a set number of hours per month that can be used for any
-              combination of support, improvements, and new development.
-            </p>
-            <p>
-              We meet regularly (weekly or bi-weekly, depending on your needs)
-              to review priorities and plan upcoming work. Unused hours can roll
-              over to the next month.
-            </p>
-            <p>
+          <p className="mt-4 text-muted-foreground">
+            Partnership arrangements are custom based on your needs. Typical
+            engagements include:
+          </p>
+          <div className="mt-8 space-y-4">
+            {[
+              "Monthly retainer for ongoing development and support",
+              "Quarterly strategy sessions to plan what's next",
+              "Priority response for issues and urgent needs",
+              "Proactive monitoring and optimization",
+              "Regular check-ins to ensure alignment",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3">
+                <div className="h-1.5 w-1.5 mt-2.5 flex-shrink-0 rounded-full bg-primary" />
+                <span className="text-muted-foreground">{item}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 rounded-lg border border-border bg-card/80 p-6">
+            <p className="text-muted-foreground">
               There&apos;s no long-term commitment required. We earn your business
               every month by delivering value. If it&apos;s not working, you can
               walk away with 30 days notice.
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      {/* Why Partnership Matters */}
+      <section className="py-20">
+        <Container size="small">
+          <h2 className="text-2xl font-bold">Why Partnership Matters</h2>
+          <div className="mt-6 space-y-4 text-muted-foreground">
+            <p>
+              Software isn&apos;t a one-time purchase. It&apos;s a living thing that needs
+              care, attention, and evolution.
+            </p>
+            <p>
+              The best software gets better over time because someone is watching
+              how it&apos;s used, listening to feedback, and making improvements. The
+              worst software gets abandoned and slowly becomes a liability.
+            </p>
+            <p className="text-foreground font-medium">
+              We prefer to stick around and make sure what we built keeps
+              delivering value.
             </p>
           </div>
         </Container>
@@ -120,9 +136,10 @@ export default function PartnershipPage() {
       <section className="border-t border-border py-20">
         <Container size="small">
           <div className="text-center">
-            <h2 className="text-2xl font-bold">Ready for a long-term partner?</h2>
+            <h2 className="text-2xl font-bold">Want to discuss ongoing support?</h2>
             <p className="mt-4 text-muted-foreground">
-              17 minutes to discuss how we can support your ongoing technology needs.
+              Start with a conversation about your needs and what partnership
+              might look like.
             </p>
             <Button className="mt-6" asChild>
               <Link href="/talk">

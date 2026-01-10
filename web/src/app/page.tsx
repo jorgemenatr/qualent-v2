@@ -19,8 +19,8 @@ import { HeroBackground } from "@/components/hero-background";
 const clientLogos = [
   { name: "Kroger", src: "/clients/kroger.svg", width: 120, height: 40 },
   { name: "Anaconda", src: "/clients/anaconda.svg", width: 140, height: 40 },
-  { name: "CBTS", src: "/clients/cbts.webp", width: 100, height: 40 },
-  { name: "Stacking Projects", src: "/clients/stacking-projects.png", width: 140, height: 40 },
+  { name: "CBTS", src: "/clients/cbts.webp", width: 100, height: 40, invert: true },
+  { name: "Stacking Projects", src: "/clients/stacking-projects.png", width: 140, height: 40, invert: true },
   { name: "REPS", src: "/clients/reps.jpeg", width: 100, height: 40 },
 ];
 
@@ -80,7 +80,7 @@ export default function HomePage() {
                   alt={logo.name}
                   width={logo.width}
                   height={logo.height}
-                  className="h-8 md:h-10 w-auto object-contain"
+                  className={`h-8 md:h-10 w-auto object-contain ${"invert" in logo && logo.invert ? "invert" : ""}`}
                 />
               </div>
             ))}

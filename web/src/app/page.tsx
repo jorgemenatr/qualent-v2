@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Zap,
@@ -14,6 +15,14 @@ import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { HeroBackground } from "@/components/hero-background";
+
+const clientLogos = [
+  { name: "Kroger", src: "/clients/kroger.svg", width: 120, height: 40 },
+  { name: "Anaconda", src: "/clients/anaconda.svg", width: 140, height: 40 },
+  { name: "CBTS", src: "/clients/cbts.webp", width: 100, height: 40 },
+  { name: "Stacking Projects", src: "/clients/stacking-projects.png", width: 140, height: 40 },
+  { name: "REPS", src: "/clients/reps.jpeg", width: 100, height: 40 },
+];
 
 export default function HomePage() {
   return (
@@ -50,6 +59,31 @@ export default function HomePage() {
                 <Link href="#guarantee">See Our Guarantee</Link>
               </Button>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Client Logos Section */}
+      <section className="border-t border-border py-12">
+        <Container>
+          <p className="text-center text-sm text-muted-foreground mb-8">
+            Trusted by teams at
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-70">
+            {clientLogos.map((logo) => (
+              <div
+                key={logo.name}
+                className="relative grayscale hover:grayscale-0 transition-all duration-300"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.name}
+                  width={logo.width}
+                  height={logo.height}
+                  className="h-8 md:h-10 w-auto object-contain"
+                />
+              </div>
+            ))}
           </div>
         </Container>
       </section>
@@ -197,7 +231,7 @@ export default function HomePage() {
                   math doesn&apos;t work, we tell you.
                 </p>
                 <Link
-                  href="/services/problem-identification"
+                  href="/services/research"
                   className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
                 >
                   Learn more <ArrowRight className="ml-1 h-3 w-3" />

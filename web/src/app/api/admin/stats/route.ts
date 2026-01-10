@@ -17,12 +17,13 @@ export async function GET(request: NextRequest) {
 
     const prisma = await getPrisma();
 
-    const [usersCount, worksheetsCount, toolsCount, contactsCount] =
+    const [usersCount, worksheetsCount, toolsCount, contactsCount, projectsCount] =
       await Promise.all([
         prisma.user.count(),
         prisma.worksheetSubmission.count(),
         prisma.toolSave.count(),
         prisma.contact.count(),
+        prisma.project.count(),
       ]);
 
     return NextResponse.json({
@@ -32,6 +33,7 @@ export async function GET(request: NextRequest) {
         worksheets: worksheetsCount,
         tools: toolsCount,
         contacts: contactsCount,
+        projects: projectsCount,
       },
     });
   } catch (error) {

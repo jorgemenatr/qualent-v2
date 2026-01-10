@@ -12,6 +12,9 @@ import {
   Calendar,
   Building2,
   FileText,
+  FolderOpen,
+  DollarSign,
+  CheckSquare,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
@@ -39,6 +42,7 @@ interface Stats {
   worksheets: number;
   tools: number;
   contacts: number;
+  projects: number;
 }
 
 interface AdminUser {
@@ -93,6 +97,46 @@ interface AdminContact {
   downloadsCount: number;
 }
 
+interface AdminProject {
+  id: string;
+  name: string;
+  description: string | null;
+  status: string;
+  totalBudget: number | null;
+  amountSpent: number;
+  currency: string;
+  startDate: string | null;
+  targetEndDate: string | null;
+  createdAt: string;
+  updatedAt: string;
+  owner: {
+    id: string;
+    email: string;
+    name: string | null;
+  };
+  members: Array<{
+    id: string;
+    role: string;
+    user: {
+      id: string;
+      email: string;
+      name: string | null;
+    };
+  }>;
+  _count: {
+    tasks: number;
+    milestones: number;
+    documents: number;
+  };
+}
+
+const statusLabels: Record<string, { label: string; className: string }> = {
+  active: { label: "Active", className: "bg-green-500/10 text-green-600" },
+  on_hold: { label: "On Hold", className: "bg-yellow-500/10 text-yellow-600" },
+  completed: { label: "Completed", className: "bg-blue-500/10 text-blue-600" },
+  cancelled: { label: "Cancelled", className: "bg-red-500/10 text-red-600" },
+};
+
 const toolTypeLabels: Record<string, string> = {
   fives: "FIVES",
   build_vs_buy: "Build vs Buy",
@@ -107,12 +151,14 @@ export default function AdminPage() {
   const [worksheets, setWorksheets] = useState<AdminWorksheet[]>([]);
   const [tools, setTools] = useState<AdminTool[]>([]);
   const [contacts, setContacts] = useState<AdminContact[]>([]);
+  const [projects, setProjects] = useState<AdminProject[]>([]);
 
   const [statsLoading, setStatsLoading] = useState(true);
   const [usersLoading, setUsersLoading] = useState(true);
   const [worksheetsLoading, setWorksheetsLoading] = useState(true);
   const [toolsLoading, setToolsLoading] = useState(true);
   const [contactsLoading, setContactsLoading] = useState(true);
+  const [projectsLoading, setProjectsLoading] = useState(true);
 
   const [error, setError] = useState<string | null>(null);
   const [isAdminUser, setIsAdminUser] = useState<boolean | null>(null);
@@ -216,6 +262,24 @@ export default function AdminPage() {
     }
   }, [cognitoId]);
 
+  // Fetch projects
+  const fetchProjects = useCallback(async () => {
+    try {
+      setProjectsLoading(true);
+      const response = await fetch("/api/admin/projects", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setProjects(data.projects);
+      }
+    } catch {
+      console.error("Failed to load projects");
+    } finally {
+      setProjectsLoading(false);
+    }
+  }, [cognitoId]);
+
   // Fetch all data when authenticated admin
   useEffect(() => {
     if (isAdminUser && cognitoId) {
@@ -224,8 +288,9 @@ export default function AdminPage() {
       fetchWorksheets();
       fetchTools();
       fetchContacts();
+      fetchProjects();
     }
-  }, [isAdminUser, cognitoId, fetchStats, fetchUsers, fetchWorksheets, fetchTools, fetchContacts]);
+  }, [isAdminUser, cognitoId, fetchStats, fetchUsers, fetchWorksheets, fetchTools, fetchContacts, fetchProjects]);
 
   // Show login prompt if not authenticated
   if (!authLoading && !isAuthenticated) {
@@ -349,6 +414,17 @@ export default function AdminPage() {
                   <div className="text-2xl font-bold">{stats.contacts}</div>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Projects
+                  </CardTitle>
+                  <FolderOpen className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stats.projects}</div>
+                </CardContent>
+              </Card>
             </div>
           ) : error ? (
             <p className="text-destructive">{error}</p>
@@ -364,6 +440,10 @@ export default function AdminPage() {
               <TabsTrigger value="users" className="gap-2">
                 <Users className="h-4 w-4" />
                 Users
+              </TabsTrigger>
+              <TabsTrigger value="projects" className="gap-2">
+                <FolderOpen className="h-4 w-4" />
+                Projects
               </TabsTrigger>
               <TabsTrigger value="worksheets" className="gap-2">
                 <ClipboardList className="h-4 w-4" />
@@ -459,6 +539,130 @@ export default function AdminPage() {
                                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                   <Calendar className="h-3 w-3" />
                                   {new Date(user.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    }
+                                  )}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Projects Tab */}
+            <TabsContent value="projects">
+              <Card>
+                <CardHeader>
+                  <CardTitle>All Projects</CardTitle>
+                  <CardDescription>
+                    Client projects across all users
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {projectsLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : projects.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                      No projects yet
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Project</TableHead>
+                            <TableHead>Owner</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Budget</TableHead>
+                            <TableHead>Activity</TableHead>
+                            <TableHead>Created</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {projects.map((project) => (
+                            <TableRow key={project.id}>
+                              <TableCell>
+                                <div>
+                                  <p className="font-medium">{project.name}</p>
+                                  {project.description && (
+                                    <p className="text-sm text-muted-foreground line-clamp-1">
+                                      {project.description}
+                                    </p>
+                                  )}
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <div>
+                                  <p>{project.owner.name || "—"}</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {project.owner.email}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <span
+                                  className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                                    statusLabels[project.status]?.className ||
+                                    "bg-muted text-muted-foreground"
+                                  }`}
+                                >
+                                  {statusLabels[project.status]?.label ||
+                                    project.status}
+                                </span>
+                              </TableCell>
+                              <TableCell>
+                                {project.totalBudget ? (
+                                  <div className="flex items-center gap-1 text-sm">
+                                    <DollarSign className="h-3 w-3" />
+                                    <span>
+                                      {project.amountSpent.toLocaleString()} /{" "}
+                                      {project.totalBudget.toLocaleString()}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-3 text-sm">
+                                  <span
+                                    className="flex items-center gap-1"
+                                    title="Tasks"
+                                  >
+                                    <CheckSquare className="h-3 w-3" />
+                                    {project._count.tasks}
+                                  </span>
+                                  <span
+                                    className="flex items-center gap-1"
+                                    title="Documents"
+                                  >
+                                    <FileText className="h-3 w-3" />
+                                    {project._count.documents}
+                                  </span>
+                                  <span
+                                    className="flex items-center gap-1"
+                                    title="Members"
+                                  >
+                                    <Users className="h-3 w-3" />
+                                    {project.members.length}
+                                  </span>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                  <Calendar className="h-3 w-3" />
+                                  {new Date(project.createdAt).toLocaleDateString(
                                     "en-US",
                                     {
                                       month: "short",

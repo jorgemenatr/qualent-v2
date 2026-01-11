@@ -19,6 +19,7 @@ import {
 import {
   ProjectStatusBadge,
   TaskList,
+  MilestoneList,
   DocumentList,
   MemberList,
 } from "@/components/projects";
@@ -33,6 +34,7 @@ import {
   Edit2,
   Check,
   X,
+  Flag,
 } from "lucide-react";
 
 interface Project {
@@ -57,8 +59,10 @@ interface Project {
   milestones: Array<{
     id: string;
     name: string;
+    description: string | null;
     status: string;
     dueDate: string | null;
+    completedAt: string | null;
   }>;
   tasks: Array<{
     id: string;
@@ -436,6 +440,10 @@ export default function ProjectDetailPage({
             <CheckSquare className="h-4 w-4 mr-2" />
             Tasks
           </TabsTrigger>
+          <TabsTrigger value="milestones">
+            <Flag className="h-4 w-4 mr-2" />
+            Milestones
+          </TabsTrigger>
           <TabsTrigger value="documents">
             <FileText className="h-4 w-4 mr-2" />
             Documents
@@ -456,6 +464,19 @@ export default function ProjectDetailPage({
             projectId={project.id}
             canEdit={canEdit}
             onStatusChange={updateTaskStatus}
+          />
+        </TabsContent>
+
+        <TabsContent value="milestones">
+          <MilestoneList
+            milestones={project.milestones.map((m) => ({
+              ...m,
+              tasks: project.tasks.filter((t) => t.milestone?.id === m.id),
+            }))}
+            projectId={project.id}
+            canEdit={canEdit}
+            cognitoId={cognitoId || ""}
+            onRefresh={fetchProject}
           />
         </TabsContent>
 

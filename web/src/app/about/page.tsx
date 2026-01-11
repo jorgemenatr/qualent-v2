@@ -34,7 +34,7 @@ export default function AboutPage() {
           </h1>
           <div className="mt-6 space-y-4 text-lg text-muted-foreground">
             <p>
-              We&apos;re intentionally a company of small teams with a slightly nightmarish AI mascot (the PickleLlama), and a rebelious attitude toward big corporate bullshit. 
+              We&apos;re intentionally small, proudly unconventional (see our mascot), and allergic to corporate theater.
             </p>
           </div>
         </Container>

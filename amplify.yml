@@ -10,10 +10,12 @@ applications:
         build:
           commands:
             # Create .env.production with runtime env vars for SSR
+            - echo "DATABASE_URL=$DATABASE_URL" >> .env.production
+            - echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> .env.production
+            - echo "S3_REGION=$S3_REGION" >> .env.production
             - echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY" >> .env.production
             - echo "GOOGLE_AI_API_KEY=$GOOGLE_AI_API_KEY" >> .env.production
             - echo "GEMINI_FILE_SEARCH_STORE=$GEMINI_FILE_SEARCH_STORE" >> .env.production
-            - echo "DATABASE_URL=$DATABASE_URL" >> .env.production
             - npm run build
       artifacts:
         baseDirectory: .next

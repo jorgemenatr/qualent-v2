@@ -1,15 +1,6 @@
 import { NextRequest } from "next/server";
-import { getPresignedUrl, getAudioKey } from "@/lib/s3";
-
-// Valid audio report slugs
-const validSlugs = new Set([
-  "ai-automation-roi-guide",
-  "selecting-the-right-problems",
-  "pilot-to-production-gap",
-  "requirements-problem",
-  "build-buy-or-both",
-  "data-readiness",
-]);
+import { getPresignedUrl } from "@/lib/s3";
+import { getPrisma } from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
@@ -18,17 +9,33 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    // Validate slug
-    if (!validSlugs.has(slug)) {
+    // Validate slug against database
+    const prisma = await getPrisma();
+    const audioFile = await prisma.audioFile.findUnique({
+      where: { slug },
+      select: {
+        s3Key: true,
+        available: true,
+      },
+    });
+
+    // Check if audio exists and is available
+    if (!audioFile) {
       return Response.json(
         { error: "Audio not found" },
         { status: 404 }
       );
     }
 
+    if (!audioFile.available) {
+      return Response.json(
+        { error: "Audio is not currently available" },
+        { status: 404 }
+      );
+    }
+
     // Generate presigned URL for the audio file
-    const audioKey = getAudioKey(slug);
-    const presignedUrl = await getPresignedUrl(audioKey, 3600); // 1 hour expiry
+    const presignedUrl = await getPresignedUrl(audioFile.s3Key, 3600); // 1 hour expiry
 
     return Response.json({
       url: presignedUrl,

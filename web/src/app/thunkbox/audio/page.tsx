@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Headphones } from "lucide-react";
 import { Container } from "@/components/layout";
 import { getAllContent } from "@/lib/content";
+import { getPrisma } from "@/lib/db";
 import { AudioLibraryClient } from "./audio-library-client";
 
 export const metadata: Metadata = {
@@ -11,26 +12,38 @@ export const metadata: Metadata = {
     "Listen to PickleLlama reports in audio format. Learn about AI and automation while on the go.",
 };
 
-// Map report slugs to audio file info
-const audioMetadata: Record<string, { duration: string; available: boolean }> = {
-  "ai-automation-roi-guide": { duration: "12:34", available: true },
-  "selecting-the-right-problems": { duration: "15:22", available: true },
-  "pilot-to-production-gap": { duration: "11:45", available: true },
-  "requirements-problem": { duration: "10:18", available: true },
-  "build-buy-or-both": { duration: "14:56", available: true },
-  "data-readiness": { duration: "13:08", available: true },
-};
+// Force dynamic rendering since we fetch from database
+export const dynamic = "force-dynamic";
 
-export default function AudioLibraryPage() {
+export default async function AudioLibraryPage() {
   const reports = getAllContent("reports");
+
+  // Fetch audio metadata from database
+  const prisma = await getPrisma();
+  const audioFiles = await prisma.audioFile.findMany({
+    where: { available: true },
+    select: {
+      slug: true,
+      duration: true,
+      available: true,
+    },
+  });
+
+  // Create a map of slug to audio info for quick lookup
+  const audioMetadata = new Map(
+    audioFiles.map((audio) => [
+      audio.slug,
+      { duration: audio.duration, available: audio.available },
+    ])
+  );
 
   const audioReports = reports.map((report) => ({
     slug: report.slug,
     title: report.meta.title,
     description: report.meta.description,
-    duration: audioMetadata[report.slug]?.duration || "TBD",
-    available: audioMetadata[report.slug]?.available || false,
-    audioUrl: `/api/audio/${report.slug}`, // Will use presigned S3 URLs
+    duration: audioMetadata.get(report.slug)?.duration || "TBD",
+    available: audioMetadata.get(report.slug)?.available || false,
+    audioUrl: `/api/audio/${report.slug}`,
   }));
 
   return (

@@ -1,4 +1,4 @@
-import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const s3Client = new S3Client({
@@ -54,6 +54,15 @@ export function getProjectDocumentKey(projectId: string, fileName: string): stri
   const timestamp = Date.now();
   const sanitized = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
   return `projects/${projectId}/documents/${timestamp}-${sanitized}`;
+}
+
+export async function deleteS3Object(key: string): Promise<void> {
+  const command = new DeleteObjectCommand({
+    Bucket: BUCKET_NAME,
+    Key: key,
+  });
+
+  await s3Client.send(command);
 }
 
 export { s3Client, BUCKET_NAME };

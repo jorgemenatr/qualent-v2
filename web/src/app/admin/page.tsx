@@ -15,6 +15,12 @@ import {
   FolderOpen,
   DollarSign,
   CheckSquare,
+  Music,
+  Plus,
+  Pencil,
+  Trash2,
+  Check,
+  X,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
@@ -36,6 +42,18 @@ import {
 } from "@/components/ui/table";
 import { useAuth } from "@/lib/auth";
 import { isAdmin } from "@/lib/admin";
+import { AudioUploadDialog } from "@/components/admin/audio-upload-dialog";
+import { AudioEditDialog } from "@/components/admin/audio-edit-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface Stats {
   users: number;
@@ -130,6 +148,40 @@ interface AdminProject {
   };
 }
 
+interface AdminAudio {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  s3Key: string;
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+  duration: string;
+  available: boolean;
+  createdAt: string;
+  updatedAt: string;
+  uploadedBy: {
+    id: string;
+    name: string | null;
+    email: string;
+  };
+}
+
+// Available reports for audio upload
+const AVAILABLE_REPORTS = [
+  { slug: "ai-automation-roi-guide", title: "AI Automation ROI Guide" },
+  { slug: "selecting-the-right-problems", title: "Selecting the Right Problems" },
+  { slug: "pilot-to-production-gap", title: "The Pilot to Production Gap" },
+  { slug: "requirements-problem", title: "The Requirements Problem" },
+  { slug: "build-buy-or-both", title: "Build, Buy, or Both" },
+  { slug: "data-readiness", title: "Data Readiness for the LLM Era" },
+  { slug: "cloud-infrastructure", title: "Cloud Infrastructure Decisions" },
+  { slug: "low-code-platform-selection", title: "Low-Code Platform Selection" },
+  { slug: "technical-implementation-patterns", title: "Technical Implementation Patterns" },
+  { slug: "process-requirements-frameworks", title: "Process Requirements Frameworks" },
+];
+
 const statusLabels: Record<string, { label: string; className: string }> = {
   active: { label: "Active", className: "bg-green-500/10 text-green-600" },
   on_hold: { label: "On Hold", className: "bg-yellow-500/10 text-yellow-600" },
@@ -152,6 +204,7 @@ export default function AdminPage() {
   const [tools, setTools] = useState<AdminTool[]>([]);
   const [contacts, setContacts] = useState<AdminContact[]>([]);
   const [projects, setProjects] = useState<AdminProject[]>([]);
+  const [audios, setAudios] = useState<AdminAudio[]>([]);
 
   const [statsLoading, setStatsLoading] = useState(true);
   const [usersLoading, setUsersLoading] = useState(true);
@@ -159,9 +212,16 @@ export default function AdminPage() {
   const [toolsLoading, setToolsLoading] = useState(true);
   const [contactsLoading, setContactsLoading] = useState(true);
   const [projectsLoading, setProjectsLoading] = useState(true);
+  const [audiosLoading, setAudiosLoading] = useState(true);
 
   const [error, setError] = useState<string | null>(null);
   const [isAdminUser, setIsAdminUser] = useState<boolean | null>(null);
+
+  // Audio dialog states
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedAudio, setSelectedAudio] = useState<AdminAudio | null>(null);
 
   // Check admin status
   useEffect(() => {
@@ -280,6 +340,44 @@ export default function AdminPage() {
     }
   }, [cognitoId]);
 
+  // Fetch audio files
+  const fetchAudios = useCallback(async () => {
+    try {
+      setAudiosLoading(true);
+      const response = await fetch("/api/admin/audio", {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setAudios(data.audioFiles);
+      }
+    } catch {
+      console.error("Failed to load audio files");
+    } finally {
+      setAudiosLoading(false);
+    }
+  }, [cognitoId]);
+
+  // Handle audio deletion
+  const handleDeleteAudio = async () => {
+    if (!selectedAudio || !cognitoId) return;
+
+    try {
+      const response = await fetch(`/api/admin/audio/${selectedAudio.id}`, {
+        method: "DELETE",
+        headers: { "x-cognito-id": cognitoId },
+      });
+      const data = await response.json();
+      if (data.success) {
+        setDeleteDialogOpen(false);
+        setSelectedAudio(null);
+        fetchAudios();
+      }
+    } catch {
+      console.error("Failed to delete audio");
+    }
+  };
+
   // Fetch all data when authenticated admin
   useEffect(() => {
     if (isAdminUser && cognitoId) {
@@ -289,8 +387,9 @@ export default function AdminPage() {
       fetchTools();
       fetchContacts();
       fetchProjects();
+      fetchAudios();
     }
-  }, [isAdminUser, cognitoId, fetchStats, fetchUsers, fetchWorksheets, fetchTools, fetchContacts, fetchProjects]);
+  }, [isAdminUser, cognitoId, fetchStats, fetchUsers, fetchWorksheets, fetchTools, fetchContacts, fetchProjects, fetchAudios]);
 
   // Show login prompt if not authenticated
   if (!authLoading && !isAuthenticated) {
@@ -456,6 +555,10 @@ export default function AdminPage() {
               <TabsTrigger value="contacts" className="gap-2">
                 <Mail className="h-4 w-4" />
                 Contacts
+              </TabsTrigger>
+              <TabsTrigger value="audio" className="gap-2">
+                <Music className="h-4 w-4" />
+                Audio
               </TabsTrigger>
             </TabsList>
 
@@ -900,9 +1003,167 @@ export default function AdminPage() {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            {/* Audio Tab */}
+            <TabsContent value="audio">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Audio Files</CardTitle>
+                    <CardDescription>
+                      Audio versions of reports for the listening feature
+                    </CardDescription>
+                  </div>
+                  <Button onClick={() => setUploadDialogOpen(true)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Upload Audio
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {audiosLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : audios.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                      No audio files yet. Upload audio for reports to enable the listening feature.
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Report</TableHead>
+                            <TableHead>Duration</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>File Size</TableHead>
+                            <TableHead>Uploaded</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {audios.map((audio) => (
+                            <TableRow key={audio.id}>
+                              <TableCell>
+                                <div>
+                                  <p className="font-medium">{audio.name}</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {audio.slug}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <span className="font-mono">{audio.duration}</span>
+                              </TableCell>
+                              <TableCell>
+                                {audio.available ? (
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-600">
+                                    <Check className="h-3 w-3" />
+                                    Available
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-yellow-500/10 px-2 py-1 text-xs font-medium text-yellow-600">
+                                    <X className="h-3 w-3" />
+                                    Hidden
+                                  </span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {(audio.fileSize / 1024 / 1024).toFixed(1)} MB
+                              </TableCell>
+                              <TableCell>
+                                <div>
+                                  <p className="text-sm">
+                                    {new Date(audio.createdAt).toLocaleDateString(
+                                      "en-US",
+                                      {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
+                                      }
+                                    )}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground">
+                                    by {audio.uploadedBy.name || audio.uploadedBy.email}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      setSelectedAudio(audio);
+                                      setEditDialogOpen(true);
+                                    }}
+                                  >
+                                    <Pencil className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="text-destructive hover:text-destructive"
+                                    onClick={() => {
+                                      setSelectedAudio(audio);
+                                      setDeleteDialogOpen(true);
+                                    }}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
         </Container>
       </section>
+
+      {/* Audio Dialogs */}
+      <AudioUploadDialog
+        open={uploadDialogOpen}
+        onOpenChange={setUploadDialogOpen}
+        reports={AVAILABLE_REPORTS}
+        existingSlugs={audios.map((a) => a.slug)}
+        cognitoId={cognitoId || ""}
+        onSuccess={fetchAudios}
+      />
+
+      <AudioEditDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        audioFile={selectedAudio}
+        cognitoId={cognitoId || ""}
+        onSuccess={fetchAudios}
+      />
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Audio File</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the audio file for &quot;{selectedAudio?.name}&quot;?
+              This will remove it from S3 and users will no longer be able to listen to this report.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteAudio}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

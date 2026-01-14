@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   // Amplify doesn't pass env vars to Lambda runtime, only build time
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
+    // S3 configuration
+    AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
+    AWS_S3_REGION: process.env.AWS_S3_REGION,
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    // Cognito (server-side)
+    COGNITO_ISSUER: process.env.COGNITO_ISSUER,
   },
 
   // Image optimization

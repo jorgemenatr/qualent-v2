@@ -6,13 +6,12 @@ const nextConfig: NextConfig = {
 
   // Embed server-side env vars at build time for Amplify SSR
   // Amplify doesn't pass env vars to Lambda runtime, only build time
+  // Note: Can't use AWS_ prefix - reserved by Amplify
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
-    // S3 configuration
-    AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
-    AWS_S3_REGION: process.env.AWS_S3_REGION,
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    // S3 configuration (no AWS_ prefix due to Amplify restriction)
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+    S3_REGION: process.env.S3_REGION,
     // Cognito (server-side)
     COGNITO_ISSUER: process.env.COGNITO_ISSUER,
   },

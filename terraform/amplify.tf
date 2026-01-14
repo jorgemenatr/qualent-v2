@@ -30,6 +30,8 @@ resource "aws_iam_role_policy" "amplify_s3_access" {
         Effect = "Allow"
         Action = [
           "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
           "s3:ListBucket"
         ]
         Resource = [
@@ -98,6 +100,7 @@ resource "aws_amplify_app" "website" {
 
     # S3 (Note: Can't use AWS_ prefix - reserved by Amplify)
     S3_BUCKET_NAME = aws_s3_bucket.content.id
+    S3_REGION      = var.aws_region
 
     # SES
     SES_FROM_EMAIL = var.ses_from_email
@@ -146,6 +149,9 @@ resource "aws_amplify_branch" "main" {
     ANTHROPIC_API_KEY        = var.anthropic_api_key
     GOOGLE_AI_API_KEY        = var.google_api_key
     GEMINI_FILE_SEARCH_STORE = var.gemini_file_search_store
+    # S3 configuration for SSR functions
+    S3_BUCKET_NAME           = aws_s3_bucket.content.id
+    S3_REGION                = var.aws_region
   }
 }
 

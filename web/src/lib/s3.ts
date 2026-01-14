@@ -2,23 +2,23 @@ import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } fro
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // Build S3 client config
-// Only set explicit credentials if provided (otherwise SDK uses IAM roles in Amplify)
+// Note: Env vars use S3_ prefix (not AWS_) because Amplify reserves AWS_* prefix
 const s3Config: { region: string; credentials?: { accessKeyId: string; secretAccessKey: string } } = {
-  region: process.env.AWS_S3_REGION || "ca-central-1",
+  region: process.env.S3_REGION || "ca-central-1",
 };
 
-// Only add credentials if both are provided (for local dev)
+// Only add explicit credentials if provided (for local dev)
 // In production Amplify, IAM roles provide credentials automatically
-if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+if (process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY) {
   s3Config.credentials = {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   };
 }
 
 const s3Client = new S3Client(s3Config);
 
-const BUCKET_NAME = process.env.AWS_S3_BUCKET || "picklellama-content";
+const BUCKET_NAME = process.env.S3_BUCKET_NAME || "picklellama-content";
 
 export async function getPresignedUrl(
   key: string,

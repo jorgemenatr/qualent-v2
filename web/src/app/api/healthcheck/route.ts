@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { getPrisma } from "@/lib/db";
 
-// GET /api/healthcheck - Check what env vars are available
+// GET /api/healthcheck - Check what env vars are available and test connectivity
 export async function GET() {
-  const envStatus = {
+  const envStatus: Record<string, unknown> = {
     timestamp: new Date().toISOString(),
     nodeEnv: process.env.NODE_ENV,
 
@@ -31,10 +33,35 @@ export async function GET() {
 
     // App
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "NOT SET",
-
-    // List all env var keys (not values) for debugging
-    allEnvKeys: Object.keys(process.env).sort(),
   };
+
+  // Test database connectivity
+  try {
+    const prisma = await getPrisma();
+    const userCount = await prisma.user.count();
+    envStatus.dbTest = { status: "OK", userCount };
+  } catch (err) {
+    envStatus.dbTest = { status: "ERROR", error: err instanceof Error ? err.message : String(err) };
+  }
+
+  // Test S3 connectivity (using IAM role, no explicit credentials)
+  try {
+    const s3Client = new S3Client({
+      region: process.env.S3_REGION || "ca-central-1",
+    });
+    const command = new ListObjectsV2Command({
+      Bucket: process.env.S3_BUCKET_NAME || "picklellama-content",
+      MaxKeys: 1,
+    });
+    const response = await s3Client.send(command);
+    envStatus.s3Test = { status: "OK", keyCount: response.KeyCount };
+  } catch (err) {
+    envStatus.s3Test = {
+      status: "ERROR",
+      error: err instanceof Error ? err.message : String(err),
+      errorName: err instanceof Error ? err.name : "Unknown",
+    };
+  }
 
   return NextResponse.json(envStatus);
 }

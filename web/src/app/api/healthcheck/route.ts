@@ -44,24 +44,45 @@ export async function GET() {
     envStatus.dbTest = { status: "ERROR", error: err instanceof Error ? err.message : String(err) };
   }
 
-  // Test S3 connectivity (using IAM role, no explicit credentials)
+  // Test S3 connectivity - try multiple configurations
+  const bucket = process.env.S3_BUCKET_NAME || "picklellama-content";
+
+  // Test 1: Using AWS_REGION from Lambda environment (default)
   try {
-    const s3Client = new S3Client({
-      region: process.env.S3_REGION || "ca-central-1",
-    });
-    const command = new ListObjectsV2Command({
-      Bucket: process.env.S3_BUCKET_NAME || "picklellama-content",
-      MaxKeys: 1,
-    });
+    const s3Client = new S3Client({});  // Let SDK auto-detect everything
+    const command = new ListObjectsV2Command({ Bucket: bucket, MaxKeys: 1 });
     const response = await s3Client.send(command);
-    envStatus.s3Test = { status: "OK", keyCount: response.KeyCount };
+    envStatus.s3Test1_autoDetect = { status: "OK", keyCount: response.KeyCount };
   } catch (err) {
-    envStatus.s3Test = {
+    envStatus.s3Test1_autoDetect = {
       status: "ERROR",
       error: err instanceof Error ? err.message : String(err),
       errorName: err instanceof Error ? err.name : "Unknown",
     };
   }
+
+  // Test 2: Using explicit region from env
+  try {
+    const s3Client = new S3Client({
+      region: process.env.S3_REGION || process.env.AWS_REGION || "ca-central-1",
+    });
+    const command = new ListObjectsV2Command({ Bucket: bucket, MaxKeys: 1 });
+    const response = await s3Client.send(command);
+    envStatus.s3Test2_explicitRegion = { status: "OK", keyCount: response.KeyCount };
+  } catch (err) {
+    envStatus.s3Test2_explicitRegion = {
+      status: "ERROR",
+      error: err instanceof Error ? err.message : String(err),
+      errorName: err instanceof Error ? err.name : "Unknown",
+    };
+  }
+
+  // Show Lambda's AWS config
+  envStatus.lambdaAwsConfig = {
+    AWS_REGION: process.env.AWS_REGION || "NOT SET",
+    AWS_DEFAULT_REGION: process.env.AWS_DEFAULT_REGION || "NOT SET",
+    AWS_EXECUTION_ENV: process.env.AWS_EXECUTION_ENV || "NOT SET",
+  };
 
   return NextResponse.json(envStatus);
 }

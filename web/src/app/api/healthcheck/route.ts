@@ -14,8 +14,8 @@ export async function GET() {
     // S3 - check all possible variants
     S3_BUCKET_NAME: process.env.S3_BUCKET_NAME || "NOT SET",
     S3_REGION: process.env.S3_REGION || "NOT SET",
-    AWS_S3_BUCKET: process.env.AWS_S3_BUCKET || "NOT SET",
-    AWS_S3_REGION: process.env.AWS_S3_REGION || "NOT SET",
+    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID ? "set (redacted)" : "NOT SET",
+    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY ? "set (redacted)" : "NOT SET",
 
     // Cognito
     NEXT_PUBLIC_COGNITO_USER_POOL_ID: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "NOT SET",
@@ -61,20 +61,28 @@ export async function GET() {
     };
   }
 
-  // Test 2: Using explicit region from env
-  try {
-    const s3Client = new S3Client({
-      region: process.env.S3_REGION || process.env.AWS_REGION || "ca-central-1",
-    });
-    const command = new ListObjectsV2Command({ Bucket: bucket, MaxKeys: 1 });
-    const response = await s3Client.send(command);
-    envStatus.s3Test2_explicitRegion = { status: "OK", keyCount: response.KeyCount };
-  } catch (err) {
-    envStatus.s3Test2_explicitRegion = {
-      status: "ERROR",
-      error: err instanceof Error ? err.message : String(err),
-      errorName: err instanceof Error ? err.name : "Unknown",
-    };
+  // Test 2: Using explicit IAM user credentials (the solution for Amplify SSR)
+  if (process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY) {
+    try {
+      const s3Client = new S3Client({
+        region: process.env.S3_REGION || "ca-central-1",
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        },
+      });
+      const command = new ListObjectsV2Command({ Bucket: bucket, MaxKeys: 1 });
+      const response = await s3Client.send(command);
+      envStatus.s3Test2_explicitCreds = { status: "OK", keyCount: response.KeyCount };
+    } catch (err) {
+      envStatus.s3Test2_explicitCreds = {
+        status: "ERROR",
+        error: err instanceof Error ? err.message : String(err),
+        errorName: err instanceof Error ? err.name : "Unknown",
+      };
+    }
+  } else {
+    envStatus.s3Test2_explicitCreds = { status: "SKIPPED", reason: "S3_ACCESS_KEY_ID or S3_SECRET_ACCESS_KEY not set" };
   }
 
   // Show Lambda's AWS config

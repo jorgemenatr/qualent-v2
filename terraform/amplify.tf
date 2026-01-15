@@ -102,11 +102,10 @@ resource "aws_amplify_app" "website" {
     NEXT_PUBLIC_COGNITO_ISSUER       = "https://cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.main.id}"
 
     # S3 (Note: Can't use AWS_ prefix - reserved by Amplify)
-    S3_BUCKET_NAME = aws_s3_bucket.content.id
-    S3_REGION      = var.aws_region
-
-    # IAM Role for SSR functions to assume (for S3 access)
-    AMPLIFY_SERVICE_ROLE_ARN = aws_iam_role.amplify_service_role.arn
+    S3_BUCKET_NAME      = aws_s3_bucket.content.id
+    S3_REGION           = var.aws_region
+    S3_ACCESS_KEY_ID    = aws_iam_access_key.amplify_s3_user.id
+    S3_SECRET_ACCESS_KEY = aws_iam_access_key.amplify_s3_user.secret
 
     # SES
     SES_FROM_EMAIL = var.ses_from_email
@@ -155,11 +154,11 @@ resource "aws_amplify_branch" "main" {
     ANTHROPIC_API_KEY        = var.anthropic_api_key
     GOOGLE_AI_API_KEY        = var.google_api_key
     GEMINI_FILE_SEARCH_STORE = var.gemini_file_search_store
-    # S3 configuration for SSR functions
+    # S3 configuration for SSR functions (using IAM user credentials)
     S3_BUCKET_NAME           = aws_s3_bucket.content.id
     S3_REGION                = var.aws_region
-    # IAM Role for SSR functions to assume (for S3 access)
-    AMPLIFY_SERVICE_ROLE_ARN = aws_iam_role.amplify_service_role.arn
+    S3_ACCESS_KEY_ID         = aws_iam_access_key.amplify_s3_user.id
+    S3_SECRET_ACCESS_KEY     = aws_iam_access_key.amplify_s3_user.secret
   }
 }
 

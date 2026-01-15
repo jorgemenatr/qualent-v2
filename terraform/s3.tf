@@ -138,3 +138,25 @@ resource "aws_iam_policy" "s3_content_access" {
     ]
   })
 }
+
+# -----------------------------------------------------------------------------
+# IAM User for Amplify SSR S3 Access
+# Amplify WEB_COMPUTE doesn't provide IAM credentials to Lambda functions,
+# so we create a dedicated user with access keys.
+# -----------------------------------------------------------------------------
+
+resource "aws_iam_user" "amplify_s3_user" {
+  name = "${var.project_name}-amplify-s3-user"
+  tags = {
+    Purpose = "S3 access for Amplify SSR functions"
+  }
+}
+
+resource "aws_iam_user_policy_attachment" "amplify_s3_user_policy" {
+  user       = aws_iam_user.amplify_s3_user.name
+  policy_arn = aws_iam_policy.s3_content_access.arn
+}
+
+resource "aws_iam_access_key" "amplify_s3_user" {
+  user = aws_iam_user.amplify_s3_user.name
+}

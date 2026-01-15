@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Clock, Play, FileText } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Clock, Play, FileText, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { AudioPlayer } from "@/components/audio";
 import { Button } from "@/components/ui/button";
@@ -28,17 +28,35 @@ interface AudioLibraryClientProps {
 
 export function AudioLibraryClient({ audioReports }: AudioLibraryClientProps) {
   const [expandedReport, setExpandedReport] = useState<string | null>(null);
+  const [presignedUrls, setPresignedUrls] = useState<Record<string, string>>({});
+  const [loadingUrl, setLoadingUrl] = useState<string | null>(null);
 
   const handlePlay = (slug: string) => {
     setExpandedReport(slug);
   };
 
-  const handleSelectReport = (slug: string) => {
+  const handleSelectReport = async (slug: string) => {
     if (expandedReport === slug) {
       setExpandedReport(null);
-    } else {
-      setExpandedReport(slug);
+      return;
     }
+
+    // Fetch presigned URL if we don't have it
+    if (!presignedUrls[slug]) {
+      setLoadingUrl(slug);
+      try {
+        const res = await fetch(`/api/audio/${slug}`);
+        if (res.ok) {
+          const data = await res.json();
+          setPresignedUrls((prev) => ({ ...prev, [slug]: data.url }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch audio URL:", error);
+      }
+      setLoadingUrl(null);
+    }
+
+    setExpandedReport(slug);
   };
 
   return (
@@ -89,11 +107,21 @@ export function AudioLibraryClient({ audioReports }: AudioLibraryClientProps) {
 
           {expandedReport === report.slug && report.available && (
             <CardContent className="border-t pt-4">
-              <AudioPlayer
-                src={`https://picklellama-content.s3.ca-central-1.amazonaws.com/reports/audio/${report.slug}.mp3`}
-                title={report.title}
-                onPlay={() => handlePlay(report.slug)}
-              />
+              {loadingUrl === report.slug ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                </div>
+              ) : presignedUrls[report.slug] ? (
+                <AudioPlayer
+                  src={presignedUrls[report.slug]}
+                  title={report.title}
+                  onPlay={() => handlePlay(report.slug)}
+                />
+              ) : (
+                <div className="py-8 text-center text-muted-foreground">
+                  Failed to load audio. Please try again.
+                </div>
+              )}
               <div className="mt-4 flex justify-end">
                 <Button variant="ghost" size="sm" asChild>
                   <Link href={`/learn/reports/${report.slug}`}>

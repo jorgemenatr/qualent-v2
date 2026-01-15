@@ -34,7 +34,8 @@ export function AudioPlayer({
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -48,12 +49,17 @@ export function AudioPlayer({
     };
     const handleCanPlay = () => setIsLoading(false);
     const handleWaiting = () => setIsLoading(true);
+    const handleError = () => {
+      setIsLoading(false);
+      setHasError(true);
+    };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("durationchange", handleDurationChange);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("canplay", handleCanPlay);
     audio.addEventListener("waiting", handleWaiting);
+    audio.addEventListener("error", handleError);
 
     return () => {
       audio.removeEventListener("timeupdate", handleTimeUpdate);
@@ -61,10 +67,11 @@ export function AudioPlayer({
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("canplay", handleCanPlay);
       audio.removeEventListener("waiting", handleWaiting);
+      audio.removeEventListener("error", handleError);
     };
   }, [onEnded]);
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -73,9 +80,17 @@ export function AudioPlayer({
       setIsPlaying(false);
       onPause?.();
     } else {
-      audio.play();
-      setIsPlaying(true);
-      onPlay?.();
+      setIsLoading(true);
+      try {
+        await audio.play();
+        setIsPlaying(true);
+        setHasError(false);
+        onPlay?.();
+      } catch (error) {
+        console.error("Failed to play audio:", error);
+        setHasError(true);
+      }
+      setIsLoading(false);
     }
   };
 
@@ -158,9 +173,11 @@ export function AudioPlayer({
             size="icon"
             className="h-10 w-10 rounded-full"
             onClick={togglePlay}
-            disabled={isLoading && !isPlaying}
+            disabled={isLoading || hasError}
           >
-            {isPlaying ? (
+            {isLoading ? (
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            ) : isPlaying ? (
               <Pause className="h-5 w-5" />
             ) : (
               <Play className="h-5 w-5 ml-0.5" />

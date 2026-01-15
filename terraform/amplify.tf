@@ -12,7 +12,10 @@ resource "aws_iam_role" "amplify_service_role" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "amplify.amazonaws.com"
+          Service = [
+            "amplify.amazonaws.com",
+            "lambda.amazonaws.com"
+          ]
         }
       }
     ]
@@ -102,6 +105,9 @@ resource "aws_amplify_app" "website" {
     S3_BUCKET_NAME = aws_s3_bucket.content.id
     S3_REGION      = var.aws_region
 
+    # IAM Role for SSR functions to assume (for S3 access)
+    AMPLIFY_SERVICE_ROLE_ARN = aws_iam_role.amplify_service_role.arn
+
     # SES
     SES_FROM_EMAIL = var.ses_from_email
 
@@ -152,6 +158,8 @@ resource "aws_amplify_branch" "main" {
     # S3 configuration for SSR functions
     S3_BUCKET_NAME           = aws_s3_bucket.content.id
     S3_REGION                = var.aws_region
+    # IAM Role for SSR functions to assume (for S3 access)
+    AMPLIFY_SERVICE_ROLE_ARN = aws_iam_role.amplify_service_role.arn
   }
 }
 

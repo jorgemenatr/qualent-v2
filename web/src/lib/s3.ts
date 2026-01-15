@@ -1,22 +1,42 @@
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { STSClient, AssumeRoleCommand } from "@aws-sdk/client-sts";
+import { fromTemporaryCredentials } from "@aws-sdk/credential-providers";
 
-// Build S3 client config
+// Build S3 client with proper credentials
 // Note: Env vars use S3_ prefix (not AWS_) because Amplify reserves AWS_* prefix
-const s3Config: { region: string; credentials?: { accessKeyId: string; secretAccessKey: string } } = {
-  region: process.env.S3_REGION || "ca-central-1",
-};
+const region = process.env.S3_REGION || "ca-central-1";
 
-// Only add explicit credentials if provided (for local dev)
-// In production Amplify, IAM roles provide credentials automatically
-if (process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY) {
-  s3Config.credentials = {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  };
+function createS3Client(): S3Client {
+  // For local dev with explicit credentials
+  if (process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY) {
+    return new S3Client({
+      region,
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    });
+  }
+
+  // For Amplify SSR - assume the service role that has S3 permissions
+  if (process.env.AMPLIFY_SERVICE_ROLE_ARN) {
+    return new S3Client({
+      region,
+      credentials: fromTemporaryCredentials({
+        params: {
+          RoleArn: process.env.AMPLIFY_SERVICE_ROLE_ARN,
+          RoleSessionName: "amplify-ssr-s3-access",
+        },
+      }),
+    });
+  }
+
+  // Fallback - let SDK auto-detect (works for local AWS CLI credentials)
+  return new S3Client({ region });
 }
 
-const s3Client = new S3Client(s3Config);
+const s3Client = createS3Client();
 
 const BUCKET_NAME = process.env.S3_BUCKET_NAME || "picklellama-content";
 

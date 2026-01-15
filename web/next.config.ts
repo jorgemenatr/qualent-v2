@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
     // S3 configuration (no AWS_ prefix due to Amplify restriction)
     S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
     S3_REGION: process.env.S3_REGION,
+    // IAM Role for SSR functions to assume
+    AMPLIFY_SERVICE_ROLE_ARN: process.env.AMPLIFY_SERVICE_ROLE_ARN,
     // Cognito (server-side)
     COGNITO_ISSUER: process.env.COGNITO_ISSUER,
   },

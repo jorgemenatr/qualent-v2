@@ -134,6 +134,15 @@ resource "aws_iam_policy" "s3_content_access" {
           "s3:DeleteObject"
         ]
         Resource = "${aws_s3_bucket.content.arn}/*"
+      },
+      {
+        Sid    = "SendEmails"
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Resource = "*"
       }
     ]
   })

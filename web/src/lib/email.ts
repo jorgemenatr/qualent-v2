@@ -1,12 +1,22 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-const sesClient = new SESClient({
-  region: process.env.AWS_REGION || "ca-central-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
-  },
-});
+// Create SES client on demand to ensure env vars are available
+// Uses same IAM user credentials as S3 (can't use AWS_ prefix - reserved by Amplify)
+function getSESClient(): SESClient {
+  if (process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY) {
+    return new SESClient({
+      region: process.env.S3_REGION || "ca-central-1",
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    });
+  }
+  // Fallback for local dev with AWS CLI credentials
+  return new SESClient({
+    region: process.env.S3_REGION || "ca-central-1",
+  });
+}
 
 const FROM_EMAIL = process.env.SES_FROM_EMAIL || "hello@picklellama.studio";
 const FROM_NAME = "PickleLlama";
@@ -45,7 +55,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
       },
     });
 
-    await sesClient.send(command);
+    await getSESClient().send(command);
     return true;
   } catch (error) {
     console.error("Error sending email:", error);
@@ -193,4 +203,4 @@ https://picklellama.studio
   return { subject, html, text };
 }
 
-export { sesClient };
+export { getSESClient };

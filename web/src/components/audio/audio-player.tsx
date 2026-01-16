@@ -34,7 +34,10 @@ export function AudioPlayer({
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
+  // Separate loading states for clarity
+  const [isStartingPlayback, setIsStartingPlayback] = useState(false); // User clicked play, waiting for audio to start
+  const [isBuffering, setIsBuffering] = useState(false); // Audio is buffering during playback
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -47,10 +50,24 @@ export function AudioPlayer({
       setIsPlaying(false);
       onEnded?.();
     };
-    const handleCanPlay = () => setIsLoading(false);
-    const handleWaiting = () => setIsLoading(true);
+    const handleCanPlay = () => {
+      // Audio has enough data to start playing
+      setIsBuffering(false);
+    };
+    const handlePlaying = () => {
+      // Audio actually started playing
+      setIsStartingPlayback(false);
+      setIsBuffering(false);
+    };
+    const handleWaiting = () => {
+      // Only show buffering if we're already playing (mid-playback buffer)
+      if (audio.currentTime > 0) {
+        setIsBuffering(true);
+      }
+    };
     const handleError = () => {
-      setIsLoading(false);
+      setIsStartingPlayback(false);
+      setIsBuffering(false);
       setHasError(true);
     };
 
@@ -58,6 +75,7 @@ export function AudioPlayer({
     audio.addEventListener("durationchange", handleDurationChange);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("playing", handlePlaying);
     audio.addEventListener("waiting", handleWaiting);
     audio.addEventListener("error", handleError);
 
@@ -66,6 +84,7 @@ export function AudioPlayer({
       audio.removeEventListener("durationchange", handleDurationChange);
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("playing", handlePlaying);
       audio.removeEventListener("waiting", handleWaiting);
       audio.removeEventListener("error", handleError);
     };
@@ -80,17 +99,17 @@ export function AudioPlayer({
       setIsPlaying(false);
       onPause?.();
     } else {
-      setIsLoading(true);
+      setIsStartingPlayback(true);
+      setHasError(false);
       try {
         await audio.play();
         setIsPlaying(true);
-        setHasError(false);
         onPlay?.();
       } catch (error) {
         console.error("Failed to play audio:", error);
+        setIsStartingPlayback(false);
         setHasError(true);
       }
-      setIsLoading(false);
     }
   };
 
@@ -173,9 +192,9 @@ export function AudioPlayer({
             size="icon"
             className="h-10 w-10 rounded-full"
             onClick={togglePlay}
-            disabled={isLoading || hasError}
+            disabled={isStartingPlayback || hasError}
           >
-            {isLoading ? (
+            {isStartingPlayback || isBuffering ? (
               <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : isPlaying ? (
               <Pause className="h-5 w-5" />

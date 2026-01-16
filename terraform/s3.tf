@@ -66,7 +66,7 @@ resource "aws_s3_bucket_cors_configuration" "content" {
 
   cors_rule {
     allowed_headers = ["*"]
-    allowed_methods = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "PUT"]
     allowed_origins = [
       "http://localhost:3000",
       "https://picklellama.studio",

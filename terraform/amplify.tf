@@ -120,6 +120,10 @@ resource "aws_amplify_app" "website" {
     ANTHROPIC_API_KEY        = var.anthropic_api_key
     GOOGLE_AI_API_KEY        = var.google_api_key
     GEMINI_FILE_SEARCH_STORE = var.gemini_file_search_store
+
+    # Micro-CRM Integration
+    MICRO_CRM_API_URL = var.micro_crm_api_url
+    MICRO_CRM_API_KEY = var.micro_crm_api_key
   }
 
   # Platform - use WEB_COMPUTE for Next.js SSR support
@@ -159,6 +163,9 @@ resource "aws_amplify_branch" "main" {
     S3_REGION                = var.aws_region
     S3_ACCESS_KEY_ID         = aws_iam_access_key.amplify_s3_user.id
     S3_SECRET_ACCESS_KEY     = aws_iam_access_key.amplify_s3_user.secret
+    # Micro-CRM Integration
+    MICRO_CRM_API_URL        = var.micro_crm_api_url
+    MICRO_CRM_API_KEY        = var.micro_crm_api_key
   }
 }
 

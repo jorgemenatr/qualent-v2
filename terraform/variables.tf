@@ -157,3 +157,19 @@ variable "gemini_file_search_store" {
   type        = string
   default     = "fileSearchStores/picklellamaknowledgebase-b1ambzi0s32z"
 }
+
+# -----------------------------------------------------------------------------
+# Micro-CRM Integration Variables
+# -----------------------------------------------------------------------------
+
+variable "micro_crm_api_url" {
+  description = "Micro-CRM API base URL"
+  type        = string
+  default     = "https://microcrm.picklellama.studio"
+}
+
+variable "micro_crm_api_key" {
+  description = "Micro-CRM API key for client sync"
+  type        = string
+  sensitive   = true
+}

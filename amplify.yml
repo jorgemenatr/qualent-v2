@@ -18,6 +18,8 @@ applications:
             - echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY" >> .env.production
             - echo "GOOGLE_AI_API_KEY=$GOOGLE_AI_API_KEY" >> .env.production
             - echo "GEMINI_FILE_SEARCH_STORE=$GEMINI_FILE_SEARCH_STORE" >> .env.production
+            - echo "MICRO_CRM_API_URL=$MICRO_CRM_API_URL" >> .env.production
+            - echo "MICRO_CRM_API_KEY=$MICRO_CRM_API_KEY" >> .env.production
             - npm run build
       artifacts:
         baseDirectory: .next

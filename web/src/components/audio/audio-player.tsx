@@ -65,10 +65,16 @@ export function AudioPlayer({
         setIsBuffering(true);
       }
     };
-    const handleError = () => {
-      setIsStartingPlayback(false);
-      setIsBuffering(false);
-      setHasError(true);
+    const handleError = (e: Event) => {
+      const audioEl = e.target as HTMLAudioElement;
+      console.error("Audio error:", audioEl.error?.code, audioEl.error?.message);
+      // Only set error state if we were actually trying to play
+      // Ignore errors during initial metadata loading
+      if (audioEl.currentTime > 0 || audioEl.played.length > 0) {
+        setIsStartingPlayback(false);
+        setIsBuffering(false);
+        setHasError(true);
+      }
     };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);

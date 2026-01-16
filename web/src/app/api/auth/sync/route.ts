@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPrisma } from "@/lib/db";
+import { syncClientToCRM } from "@/lib/crm-sync";
 import { z } from "zod";
 
 const syncSchema = z.object({
@@ -28,6 +29,13 @@ export async function POST(request: NextRequest) {
         name: validated.name || null,
       },
     });
+
+    // Sync to CRM (fire and forget)
+    syncClientToCRM({
+      name: validated.name || validated.email.split("@")[0],
+      email: validated.email,
+      notes: "Source: User Account Created",
+    }).catch((err) => console.error("CRM sync failed:", err));
 
     return NextResponse.json({
       success: true,

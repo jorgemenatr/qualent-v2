@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPrisma } from "@/lib/db";
 import { sendEmail, getThunkBoxConfirmationEmail } from "@/lib/email";
+import { syncClientToCRM } from "@/lib/crm-sync";
 import { z } from "zod";
 
 const requestSchema = z.object({
@@ -45,6 +46,14 @@ export async function POST(request: NextRequest) {
         source: "thunkbox_request",
       },
     });
+
+    // Sync to CRM (fire and forget)
+    syncClientToCRM({
+      name: validated.name || validated.email.split("@")[0],
+      email: validated.email,
+      company: validated.company,
+      notes: `Source: ThunkBox Request\n\nRequest:\n${validated.request.substring(0, 500)}${validated.request.length > 500 ? "..." : ""}`,
+    }).catch((err) => console.error("CRM sync failed:", err));
 
     // Send confirmation email
     const emailContent = getThunkBoxConfirmationEmail(

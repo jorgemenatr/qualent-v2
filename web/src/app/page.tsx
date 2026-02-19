@@ -10,11 +10,13 @@ import {
   AlertTriangle,
   Users,
   TrendingDown,
+  TrendingUp,
 } from "lucide-react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HeroBackground } from "@/components/hero-background";
+import { getAllContent } from "@/lib/content";
 
 const clientLogos = [
   { name: "Kroger", src: "/clients/kroger.svg", width: 120, height: 40 },
@@ -25,6 +27,8 @@ const clientLogos = [
 ];
 
 export default function HomePage() {
+  const caseStudies = getAllContent("case-studies");
+
   return (
     <>
       {/* Hero Section */}
@@ -276,6 +280,62 @@ export default function HomePage() {
                 </Link>
               </CardContent>
             </Card>
+          </div>
+        </Container>
+      </section>
+
+      {/* Case Studies Section */}
+      <section className="border-t border-border bg-muted/50 py-16 md:py-20">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center mb-10">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              Real Results
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Not hypotheticals. Not projections. Here&apos;s what actually happened.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {caseStudies.map((study) => (
+              <Card key={study.slug} className="flex flex-col">
+                <CardHeader>
+                  <p className="text-sm text-muted-foreground">
+                    {study.meta.client || study.meta.industry}
+                  </p>
+                  <CardTitle className="mt-2">{study.meta.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-1 flex-col">
+                  {study.meta.result && (
+                    <div className="flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-3">
+                      <TrendingUp className="h-4 w-4 text-primary" />
+                      <p className="text-sm font-semibold text-primary">
+                        {study.meta.result}
+                      </p>
+                    </div>
+                  )}
+                  <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                    {study.meta.description}
+                  </p>
+                  <div className="mt-auto pt-4">
+                    <Link
+                      href={`/proof/${study.slug}`}
+                      className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+                    >
+                      Read case study <ArrowRight className="ml-1 h-3 w-3" />
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Button variant="outline" asChild>
+              <Link href="/proof">
+                View All Case Studies <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </Container>
       </section>

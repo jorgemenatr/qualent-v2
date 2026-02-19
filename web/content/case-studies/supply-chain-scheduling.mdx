@@ -1,0 +1,107 @@
+---
+title: "Supply Chain Scheduling Modernization"
+description: "How a national grocery retailer replaced a decades-old scheduling system to manage deliveries across 28 warehouses and 2,500 stores — eliminating chaos and drastically reducing risk."
+date: "2025-04-22"
+author: "PickleLlama Team"
+tags: ["Supply Chain", "Retail", "Legacy Replacement", "Scheduling", "Risk Reduction"]
+client: "National Grocery Retailer"
+result: "Replaced legacy system across 28 warehouses and 2,500 stores"
+industry: "Retail / Grocery"
+published: true
+---
+
+## The Challenge
+
+A major national grocery retailer relied on a scheduling system — responsible for determining what products move from which warehouse to which store, and when — that was older than most of the people using it. The system was built decades ago and had become a serious liability on multiple fronts:
+
+- **Chronic instability** — The legacy application would regularly fail to function, sometimes for days at a time. When the system that schedules your product deliveries goes down, shelves go empty. Empty shelves are extraordinarily expensive.
+- **Security risk** — The system was long past end-of-life support, representing a significant and growing security vulnerability.
+- **Two-week planning horizon** — Schedulers could only work within a rolling two-week window. There was no ability to plan ahead for holidays, new store openings, or seasonal changes.
+- **Excel as the real system** — Because of the legacy system's limitations, most actual scheduling work happened in Excel spreadsheets, which were then manually re-entered into the system. This was slow, error-prone, and created chaos around every holiday.
+- **Incompatible with new infrastructure** — A new warehouse management system being rolled out to facilities would not integrate with the legacy scheduling system, creating an urgent need for replacement.
+
+The scale was significant: 28 warehouses serving approximately 2,500 retail locations, with multiple product catalogs (dry grocery, refrigerated, frozen, etc.) each requiring their own delivery schedules.
+
+## The Approach
+
+The project began as a build-for-the-future effort — create a new scheduling system to integrate with the incoming warehouse management system, then gradually roll it out as the new WMS expanded.
+
+Reality intervened. The new warehouse management system turned out to be deeply problematic, and the plan shifted to replacing the scheduling system in place, integrating with all existing legacy systems rather than waiting for infrastructure that might never arrive.
+
+### Key Requirements
+
+Through working directly with the schedulers who used the system daily, we identified the core needs:
+
+1. **Extended planning horizon** — The ability to set up schedules weeks or months in advance, not just two weeks out
+2. **Pattern-based scheduling** — Define recurring delivery patterns (e.g., dry grocery on Sunday/Tuesday/Thursday/Saturday) that repeat automatically
+3. **Holiday and event management** — Plan around warehouse closures, new store openings, and seasonal volume changes well in advance
+4. **Store grouping** — Organize stores by division, region, or custom criteria for efficient schedule management
+5. **Integration with legacy systems** — The new system had to work with existing warehouse and transportation infrastructure
+
+## The Solution
+
+We built a modern scheduling application that replaced the legacy system while maintaining compatibility with the surrounding ecosystem.
+
+### Delivery Pattern Engine
+
+The core innovation was a pattern-based scheduling system where schedulers could:
+
+- Define repeating delivery patterns per store and product catalog
+- Set up alternating schedules (e.g., week-on/week-off patterns)
+- Create templates that could be applied across groups of stores
+- Override patterns for specific dates without disrupting the base schedule
+
+This replaced the previous workflow of manually entering schedules into a clunky system — or more commonly, managing everything in Excel and then manually transcribing it.
+
+### Forward Planning
+
+Schedulers gained the ability to:
+
+- Plan holiday schedules weeks or months in advance
+- Model the impact of warehouse closures on delivery coverage
+- Prepare for new store openings with surge delivery schedules
+- Review and adjust upcoming schedules before they went live
+
+### Division-Level Visibility
+
+The application provided schedulers with a clear view across their entire division — all warehouses, all stores, all product catalogs — instead of the narrow, two-week-at-a-time view they'd been working with.
+
+## The Results
+
+After full deployment across all 28 warehouses and approximately 2,500 retail locations:
+
+- **Holiday planning transformed** — What previously consumed entire eight-hour days per product catalog (with dozens of catalogs to manage) could now be completed for an entire division in a single workday
+- **Schedulers got their lives back** — Staff were no longer chained to their desks before every holiday, manually re-entering Excel spreadsheets into a temperamental legacy system
+- **Dramatically reduced errors** — Automated pattern management eliminated the transcription errors inherent in the Excel-to-legacy-system workflow
+- **Massive risk reduction** — The legacy system's regular outages had been a constant threat of empty shelves. The new system provided the reliability that a supply chain of this scale demands.
+- **Improved accuracy** — Consistent, pattern-based scheduling reduced the human errors that crept in during manual data entry under time pressure
+
+### Before and After
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Planning horizon | 2 weeks | Months ahead |
+| Holiday scheduling | Days of manual work per catalog | Hours for entire division |
+| Primary tool | Excel spreadsheets | Purpose-built application |
+| System reliability | Frequent multi-day outages | Stable, modern infrastructure |
+| Schedule changes | Manual re-entry | Pattern overrides |
+
+## Key Learnings
+
+1. **Replace in place when necessary** — The original plan to build for a new platform had to be abandoned when that platform didn't materialize. Being able to pivot to an in-place replacement — integrating with legacy systems rather than waiting for new ones — was critical.
+
+2. **Talk to the people doing the work** — The schedulers who used the system every day had deep knowledge of edge cases, workarounds, and unwritten rules that never made it into any documentation. Some of the most important requirements only surfaced when they could react to a working prototype.
+
+3. **Undocumented knowledge is the biggest risk** — There were requirements that nobody thought to mention because the daily users had internalized them so completely. Things like specific wait times between screens, or sequences that had to be followed in a particular order, were invisible until they caused problems.
+
+4. **Reliability is a feature** — For a supply chain of this scale, the simple fact that the new system worked consistently was one of its most valuable attributes. The cost of a scheduling system outage — measured in empty shelves — dwarfed the cost of building the replacement.
+
+5. **Modern tools make legacy problems solvable** — Projects of this complexity previously required large teams and multi-year timelines. Advances in development tools and AI-assisted development have dramatically compressed what's possible with smaller teams.
+
+## What's Next
+
+The approach of replacing legacy systems with modern, pattern-based automation is applicable anywhere organizations are working around outdated software with manual processes and spreadsheets — which is nearly everywhere.
+
+---
+
+*Running your operations on legacy systems and spreadsheets? [Let's talk](/talk) about what modern looks like.*

@@ -1,0 +1,104 @@
+---
+title: "Inventory Reconciliation Automation"
+description: "How a national grocery retailer eliminated quarterly facility shutdowns and saved millions by automating inventory reconciliation across disconnected systems."
+date: "2025-06-10"
+author: "PickleLlama Team"
+tags: ["Retail", "Inventory Management", "Data Reconciliation", "Supply Chain", "Automation"]
+client: "National Grocery Retailer"
+result: "Eliminated quarterly shutdowns across 9 facilities"
+industry: "Retail / Grocery"
+published: true
+---
+
+## The Challenge
+
+A major national grocery retailer operating large-scale direct-to-home fulfillment centers had a growing problem: two critical inventory systems that refused to agree.
+
+One system managed the day-to-day operations of the fulfillment centers. The other tracked inventory, sales, and purchasing across the entire enterprise. These systems would routinely fall out of sync, creating a cascade of costly problems:
+
+- **Compliance failures** — Inability to accurately report inventory levels for regulatory requirements
+- **Purchasing errors** — Incorrect data on actual stock levels led to flawed replenishment decisions and inaccurate sales velocity calculations
+- **Daily manual reconciliation** — Staff spent hours every day trying to manually identify and resolve discrepancies across thousands of SKUs
+- **Quarterly facility shutdowns** — Nine multi-million-square-foot fulfillment centers had to be shut down once per quarter for 24-48 hours to perform manual inventory counts and balance updates
+
+The direct costs were staggering. Each facility was processing roughly 5,000 orders per day. Shutting down nine of them quarterly — plus the labor costs of manual counting and daily reconciliation — was conservatively costing the business millions annually in lost revenue and wasted labor.
+
+## The Approach
+
+We started by mapping the data flow between the two inventory systems to understand why discrepancies occurred and what a reliable reconciliation process would look like.
+
+### Discovery Findings
+
+The investigation revealed several layers of complexity that would shape the solution:
+
+1. **Purchase order timing** — Items in transit (under an active purchase order) couldn't be accurately counted by either system until officially received. These items had to be excluded from reconciliation.
+2. **Unit-of-measure mismatches** — Products purchased in bulk units (cases, pallets) but sold individually created inherent counting challenges.
+3. **Scale of discrepancies** — Each location had on the order of 10,000+ SKUs out of balance at any given time, making manual resolution impractical.
+4. **Data volume** — The sheer volume of data required serious performance engineering to even display in a browser without crashing.
+
+## The Solution
+
+We built a reconciliation dashboard that automated the entire process of comparing, analyzing, and correcting inventory discrepancies.
+
+### Data Integration Layer
+
+The backend ran on a 24-hour cycle, pulling data from three separate sources:
+
+- The fulfillment center inventory system
+- The enterprise-wide inventory and sales system
+- The purchase order system
+
+It then cross-referenced every SKU to identify which items were out of balance, which were locked due to active purchase orders, and which could be safely corrected.
+
+### User-Facing Dashboard
+
+The dashboard provided facility teams with:
+
+- **Actionable discrepancy lists** — Clearly showing which items could be updated and which were locked, with enough context to make informed decisions
+- **Granular and bulk correction tools** — Users could update individual SKUs or use a bulk reconciliation action for straightforward cases
+- **Item history tracking** — The ability to view the reconciliation history of any SKU over time, turning the tool into a data forensics instrument
+- **Role-based access control** — Integrated with the company's Azure Active Directory, with view-only, action, and admin permission levels across all nine facilities
+
+### Unexpected Value: Process Forensics
+
+One of the most valuable outcomes was unplanned. By giving teams visibility into which SKUs were *consistently* out of balance, they could finally step back from fighting fires and start identifying the root causes — the 10% of items caught in broken processes that had been invisible while everyone was buried in day-to-day reconciliation.
+
+## The Results
+
+After deployment across all nine fulfillment centers:
+
+- **Quarterly shutdowns eliminated** — The entire practice of shutting down facilities for manual counting was retired
+- **Daily reconciliation automated** — What previously consumed hours of manual labor per facility was reduced to a single button click per day
+- **Millions in recovered revenue** — No more lost sales during 24-48 hour shutdown periods across nine high-volume facilities
+- **Process improvements surfaced** — Teams discovered and fixed systemic inventory issues that had been hidden for years
+- **Compliance resolved** — Accurate, auditable inventory reporting became the default rather than a quarterly scramble
+
+### Before and After
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Reconciliation method | Manual counting + spreadsheets | Automated daily sync |
+| Facility shutdowns | 4x per year, per facility | None |
+| Time to reconcile | 24-48 hours per shutdown | Minutes per day |
+| Discrepancy visibility | Reactive, quarterly | Real-time, daily |
+| Root cause identification | Nearly impossible | Built-in forensics |
+
+## Key Learnings
+
+1. **Disconnected systems are universal** — Every industry has some version of this problem. Two or more systems that should agree but don't, with humans filling the gap through manual labor.
+
+2. **The real value is in the data you couldn't see before** — The reconciliation tool was the stated goal, but the forensic capability to identify broken processes was arguably more valuable long-term.
+
+3. **Exclusion logic is as important as inclusion** — Knowing what *not* to reconcile (items under purchase orders, unit-of-measure edge cases) was critical to building trust in the system.
+
+4. **Performance engineering matters at scale** — With 10,000+ SKUs per location and multiple data sources, the UI had to be carefully engineered to remain responsive. Naive implementations would literally crash the browser.
+
+5. **Solve the daily pain first, then go deeper** — Getting the shutdowns eliminated was the immediate win. The forensic capabilities emerged naturally once teams had bandwidth to think beyond survival mode.
+
+## What's Next
+
+The approach used here — connecting disconnected systems, automating reconciliation, and surfacing root causes — is applicable to virtually any industry where multiple systems of record exist and humans are stuck in the middle trying to keep them in sync.
+
+---
+
+*Dealing with disconnected systems and manual reconciliation? [Let's talk](/talk) about making that problem disappear.*

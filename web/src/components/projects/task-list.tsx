@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { TaskStatusBadge, PriorityBadge } from "./project-status-badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,6 +57,7 @@ export function TaskList({
   onCreateTask,
   onStatusChange,
 }: TaskListProps) {
+  const t = useTranslations("ProjectComponents");
   const [filter, setFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
 
@@ -66,10 +68,10 @@ export function TaskList({
   });
 
   const statusOptions = [
-    { value: "todo", label: "To Do" },
-    { value: "in_progress", label: "In Progress" },
-    { value: "review", label: "Review" },
-    { value: "completed", label: "Completed" },
+    { value: "todo", label: t("statusTodo") },
+    { value: "in_progress", label: t("statusInProgress") },
+    { value: "review", label: t("statusReview") },
+    { value: "completed", label: t("statusCompleted") },
   ];
 
   return (
@@ -77,27 +79,27 @@ export function TaskList({
       {/* Filters */}
       <div className="flex items-center gap-4">
         <Input
-          placeholder="Search tasks..."
+          placeholder={t("searchTasks")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-xs"
         />
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Filter status" />
+            <SelectValue placeholder={t("filterStatus")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="todo">To Do</SelectItem>
-            <SelectItem value="in_progress">In Progress</SelectItem>
-            <SelectItem value="review">Review</SelectItem>
-            <SelectItem value="completed">Completed</SelectItem>
+            <SelectItem value="all">{t("allStatus")}</SelectItem>
+            <SelectItem value="todo">{t("statusTodo")}</SelectItem>
+            <SelectItem value="in_progress">{t("statusInProgress")}</SelectItem>
+            <SelectItem value="review">{t("statusReview")}</SelectItem>
+            <SelectItem value="completed">{t("statusCompleted")}</SelectItem>
           </SelectContent>
         </Select>
         {canEdit && onCreateTask && (
           <Button onClick={onCreateTask} size="sm">
             <Plus className="h-4 w-4 mr-1" />
-            Add Task
+            {t("addTask")}
           </Button>
         )}
       </div>
@@ -105,18 +107,18 @@ export function TaskList({
       {/* Task table */}
       {filteredTasks.length === 0 ? (
         <div className="text-center py-8 text-muted-foreground">
-          {tasks.length === 0 ? "No tasks yet" : "No tasks match your filters"}
+          {tasks.length === 0 ? t("noTasksYet") : t("noTasksMatch")}
         </div>
       ) : (
         <div className="border rounded-lg">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[40%]">Task</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead>Assignee</TableHead>
-                <TableHead>Due Date</TableHead>
+                <TableHead className="w-[40%]">{t("task")}</TableHead>
+                <TableHead>{t("status")}</TableHead>
+                <TableHead>{t("priority")}</TableHead>
+                <TableHead>{t("assignee")}</TableHead>
+                <TableHead>{t("dueDate")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -173,7 +175,7 @@ export function TaskList({
                     ) : (
                       <span className="text-muted-foreground flex items-center gap-1">
                         <User className="h-4 w-4" />
-                        Unassigned
+                        {t("unassigned")}
                       </span>
                     )}
                   </TableCell>

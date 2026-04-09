@@ -1,5 +1,5 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -25,14 +26,6 @@ import {
 } from "@/components/ui/form";
 import { useAuth } from "@/lib/auth";
 
-const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  name: z.string().optional(),
-  company: z.string().optional(),
-});
-
-type FormData = z.infer<typeof formSchema>;
-
 interface PDFGateModalProps {
   reportSlug: string;
   reportTitle: string;
@@ -44,6 +37,16 @@ export function PDFGateModal({
   reportTitle,
   children,
 }: PDFGateModalProps) {
+  const t = useTranslations("PdfGate");
+
+  const formSchema = z.object({
+    email: z.string().email(t("emailValidation")),
+    name: z.string().optional(),
+    company: z.string().optional(),
+  });
+
+  type FormData = z.infer<typeof formSchema>;
+
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +78,7 @@ export function PDFGateModal({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to generate download link");
+        throw new Error(data.error || t("failedToGenerateLink"));
       }
 
       // Open the download URL in a new tab
@@ -83,7 +86,7 @@ export function PDFGateModal({
       setOpen(false);
       form.reset();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(err instanceof Error ? err.message : t("somethingWentWrong"));
     } finally {
       setIsLoading(false);
     }
@@ -119,17 +122,17 @@ export function PDFGateModal({
         {children || (
           <Button>
             <Download className="mr-2 h-4 w-4" />
-            Download PDF
+            {t("downloadPdfButton")}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Download Report</DialogTitle>
+          <DialogTitle>{t("downloadReportTitle")}</DialogTitle>
           <DialogDescription>
             {isAuthenticated
-              ? `Click below to download "${reportTitle}"`
-              : `Enter your email to download "${reportTitle}"`}
+              ? t("authenticatedDescription", { title: reportTitle })
+              : t("unauthenticatedDescription", { title: reportTitle })}
           </DialogDescription>
         </DialogHeader>
 
@@ -146,12 +149,12 @@ export function PDFGateModal({
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating link...
+                  {t("generatingLinkText")}
                 </>
               ) : (
                 <>
                   <Download className="mr-2 h-4 w-4" />
-                  Download PDF
+                  {t("downloadPdfButton")}
                 </>
               )}
             </Button>
@@ -164,11 +167,11 @@ export function PDFGateModal({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email *</FormLabel>
+                    <FormLabel>{t("emailLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="you@company.com"
+                        placeholder={t("emailPlaceholder")}
                         {...field}
                       />
                     </FormControl>
@@ -182,9 +185,9 @@ export function PDFGateModal({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name (optional)</FormLabel>
+                    <FormLabel>{t("nameLabel")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input placeholder={t("namePlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -196,9 +199,9 @@ export function PDFGateModal({
                 name="company"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company (optional)</FormLabel>
+                    <FormLabel>{t("companyLabel")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your company" {...field} />
+                      <Input placeholder={t("companyPlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -211,19 +214,18 @@ export function PDFGateModal({
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating link...
+                    {t("generatingLinkText")}
                   </>
                 ) : (
                   <>
                     <Download className="mr-2 h-4 w-4" />
-                    Download PDF
+                    {t("downloadPdfButton")}
                   </>
                 )}
               </Button>
 
               <p className="text-center text-xs text-muted-foreground">
-                We&apos;ll send you occasional updates about new reports. You
-                can unsubscribe anytime.
+                {t("updatesNotice")}
               </p>
             </form>
           </Form>

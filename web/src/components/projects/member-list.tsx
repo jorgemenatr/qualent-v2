@@ -1,12 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import {
   Table,
@@ -46,13 +46,6 @@ const roleIcons: Record<string, typeof User> = {
   viewer: Eye,
 };
 
-const roleLabels: Record<string, string> = {
-  owner: "Owner",
-  admin: "Admin",
-  member: "Member",
-  viewer: "Viewer",
-};
-
 export function MemberList({
   members,
   currentUserId,
@@ -61,6 +54,15 @@ export function MemberList({
   onRoleChange,
   onRemoveMember,
 }: MemberListProps) {
+  const t = useTranslations("ProjectComponents");
+
+  const roleLabels: Record<string, string> = {
+    owner: t("roleOwner"),
+    admin: t("roleAdmin"),
+    member: t("roleMember"),
+    viewer: t("roleViewer"),
+  };
+
   // Sort members: owner first, then by role, then by name
   const sortedMembers = [...members].sort((a, b) => {
     const roleOrder = { owner: 0, admin: 1, member: 2, viewer: 3 };
@@ -76,7 +78,7 @@ export function MemberList({
         <div className="flex justify-end">
           <Button size="sm" onClick={onAddMember}>
             <UserPlus className="h-4 w-4 mr-1" />
-            Add Member
+            {t("addMember")}
           </Button>
         </div>
       )}
@@ -85,9 +87,9 @@ export function MemberList({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Member</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Added</TableHead>
+              <TableHead>{t("memberColumn")}</TableHead>
+              <TableHead>{t("roleColumn")}</TableHead>
+              <TableHead>{t("addedColumn")}</TableHead>
               {canManage && <TableHead className="w-[100px]"></TableHead>}
             </TableRow>
           </TableHeader>
@@ -107,7 +109,7 @@ export function MemberList({
                       <div>
                         <div className="font-medium">
                           {member.user.name || member.user.email.split("@")[0]}
-                          {isSelf && <span className="text-muted-foreground ml-1">(you)</span>}
+                          {isSelf && <span className="text-muted-foreground ml-1">({t("you")})</span>}
                         </div>
                         <div className="text-sm text-muted-foreground">{member.user.email}</div>
                       </div>
@@ -126,9 +128,9 @@ export function MemberList({
                           </div>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="admin">Admin</SelectItem>
-                          <SelectItem value="member">Member</SelectItem>
-                          <SelectItem value="viewer">Viewer</SelectItem>
+                          <SelectItem value="admin">{t("roleAdmin")}</SelectItem>
+                          <SelectItem value="member">{t("roleMember")}</SelectItem>
+                          <SelectItem value="viewer">{t("roleViewer")}</SelectItem>
                         </SelectContent>
                       </Select>
                     ) : (

@@ -1,0 +1,1260 @@
+"use client";
+
+import { Link } from "@/i18n/navigation";
+import { useState, useEffect, useCallback, Suspense } from "react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import {
+  ArrowRight,
+  ArrowLeft,
+  ClipboardList,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  DollarSign,
+  Users,
+  Target,
+  MessageSquare,
+  Save,
+  Loader2,
+} from "lucide-react";
+import { Container } from "@/components/layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAuth } from "@/lib/auth";
+import { WorksheetView } from "@/components/worksheet";
+import { WorksheetFormData } from "@/lib/worksheet-utils";
+
+// Helper to get problems that have been filled out
+function getFilledProblems(problems: Problem[]): { index: number; description: string }[] {
+  return problems
+    .map((p, i) => ({ index: i, description: p.description }))
+    .filter((p) => p.description.trim() !== "");
+}
+
+interface Problem {
+  description: string;
+  affectedParties: string;
+}
+
+interface ProblemCost {
+  problemName: string;
+  hoursPerWeek: string;
+  peopleInvolved: string;
+  hourlyCost: string;
+  revenueLost: string;
+  errorCost: string;
+  riskLevel: "low" | "medium" | "high" | "";
+}
+
+interface FormData {
+  problems: Problem[];
+  problemCosts: ProblemCost[];
+  previousAttempts: {
+    triedHiring: boolean;
+    lookedAtSoftware: boolean;
+    builtInternally: boolean;
+    askedVendor: boolean;
+    livedWithIt: boolean;
+    other: string;
+  };
+  successMetrics: {
+    timeSaved: string;
+    errorsReduced: string;
+    capacityFreedFor: string;
+    riskEliminated: string;
+    other: string;
+  };
+  anythingElse: string;
+}
+
+const initialFormData: FormData = {
+  problems: [
+    { description: "", affectedParties: "" },
+    { description: "", affectedParties: "" },
+    { description: "", affectedParties: "" },
+    { description: "", affectedParties: "" },
+    { description: "", affectedParties: "" },
+  ],
+  problemCosts: [
+    {
+      problemName: "",
+      hoursPerWeek: "",
+      peopleInvolved: "",
+      hourlyCost: "",
+      revenueLost: "",
+      errorCost: "",
+      riskLevel: "",
+    },
+    {
+      problemName: "",
+      hoursPerWeek: "",
+      peopleInvolved: "",
+      hourlyCost: "",
+      revenueLost: "",
+      errorCost: "",
+      riskLevel: "",
+    },
+  ],
+  previousAttempts: {
+    triedHiring: false,
+    lookedAtSoftware: false,
+    builtInternally: false,
+    askedVendor: false,
+    livedWithIt: false,
+    other: "",
+  },
+  successMetrics: {
+    timeSaved: "",
+    errorsReduced: "",
+    capacityFreedFor: "",
+    riskEliminated: "",
+    other: "",
+  },
+  anythingElse: "",
+};
+
+const promptQuestions = [
+  "What do your best people complain about most?",
+  "Where do manual errors tend to happen?",
+  "What processes require copy/paste between systems?",
+  "What work do you wish you could hire for but can't justify?",
+  "What would you fix tomorrow if it were free?",
+];
+
+function WorksheetContent() {
+  const { isAuthenticated, cognitoId, login } = useAuth();
+  const searchParams = useSearchParams();
+  const t = useTranslations("ThunkboxWorksheet");
+
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [currentSection, setCurrentSection] = useState(1);
+
+  // Save functionality state
+  const [worksheetId, setWorksheetId] = useState<string | null>(null);
+  const [worksheetName, setWorksheetName] = useState("My Worksheet");
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  // Load worksheet from URL param
+  const loadWorksheet = useCallback(async (id: string) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/worksheets/${id}`, {
+        headers: { "x-cognito-id": cognitoId || "" },
+      });
+      const data = await response.json();
+      if (data.success && data.worksheet) {
+        setWorksheetId(data.worksheet.id);
+        setWorksheetName(data.worksheet.name);
+        setFormData(data.worksheet.data as FormData);
+      }
+    } catch (error) {
+      console.error("Error loading worksheet:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [cognitoId]);
+
+  useEffect(() => {
+    const loadId = searchParams.get("load");
+    if (loadId && cognitoId) {
+      loadWorksheet(loadId);
+    }
+  }, [searchParams, cognitoId, loadWorksheet]);
+
+  // Save worksheet
+  const handleSave = async () => {
+    if (!cognitoId) return;
+
+    try {
+      setIsSaving(true);
+      setSaveError(null);
+
+      const url = worksheetId ? `/api/worksheets/${worksheetId}` : "/api/worksheets";
+      const method = worksheetId ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cognitoId,
+          name: worksheetName,
+          data: formData,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setWorksheetId(data.worksheet.id);
+        setShowSaveDialog(false);
+        setShowConfirmation(true);
+        // Update URL without navigation
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set("load", data.worksheet.id);
+        window.history.replaceState({}, "", newUrl.toString());
+      } else {
+        setSaveError(data.error || "Failed to save worksheet");
+      }
+    } catch {
+      setSaveError("Failed to save worksheet");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const updateProblem = (
+    index: number,
+    field: keyof Problem,
+    value: string
+  ) => {
+    const newProblems = [...formData.problems];
+    newProblems[index] = { ...newProblems[index], [field]: value };
+    setFormData({ ...formData, problems: newProblems });
+  };
+
+  const updateProblemCost = (
+    index: number,
+    field: keyof ProblemCost,
+    value: string
+  ) => {
+    const newCosts = [...formData.problemCosts];
+    newCosts[index] = { ...newCosts[index], [field]: value };
+    setFormData({ ...formData, problemCosts: newCosts });
+  };
+
+  const calculateWeeklyCost = (cost: ProblemCost): string => {
+    const hours = parseFloat(cost.hoursPerWeek) || 0;
+    const people = parseFloat(cost.peopleInvolved) || 0;
+    const hourly = parseFloat(cost.hourlyCost) || 0;
+    const weekly = hours * people * hourly;
+    return weekly > 0 ? `$${weekly.toLocaleString()}` : "—";
+  };
+
+  const calculateAnnualCost = (cost: ProblemCost): string => {
+    const hours = parseFloat(cost.hoursPerWeek) || 0;
+    const people = parseFloat(cost.peopleInvolved) || 0;
+    const hourly = parseFloat(cost.hourlyCost) || 0;
+    const annual = hours * people * hourly * 52;
+    return annual > 0 ? `$${annual.toLocaleString()}` : "—";
+  };
+
+  const totalSections = 5;
+
+  const handleCopyToClipboard = () => {
+    const text = generatePlainText();
+    navigator.clipboard.writeText(text);
+    alert("Worksheet copied to clipboard! You can paste this into an email or document.");
+  };
+
+  const generatePlainText = (): string => {
+    let text = "PRE-MEETING WORKSHEET\n";
+    text += "=====================\n\n";
+
+    text += "SECTION 1: YOUR TOP PROBLEMS\n";
+    text += "----------------------------\n";
+    formData.problems.forEach((p, i) => {
+      if (p.description) {
+        text += `${i + 1}. ${p.description}\n`;
+        text += `   Affects: ${p.affectedParties || "Not specified"}\n`;
+      }
+    });
+    text += "\n";
+
+    text += "SECTION 2: COST ESTIMATES\n";
+    text += "-------------------------\n";
+    formData.problemCosts.forEach((c, i) => {
+      if (c.problemName || c.hoursPerWeek) {
+        text += `Problem ${i + 1}: ${c.problemName || "Unnamed"}\n`;
+        text += `  Hours/week: ${c.hoursPerWeek || "—"}\n`;
+        text += `  People involved: ${c.peopleInvolved || "—"}\n`;
+        text += `  Hourly cost: $${c.hourlyCost || "—"}\n`;
+        text += `  Weekly cost: ${calculateWeeklyCost(c)}\n`;
+        text += `  Annual cost: ${calculateAnnualCost(c)}\n`;
+        if (c.revenueLost) text += `  Revenue lost: $${c.revenueLost}\n`;
+        if (c.errorCost) text += `  Error/rework cost: $${c.errorCost}\n`;
+        if (c.riskLevel) text += `  Risk level: ${c.riskLevel}\n`;
+        text += "\n";
+      }
+    });
+
+    text += "SECTION 3: WHAT YOU'VE TRIED\n";
+    text += "----------------------------\n";
+    if (formData.previousAttempts.triedHiring) text += "• Tried to hire for it\n";
+    if (formData.previousAttempts.lookedAtSoftware) text += "• Looked at software solutions\n";
+    if (formData.previousAttempts.builtInternally) text += "• Built something internally\n";
+    if (formData.previousAttempts.askedVendor) text += "• Asked a vendor\n";
+    if (formData.previousAttempts.livedWithIt) text += "• Just lived with it\n";
+    if (formData.previousAttempts.other) text += `• Other: ${formData.previousAttempts.other}\n`;
+    text += "\n";
+
+    text += "SECTION 4: SUCCESS METRICS\n";
+    text += "--------------------------\n";
+    if (formData.successMetrics.timeSaved) text += `Time saved: ${formData.successMetrics.timeSaved} hours/week\n`;
+    if (formData.successMetrics.errorsReduced) text += `Errors reduced by: ${formData.successMetrics.errorsReduced}%\n`;
+    if (formData.successMetrics.capacityFreedFor) text += `Capacity freed for: ${formData.successMetrics.capacityFreedFor}\n`;
+    if (formData.successMetrics.riskEliminated) text += `Risk eliminated: ${formData.successMetrics.riskEliminated}\n`;
+    if (formData.successMetrics.other) text += `Other: ${formData.successMetrics.other}\n`;
+    text += "\n";
+
+    if (formData.anythingElse) {
+      text += "ADDITIONAL NOTES\n";
+      text += "----------------\n";
+      text += formData.anythingElse + "\n";
+    }
+
+    return text;
+  };
+
+  // Show confirmation view after saving
+  if (showConfirmation && worksheetId) {
+    return (
+      <section className="py-8 md:py-12">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-6 rounded-lg border border-primary/20 bg-primary/5 p-4">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">{t("worksheetSaved")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("worksheetSavedDescription")}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <WorksheetView
+              data={formData as WorksheetFormData}
+              name={worksheetName}
+              worksheetId={worksheetId}
+              showActions={true}
+              showBackLink={false}
+              onContinueEditing={() => setShowConfirmation(false)}
+            />
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button variant="outline" onClick={() => setShowConfirmation(false)}>
+                {t("continueEditing")}
+              </Button>
+              <Button asChild>
+                <Link href="/thunkbox#book-diagnostic">
+                  {t("bookYourDiagnostic")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="border-b border-border py-12 md:py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <Link
+              href="/thunkbox"
+              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              {t("backToThunkBox")}
+            </Link>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <ClipboardList className="h-5 w-5 text-primary" />
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="h-4 w-4" />
+                {t("timeToComplete")}
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+              {t("title")}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground">
+              {t("heroDescription")}
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      {/* Progress */}
+      <section className="border-b border-border bg-muted/30 py-4">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">
+                {t("sectionOf", { current: currentSection, total: totalSections })}
+              </span>
+              <div className="flex gap-1">
+                {Array.from({ length: totalSections }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentSection(i + 1)}
+                    className={`h-2 w-8 rounded-full transition-colors ${
+                      i + 1 === currentSection
+                        ? "bg-primary"
+                        : i + 1 < currentSection
+                        ? "bg-primary/50"
+                        : "bg-border"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Form Sections */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <div className="flex gap-8">
+            {/* Main Form */}
+            <div className="flex-1 max-w-3xl">
+            {/* Section 1: Your Top Problems */}
+            {currentSection === 1 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                      1
+                    </div>
+                    <div>
+                      <CardTitle>{t("section1Title")}</CardTitle>
+                      <CardDescription>
+                        {t("section1Description")}
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Prompt Questions */}
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <p className="text-sm font-medium mb-2">
+                      {t("needHelp")}
+                    </p>
+                    <ul className="space-y-1">
+                      {promptQuestions.map((q) => (
+                        <li
+                          key={q}
+                          className="text-sm text-muted-foreground flex items-start gap-2"
+                        >
+                          <span className="text-primary mt-1">•</span>
+                          {q}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Problems Table */}
+                  <div className="space-y-4">
+                    {formData.problems.map((problem, index) => (
+                      <div
+                        key={index}
+                        className="grid gap-4 p-4 rounded-lg border border-border"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
+                            {index + 1}
+                          </span>
+                          <Label htmlFor={`problem-${index}`}>
+                            {t("problemBottleneck")}
+                          </Label>
+                        </div>
+                        <Input
+                          id={`problem-${index}`}
+                          placeholder="e.g., Manual data entry between CRM and billing system"
+                          value={problem.description}
+                          onChange={(e) =>
+                            updateProblem(index, "description", e.target.value)
+                          }
+                        />
+                        <div>
+                          <Label htmlFor={`affected-${index}`}>
+                            {t("whoDoesItAffect")}
+                          </Label>
+                          <Input
+                            id={`affected-${index}`}
+                            placeholder="e.g., Sales team, 3 people"
+                            value={problem.affectedParties}
+                            onChange={(e) =>
+                              updateProblem(
+                                index,
+                                "affectedParties",
+                                e.target.value
+                              )
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Section 2: Quantify the Cost */}
+            {currentSection === 2 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                      2
+                    </div>
+                    <div>
+                      <CardTitle>{t("section2Title")}</CardTitle>
+                      <CardDescription>
+                        {t("section2Description")}
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  {formData.problemCosts.map((cost, index) => (
+                    <div
+                      key={index}
+                      className="space-y-4 p-4 rounded-lg border border-border"
+                    >
+                      <div className="flex items-center gap-2 mb-4">
+                        <DollarSign className="h-5 w-5 text-primary" />
+                        <Label className="text-base font-semibold">
+                          {t("problem")} {index + 1}
+                        </Label>
+                      </div>
+
+                      <div>
+                        <Label htmlFor={`cost-name-${index}`}>
+                          {t("selectProblem")}
+                        </Label>
+                        <Select
+                          value={cost.problemName}
+                          onValueChange={(value) =>
+                            updateProblemCost(index, "problemName", value)
+                          }
+                        >
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder={t("selectProblemPlaceholder")} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {getFilledProblems(formData.problems).length === 0 ? (
+                              <SelectItem value="_empty" disabled>
+                                {t("noProblemsEntered")}
+                              </SelectItem>
+                            ) : (
+                              getFilledProblems(formData.problems).map((p) => (
+                                <SelectItem key={p.index} value={p.description}>
+                                  <span className="font-medium">#{p.index + 1}:</span>{" "}
+                                  {p.description.length > 50
+                                    ? p.description.slice(0, 50) + "..."
+                                    : p.description}
+                                </SelectItem>
+                              ))
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="grid gap-4 sm:grid-cols-3">
+                        <div>
+                          <Label htmlFor={`hours-${index}`}>{t("hoursPerWeek")}</Label>
+                          <Input
+                            id={`hours-${index}`}
+                            type="number"
+                            placeholder="e.g., 10"
+                            value={cost.hoursPerWeek}
+                            onChange={(e) =>
+                              updateProblemCost(
+                                index,
+                                "hoursPerWeek",
+                                e.target.value
+                              )
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor={`people-${index}`}>
+                            {t("numberOfPeople")}
+                          </Label>
+                          <Input
+                            id={`people-${index}`}
+                            type="number"
+                            placeholder="e.g., 2"
+                            value={cost.peopleInvolved}
+                            onChange={(e) =>
+                              updateProblemCost(
+                                index,
+                                "peopleInvolved",
+                                e.target.value
+                              )
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor={`hourly-${index}`}>
+                            {t("hourlyCost")}
+                          </Label>
+                          <Input
+                            id={`hourly-${index}`}
+                            type="number"
+                            placeholder="e.g., 75"
+                            value={cost.hourlyCost}
+                            onChange={(e) =>
+                              updateProblemCost(
+                                index,
+                                "hourlyCost",
+                                e.target.value
+                              )
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Calculated Costs */}
+                      <div className="grid gap-4 sm:grid-cols-2 p-4 bg-muted/50 rounded-lg">
+                        <div>
+                          <p className="text-sm text-muted-foreground">
+                            {t("weeklyCostEstimate")}
+                          </p>
+                          <p className="text-xl font-bold text-primary">
+                            {calculateWeeklyCost(cost)}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-muted-foreground">
+                            {t("annualCostEstimate")}
+                          </p>
+                          <p className="text-xl font-bold text-primary">
+                            {calculateAnnualCost(cost)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Other Costs */}
+                      <div className="space-y-4 pt-4 border-t border-border">
+                        <p className="text-sm font-medium">
+                          {t("otherCosts")}
+                        </p>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div>
+                            <Label htmlFor={`revenue-${index}`}>
+                              {t("revenueLost")}
+                            </Label>
+                            <Input
+                              id={`revenue-${index}`}
+                              type="number"
+                              placeholder="Optional"
+                              value={cost.revenueLost}
+                              onChange={(e) =>
+                                updateProblemCost(
+                                  index,
+                                  "revenueLost",
+                                  e.target.value
+                                )
+                              }
+                              className="mt-1"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor={`error-${index}`}>
+                              {t("costOfErrors")}
+                            </Label>
+                            <Input
+                              id={`error-${index}`}
+                              type="number"
+                              placeholder="Optional"
+                              value={cost.errorCost}
+                              onChange={(e) =>
+                                updateProblemCost(
+                                  index,
+                                  "errorCost",
+                                  e.target.value
+                                )
+                              }
+                              className="mt-1"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label>{t("riskExposure")}</Label>
+                          <div className="flex gap-4 mt-2">
+                            {(["low", "medium", "high"] as const).map(
+                              (level) => (
+                                <button
+                                  key={level}
+                                  onClick={() =>
+                                    updateProblemCost(index, "riskLevel", level)
+                                  }
+                                  className={`px-4 py-2 rounded-lg border transition-colors capitalize ${
+                                    cost.riskLevel === level
+                                      ? level === "high"
+                                        ? "border-destructive bg-destructive/10 text-destructive"
+                                        : level === "medium"
+                                        ? "border-yellow-500 bg-yellow-500/10 text-yellow-600"
+                                        : "border-primary bg-primary/10 text-primary"
+                                      : "border-border hover:bg-muted"
+                                  }`}
+                                >
+                                  {level}
+                                </button>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Section 3: What You've Already Tried */}
+            {currentSection === 3 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                      3
+                    </div>
+                    <div>
+                      <CardTitle>{t("section3Title")}</CardTitle>
+                      <CardDescription>
+                        {t("section3Description")}
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    {
+                      key: "triedHiring" as const,
+                      label: "Tried to hire for it — couldn't justify the cost",
+                      icon: Users,
+                    },
+                    {
+                      key: "lookedAtSoftware" as const,
+                      label:
+                        "Looked at software solutions — too expensive or didn't fit",
+                      icon: Target,
+                    },
+                    {
+                      key: "builtInternally" as const,
+                      label:
+                        "Built something internally — didn't work or couldn't maintain it",
+                      icon: AlertCircle,
+                    },
+                    {
+                      key: "askedVendor" as const,
+                      label:
+                        "Asked a vendor — quoted too high / too long / didn't understand the problem",
+                      icon: MessageSquare,
+                    },
+                    {
+                      key: "livedWithIt" as const,
+                      label:
+                        "Just lived with it — assumed it couldn't be fixed",
+                      icon: CheckCircle,
+                    },
+                  ].map((item) => (
+                    <button
+                      key={item.key}
+                      onClick={() =>
+                        setFormData({
+                          ...formData,
+                          previousAttempts: {
+                            ...formData.previousAttempts,
+                            [item.key]: !formData.previousAttempts[item.key],
+                          },
+                        })
+                      }
+                      className={`w-full flex items-center gap-4 p-4 rounded-lg border transition-colors text-left ${
+                        formData.previousAttempts[item.key]
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:bg-muted/50"
+                      }`}
+                    >
+                      <div
+                        className={`flex h-5 w-5 items-center justify-center rounded border ${
+                          formData.previousAttempts[item.key]
+                            ? "border-primary bg-primary"
+                            : "border-muted-foreground"
+                        }`}
+                      >
+                        {formData.previousAttempts[item.key] && (
+                          <CheckCircle className="h-3 w-3 text-primary-foreground" />
+                        )}
+                      </div>
+                      <item.icon className="h-5 w-5 text-muted-foreground" />
+                      <span className="flex-1">{item.label}</span>
+                    </button>
+                  ))}
+
+                  <div className="pt-4">
+                    <Label htmlFor="other-attempts">{t("other")}</Label>
+                    <Textarea
+                      id="other-attempts"
+                      placeholder={t("otherAttemptsPlaceholder")}
+                      value={formData.previousAttempts.other}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          previousAttempts: {
+                            ...formData.previousAttempts,
+                            other: e.target.value,
+                          },
+                        })
+                      }
+                      className="mt-2"
+                      rows={3}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Section 4: What Would Success Look Like */}
+            {currentSection === 4 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                      4
+                    </div>
+                    <div>
+                      <CardTitle>{t("section4Title")}</CardTitle>
+                      <CardDescription>
+                        {t("section4Description")}
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <div>
+                      <Label htmlFor="time-saved">{t("timeSavedLabel")}</Label>
+                      <Input
+                        id="time-saved"
+                        type="number"
+                        placeholder="e.g., 15"
+                        value={formData.successMetrics.timeSaved}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            successMetrics: {
+                              ...formData.successMetrics,
+                              timeSaved: e.target.value,
+                            },
+                          })
+                        }
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="errors-reduced">{t("errorsReducedLabel")}</Label>
+                      <Input
+                        id="errors-reduced"
+                        type="number"
+                        placeholder="e.g., 80"
+                        value={formData.successMetrics.errorsReduced}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            successMetrics: {
+                              ...formData.successMetrics,
+                              errorsReduced: e.target.value,
+                            },
+                          })
+                        }
+                        className="mt-2"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="capacity-freed">{t("capacityFreedLabel")}</Label>
+                    <Input
+                      id="capacity-freed"
+                      placeholder="e.g., More client-facing work, strategic projects"
+                      value={formData.successMetrics.capacityFreedFor}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          successMetrics: {
+                            ...formData.successMetrics,
+                            capacityFreedFor: e.target.value,
+                          },
+                        })
+                      }
+                      className="mt-2"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="risk-eliminated">{t("riskEliminatedLabel")}</Label>
+                    <Input
+                      id="risk-eliminated"
+                      placeholder="e.g., Compliance violations, data errors, client churn"
+                      value={formData.successMetrics.riskEliminated}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          successMetrics: {
+                            ...formData.successMetrics,
+                            riskEliminated: e.target.value,
+                          },
+                        })
+                      }
+                      className="mt-2"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="other-success">{t("otherOutcomesLabel")}</Label>
+                    <Textarea
+                      id="other-success"
+                      placeholder={t("otherOutcomesPlaceholder")}
+                      value={formData.successMetrics.other}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          successMetrics: {
+                            ...formData.successMetrics,
+                            other: e.target.value,
+                          },
+                        })
+                      }
+                      className="mt-2"
+                      rows={3}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Section 5: Anything Else */}
+            {currentSection === 5 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                      5
+                    </div>
+                    <div>
+                      <CardTitle>{t("section5Title")}</CardTitle>
+                      <CardDescription>
+                        {t("section5Description")}
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <Textarea
+                    placeholder="Context, constraints, previous experiences, or questions you have for us..."
+                    value={formData.anythingElse}
+                    onChange={(e) =>
+                      setFormData({ ...formData, anythingElse: e.target.value })
+                    }
+                    rows={6}
+                  />
+
+                  {/* What Happens Next */}
+                  <div className="rounded-lg bg-primary/5 border border-primary/20 p-6 space-y-4">
+                    <h3 className="font-semibold">{t("whatHappensNext")}</h3>
+                    <ol className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-3">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary shrink-0">
+                          1
+                        </span>
+                        {t("nextStep1")}
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary shrink-0">
+                          2
+                        </span>
+                        {t("nextStep2")}
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary shrink-0">
+                          3
+                        </span>
+                        {t("nextStep3")}
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary shrink-0">
+                          4
+                        </span>
+                        {t("nextStep4")}
+                      </li>
+                    </ol>
+                    <p className="text-sm text-muted-foreground pt-2 border-t border-primary/10">
+                      <strong>{t("remember")}</strong> {t("rememberDescription")}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-8">
+              <Button
+                variant="outline"
+                onClick={() => setCurrentSection(Math.max(1, currentSection - 1))}
+                disabled={currentSection === 1}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t("previous")}
+              </Button>
+
+              {currentSection < totalSections ? (
+                <Button
+                  onClick={() =>
+                    setCurrentSection(Math.min(totalSections, currentSection + 1))
+                  }
+                >
+                  {t("next")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : (
+                <div className="flex flex-wrap gap-3 justify-end">
+                  <Button variant="outline" onClick={handleCopyToClipboard}>
+                    {t("copyToClipboard")}
+                  </Button>
+                  {isAuthenticated ? (
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowSaveDialog(true)}
+                    >
+                      <Save className="mr-2 h-4 w-4" />
+                      {worksheetId ? t("update") : t("saveToProfile")}
+                    </Button>
+                  ) : (
+                    <Button variant="outline" onClick={login}>
+                      {t("signInToSave")}
+                    </Button>
+                  )}
+                  <Button asChild>
+                    <Link href="/thunkbox#book-diagnostic">
+                      {t("bookYourDiagnostic")}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+            </div>
+
+            {/* Sidebar Summary - visible on large screens */}
+            <div className="hidden lg:block w-80 shrink-0">
+              <div className="sticky top-24 space-y-4">
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-medium">{t("summary")}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4 text-sm">
+                    {/* Problems Summary */}
+                    <div>
+                      <p className="font-medium text-muted-foreground mb-2">{t("problems")}</p>
+                      {getFilledProblems(formData.problems).length === 0 ? (
+                        <p className="text-muted-foreground/60 italic">{t("noProblemsEntered")}</p>
+                      ) : (
+                        <ul className="space-y-1">
+                          {getFilledProblems(formData.problems).map((p) => (
+                            <li key={p.index} className="flex items-start gap-2">
+                              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                                {p.index + 1}
+                              </span>
+                              <span className="line-clamp-2">{p.description}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* Cost Estimates Summary */}
+                    <div className="border-t pt-4">
+                      <p className="font-medium text-muted-foreground mb-2">{t("costEstimates")}</p>
+                      {formData.problemCosts.filter((c) => c.problemName).length === 0 ? (
+                        <p className="text-muted-foreground/60 italic">{t("noCostsCalculated")}</p>
+                      ) : (
+                        <ul className="space-y-2">
+                          {formData.problemCosts
+                            .filter((c) => c.problemName)
+                            .map((cost, i) => (
+                              <li key={i} className="space-y-1">
+                                <p className="font-medium line-clamp-1">{cost.problemName}</p>
+                                <p className="text-primary font-semibold">
+                                  {calculateAnnualCost(cost)}/year
+                                </p>
+                              </li>
+                            ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* What You've Tried Summary */}
+                    <div className="border-t pt-4">
+                      <p className="font-medium text-muted-foreground mb-2">{t("previousAttempts")}</p>
+                      {(() => {
+                        const attempts = [];
+                        if (formData.previousAttempts.triedHiring) attempts.push(t("triedHiring"));
+                        if (formData.previousAttempts.lookedAtSoftware) attempts.push(t("lookedAtSoftware"));
+                        if (formData.previousAttempts.builtInternally) attempts.push(t("builtInternally"));
+                        if (formData.previousAttempts.askedVendor) attempts.push(t("askedVendor"));
+                        if (formData.previousAttempts.livedWithIt) attempts.push(t("livedWithIt"));
+                        return attempts.length === 0 ? (
+                          <p className="text-muted-foreground/60 italic">{t("noneSelected")}</p>
+                        ) : (
+                          <ul className="space-y-1">
+                            {attempts.map((a) => (
+                              <li key={a} className="flex items-center gap-2">
+                                <CheckCircle className="h-3 w-3 text-primary" />
+                                {a}
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      })()}
+                    </div>
+
+                    {/* Success Metrics Summary */}
+                    <div className="border-t pt-4">
+                      <p className="font-medium text-muted-foreground mb-2">{t("successMetrics")}</p>
+                      {(() => {
+                        const metrics = [];
+                        if (formData.successMetrics.timeSaved) metrics.push(`${formData.successMetrics.timeSaved} hrs/week saved`);
+                        if (formData.successMetrics.errorsReduced) metrics.push(`${formData.successMetrics.errorsReduced}% fewer errors`);
+                        if (formData.successMetrics.capacityFreedFor) metrics.push(`Capacity for: ${formData.successMetrics.capacityFreedFor}`);
+                        if (formData.successMetrics.riskEliminated) metrics.push(`Risk eliminated: ${formData.successMetrics.riskEliminated}`);
+                        return metrics.length === 0 ? (
+                          <p className="text-muted-foreground/60 italic">{t("noneDefined")}</p>
+                        ) : (
+                          <ul className="space-y-1">
+                            {metrics.map((m, i) => (
+                              <li key={i} className="line-clamp-2">{m}</li>
+                            ))}
+                          </ul>
+                        );
+                      })()}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Save Dialog */}
+      <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {worksheetId ? t("updateWorksheet") : t("saveWorksheet")}
+            </DialogTitle>
+            <DialogDescription>
+              {worksheetId
+                ? t("updateWorksheetDescription")
+                : t("saveWorksheetDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {saveError && (
+              <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+                {saveError}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="worksheet-name">{t("worksheetName")}</Label>
+              <Input
+                id="worksheet-name"
+                value={worksheetName}
+                onChange={(e) => setWorksheetName(e.target.value)}
+                placeholder="My Worksheet"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowSaveDialog(false)}
+              disabled={isSaving}
+            >
+              {t("cancel")}
+            </Button>
+            <Button onClick={handleSave} disabled={isSaving || !worksheetName.trim()}>
+              {isSaving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t("saving")}
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  {worksheetId ? t("update") : t("save")}
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-muted-foreground">{t("loadingWorksheet")}</p>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default function WorksheetPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <WorksheetContent />
+    </Suspense>
+  );
+}

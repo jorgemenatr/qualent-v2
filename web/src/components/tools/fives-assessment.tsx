@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Save, Download, Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,97 +51,98 @@ interface FivesData {
   lastUpdated: string;
 }
 
-const CRITERIA: Criterion[] = [
-  {
-    id: "frequency",
-    name: "F",
-    fullName: "Frequency",
-    description: "How often does this problem occur?",
-    lowLabel: "Monthly or less",
-    highLabel: "Hourly/Daily",
-    examples: [
-      "1: Happens once a month or less",
-      "2: Weekly occurrence",
-      "3: Several times per week",
-      "4: Daily occurrence",
-      "5: Multiple times per day or continuous",
-    ],
-  },
-  {
-    id: "impact",
-    name: "I",
-    fullName: "Impact",
-    description: "What's the business impact of solving this problem?",
-    lowLabel: "Minor improvement",
-    highLabel: "Critical business value",
-    examples: [
-      "1: Nice to have, minor efficiency gain",
-      "2: Noticeable improvement to team",
-      "3: Measurable cost or time savings",
-      "4: Significant revenue/cost impact",
-      "5: Critical to business success",
-    ],
-  },
-  {
-    id: "variability",
-    name: "V",
-    fullName: "Variability",
-    description: "How consistent is the problem and its solution?",
-    lowLabel: "Highly variable",
-    highLabel: "Very consistent",
-    examples: [
-      "1: Every case is unique, requires judgment",
-      "2: Many exceptions, some patterns",
-      "3: Moderate consistency, clear exceptions",
-      "4: Mostly predictable with few exceptions",
-      "5: Highly standardized, clear rules",
-    ],
-  },
-  {
-    id: "existingData",
-    name: "E",
-    fullName: "Existing Data",
-    description: "What data already exists to support automation?",
-    lowLabel: "No digital data",
-    highLabel: "Rich, accessible data",
-    examples: [
-      "1: Paper-based, no digital records",
-      "2: Some digital data, poor quality",
-      "3: Data exists but needs cleanup",
-      "4: Good data, minor integration needed",
-      "5: Clean, accessible, well-structured data",
-    ],
-  },
-  {
-    id: "stakeholderReadiness",
-    name: "S",
-    fullName: "Stakeholder Readiness",
-    description: "Are the people involved ready for change?",
-    lowLabel: "Resistant to change",
-    highLabel: "Champions for change",
-    examples: [
-      "1: Active resistance, no leadership support",
-      "2: Skeptical, needs convincing",
-      "3: Open to change, some concerns",
-      "4: Supportive, engaged stakeholders",
-      "5: Champions pushing for this change",
-    ],
-  },
-];
-
 function getScoreColor(score: number): string {
   if (score >= 20) return "text-green-600";
   if (score >= 15) return "text-yellow-600";
   return "text-red-600";
 }
 
-function getScoreLabel(score: number): string {
-  if (score >= 20) return "Strong Candidate";
-  if (score >= 15) return "Worth Evaluating";
-  return "Lower Priority";
-}
-
 export function FivesAssessment() {
+  const t = useTranslations("Fives");
+
+  const CRITERIA: Criterion[] = [
+    {
+      id: "frequency",
+      name: t("criterionFrequencyName"),
+      fullName: t("criterionFrequencyFullName"),
+      description: t("criterionFrequencyDescription"),
+      lowLabel: t("criterionFrequencyLow"),
+      highLabel: t("criterionFrequencyHigh"),
+      examples: [
+        t("criterionFrequencyExample1"),
+        t("criterionFrequencyExample2"),
+        t("criterionFrequencyExample3"),
+        t("criterionFrequencyExample4"),
+        t("criterionFrequencyExample5"),
+      ],
+    },
+    {
+      id: "impact",
+      name: t("criterionImpactName"),
+      fullName: t("criterionImpactFullName"),
+      description: t("criterionImpactDescription"),
+      lowLabel: t("criterionImpactLow"),
+      highLabel: t("criterionImpactHigh"),
+      examples: [
+        t("criterionImpactExample1"),
+        t("criterionImpactExample2"),
+        t("criterionImpactExample3"),
+        t("criterionImpactExample4"),
+        t("criterionImpactExample5"),
+      ],
+    },
+    {
+      id: "variability",
+      name: t("criterionVariabilityName"),
+      fullName: t("criterionVariabilityFullName"),
+      description: t("criterionVariabilityDescription"),
+      lowLabel: t("criterionVariabilityLow"),
+      highLabel: t("criterionVariabilityHigh"),
+      examples: [
+        t("criterionVariabilityExample1"),
+        t("criterionVariabilityExample2"),
+        t("criterionVariabilityExample3"),
+        t("criterionVariabilityExample4"),
+        t("criterionVariabilityExample5"),
+      ],
+    },
+    {
+      id: "existingData",
+      name: t("criterionExistingDataName"),
+      fullName: t("criterionExistingDataFullName"),
+      description: t("criterionExistingDataDescription"),
+      lowLabel: t("criterionExistingDataLow"),
+      highLabel: t("criterionExistingDataHigh"),
+      examples: [
+        t("criterionExistingDataExample1"),
+        t("criterionExistingDataExample2"),
+        t("criterionExistingDataExample3"),
+        t("criterionExistingDataExample4"),
+        t("criterionExistingDataExample5"),
+      ],
+    },
+    {
+      id: "stakeholderReadiness",
+      name: t("criterionStakeholderName"),
+      fullName: t("criterionStakeholderFullName"),
+      description: t("criterionStakeholderDescription"),
+      lowLabel: t("criterionStakeholderLow"),
+      highLabel: t("criterionStakeholderHigh"),
+      examples: [
+        t("criterionStakeholderExample1"),
+        t("criterionStakeholderExample2"),
+        t("criterionStakeholderExample3"),
+        t("criterionStakeholderExample4"),
+        t("criterionStakeholderExample5"),
+      ],
+    },
+  ];
+
+  function getScoreLabel(score: number): string {
+    if (score >= 20) return t("scoreLabelStrong");
+    if (score >= 15) return t("scoreLabelWorth");
+    return t("scoreLabelLower");
+  }
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, cognitoId } = useAuth();
@@ -300,7 +303,7 @@ export function FivesAssessment() {
   const exportToCsv = () => {
     const headers = ["Opportunity", "Description", ...CRITERIA.map((c) => c.fullName), "Total Score", "Recommendation"];
     const rows = opportunities.map((o) => [
-      o.name || "Unnamed",
+      o.name || t("unnamed"),
       o.description,
       ...CRITERIA.map((c) => o.scores[c.id].toString()),
       getTotalScore(o).toString(),
@@ -332,51 +335,51 @@ export function FivesAssessment() {
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={addOpportunity}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Opportunity
+            {t("addOpportunityButton")}
           </Button>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={exportToCsv}>
             <Download className="mr-2 h-4 w-4" />
-            Export CSV
+            {t("exportCsvButton")}
           </Button>
           {isAuthenticated ? (
             <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
               <DialogTrigger asChild>
                 <Button size="sm">
                   <Save className="mr-2 h-4 w-4" />
-                  {loadedSaveId ? "Update" : "Save"}
+                  {loadedSaveId ? t("updateAssessmentTitle") : t("saveAssessmentTitle")}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>{loadedSaveId ? "Update Assessment" : "Save Assessment"}</DialogTitle>
+                  <DialogTitle>{loadedSaveId ? t("updateAssessmentTitle") : t("saveAssessmentTitle")}</DialogTitle>
                   <DialogDescription>
-                    Give your assessment a name to find it later.
+                    {t("saveDialogDescription")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="py-4">
-                  <Label htmlFor="save-name">Name</Label>
+                  <Label htmlFor="save-name">{t("nameLabel")}</Label>
                   <Input
                     id="save-name"
                     value={saveName}
                     onChange={(e) => setSaveName(e.target.value)}
-                    placeholder="e.g., Q1 2024 Automation Candidates"
+                    placeholder={t("namePlaceholder")}
                   />
                 </div>
                 <DialogFooter>
                   <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
-                    Cancel
+                    {t("cancelButton")}
                   </Button>
                   <Button onClick={handleSave} disabled={isSaving || !saveName.trim()}>
-                    {isSaving ? "Saving..." : "Save"}
+                    {isSaving ? t("savingButton") : t("saveButton")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
           ) : (
             <Button size="sm" variant="outline" onClick={() => router.push("/login")}>
-              Sign in to Save
+              {t("signInToSaveButton")}
             </Button>
           )}
         </div>
@@ -391,13 +394,13 @@ export function FivesAssessment() {
                 <Input
                   value={opportunity.name}
                   onChange={(e) => updateOpportunity(opportunity.id, "name", e.target.value)}
-                  placeholder={`Opportunity ${index + 1}`}
+                  placeholder={t("opportunityPlaceholder", { index: index + 1 })}
                   className="text-lg font-semibold"
                 />
                 <Textarea
                   value={opportunity.description}
                   onChange={(e) => updateOpportunity(opportunity.id, "description", e.target.value)}
-                  placeholder="Brief description of the problem or opportunity..."
+                  placeholder={t("descriptionPlaceholder")}
                   rows={2}
                 />
               </div>
@@ -466,7 +469,7 @@ export function FivesAssessment() {
                   {expandedCriteria[`${opportunity.id}-${criterion.id}`] && (
                     <div className="mt-4 space-y-3">
                       <div className="rounded-lg bg-muted/50 p-3">
-                        <div className="text-xs font-medium text-muted-foreground mb-2">Scoring Guide:</div>
+                        <div className="text-xs font-medium text-muted-foreground mb-2">{t("scoringGuideLabel")}</div>
                         <ul className="text-xs text-muted-foreground space-y-1">
                           {criterion.examples.map((example, i) => (
                             <li key={i}>{example}</li>
@@ -474,11 +477,11 @@ export function FivesAssessment() {
                         </ul>
                       </div>
                       <div>
-                        <Label className="text-xs">Notes</Label>
+                        <Label className="text-xs">{t("notesLabel")}</Label>
                         <Textarea
                           value={opportunity.notes[criterion.id] || ""}
                           onChange={(e) => updateNote(opportunity.id, criterion.id, e.target.value)}
-                          placeholder="Add notes about your scoring rationale..."
+                          placeholder={t("notesPlaceholder")}
                           rows={2}
                           className="mt-1"
                         />
@@ -496,19 +499,19 @@ export function FivesAssessment() {
       {opportunities.length > 1 && (
         <Card>
           <CardHeader>
-            <CardTitle>Summary</CardTitle>
-            <CardDescription>Compare your opportunities side by side</CardDescription>
+            <CardTitle>{t("summaryTitle")}</CardTitle>
+            <CardDescription>{t("summaryDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-2 pr-4">Opportunity</th>
+                    <th className="text-left py-2 pr-4">{t("summaryTableOpportunity")}</th>
                     {CRITERIA.map((c) => (
                       <th key={c.id} className="text-center py-2 px-2">{c.name}</th>
                     ))}
-                    <th className="text-center py-2 pl-4">Total</th>
+                    <th className="text-center py-2 pl-4">{t("summaryTableTotal")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -516,7 +519,7 @@ export function FivesAssessment() {
                     .sort((a, b) => getTotalScore(b) - getTotalScore(a))
                     .map((o) => (
                       <tr key={o.id} className="border-b">
-                        <td className="py-2 pr-4">{o.name || "Unnamed"}</td>
+                        <td className="py-2 pr-4">{o.name || t("unnamed")}</td>
                         {CRITERIA.map((c) => (
                           <td key={c.id} className="text-center py-2 px-2">{o.scores[c.id]}</td>
                         ))}

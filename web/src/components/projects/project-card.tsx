@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProjectStatusBadge } from "./project-status-badge";
 import { Calendar, Users, CheckSquare, DollarSign } from "lucide-react";
@@ -37,6 +38,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const t = useTranslations("ProjectComponents");
   const budget = project.totalBudget ? Number(project.totalBudget) : null;
   const spent = project.amountSpent ? Number(project.amountSpent) : 0;
   const budgetPercent = budget ? Math.min((spent / budget) * 100, 100) : 0;
@@ -60,7 +62,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <CheckSquare className="h-4 w-4" />
-              <span>{project._count.tasks} tasks</span>
+              <span>{t("tasksCount", { count: project._count.tasks })}</span>
             </div>
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4" />
@@ -74,7 +76,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <div className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-1 text-muted-foreground">
                   <DollarSign className="h-3.5 w-3.5" />
-                  Budget
+                  {t("budget")}
                 </span>
                 <span className="font-medium">
                   {new Intl.NumberFormat("en-CA", {
@@ -104,7 +106,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Calendar className="h-4 w-4" />
               <span>
-                Due {formatDistanceToNow(new Date(project.targetEndDate), { addSuffix: true })}
+                {t("due")} {formatDistanceToNow(new Date(project.targetEndDate), { addSuffix: true })}
               </span>
             </div>
           )}

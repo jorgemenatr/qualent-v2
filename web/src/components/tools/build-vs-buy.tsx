@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Save, Download, Plus, Trash2, Building2, ShoppingCart, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,64 +54,6 @@ interface BuildVsBuyData {
   lastUpdated: string;
 }
 
-const FACTORS: Factor[] = [
-  {
-    id: "strategic",
-    name: "Strategic Importance",
-    description: "How central is this to your competitive advantage?",
-    options: [
-      { value: "core", label: "Core differentiator", buildScore: 3, buyScore: 0 },
-      { value: "important", label: "Important but not unique", buildScore: 1, buyScore: 2 },
-      { value: "necessary", label: "Necessary but not differentiating", buildScore: 0, buyScore: 3 },
-      { value: "nice", label: "Nice to have", buildScore: 0, buyScore: 2 },
-    ],
-  },
-  {
-    id: "market",
-    name: "Market Maturity",
-    description: "How well does the market serve this need?",
-    options: [
-      { value: "mature", label: "Many mature options available", buildScore: 0, buyScore: 3 },
-      { value: "emerging", label: "Emerging options, need evaluation", buildScore: 1, buyScore: 1 },
-      { value: "limited", label: "Limited or poor-fit options", buildScore: 2, buyScore: 0 },
-      { value: "none", label: "No real market options", buildScore: 3, buyScore: 0 },
-    ],
-  },
-  {
-    id: "velocity",
-    name: "Change Velocity",
-    description: "How often will requirements change?",
-    options: [
-      { value: "stable", label: "Stable, rarely changes", buildScore: 0, buyScore: 3 },
-      { value: "occasional", label: "Occasional updates needed", buildScore: 1, buyScore: 2 },
-      { value: "frequent", label: "Frequent changes expected", buildScore: 2, buyScore: 1 },
-      { value: "rapid", label: "Rapidly evolving requirements", buildScore: 3, buyScore: 0 },
-    ],
-  },
-  {
-    id: "integration",
-    name: "Integration Complexity",
-    description: "How does this connect to other systems?",
-    options: [
-      { value: "standalone", label: "Standalone, minimal integration", buildScore: 0, buyScore: 3 },
-      { value: "standard", label: "Standard integrations available", buildScore: 1, buyScore: 2 },
-      { value: "custom", label: "Custom integrations needed", buildScore: 2, buyScore: 1 },
-      { value: "deep", label: "Deeply integrated with core systems", buildScore: 3, buyScore: 0 },
-    ],
-  },
-  {
-    id: "capacity",
-    name: "Internal Capacity",
-    description: "Do you have the capability to build and maintain?",
-    options: [
-      { value: "strong", label: "Strong dev team, ready capacity", buildScore: 3, buyScore: 1 },
-      { value: "moderate", label: "Some capacity, would need to prioritize", buildScore: 2, buyScore: 2 },
-      { value: "limited", label: "Limited technical resources", buildScore: 1, buyScore: 3 },
-      { value: "none", label: "No internal development capability", buildScore: 0, buyScore: 3 },
-    ],
-  },
-];
-
 type Recommendation = "build" | "buy" | "hybrid" | "evaluate";
 
 function getRecommendation(buildScore: number, buyScore: number): Recommendation {
@@ -120,40 +64,99 @@ function getRecommendation(buildScore: number, buyScore: number): Recommendation
   return "evaluate";
 }
 
-function getRecommendationDetails(rec: Recommendation): { label: string; color: string; icon: typeof Building2; description: string } {
-  switch (rec) {
-    case "build":
-      return {
-        label: "Build Custom",
-        color: "text-blue-600 bg-blue-50 border-blue-200",
-        icon: Building2,
-        description: "Strong case for custom development",
-      };
-    case "buy":
-      return {
-        label: "Buy SaaS",
-        color: "text-green-600 bg-green-50 border-green-200",
-        icon: ShoppingCart,
-        description: "Off-the-shelf solution recommended",
-      };
-    case "hybrid":
-      return {
-        label: "Hybrid Approach",
-        color: "text-purple-600 bg-purple-50 border-purple-200",
-        icon: Layers,
-        description: "Consider SaaS with custom extensions",
-      };
-    default:
-      return {
-        label: "Needs Evaluation",
-        color: "text-yellow-600 bg-yellow-50 border-yellow-200",
-        icon: Layers,
-        description: "Mixed signals - evaluate options carefully",
-      };
-  }
-}
-
 export function BuildVsBuyAssessment() {
+  const t = useTranslations("BuildVsBuy");
+
+  const FACTORS: Factor[] = [
+    {
+      id: "strategic",
+      name: t("factorStrategicName"),
+      description: t("factorStrategicDescription"),
+      options: [
+        { value: "core", label: t("factorStrategicCore"), buildScore: 3, buyScore: 0 },
+        { value: "important", label: t("factorStrategicImportant"), buildScore: 1, buyScore: 2 },
+        { value: "necessary", label: t("factorStrategicNecessary"), buildScore: 0, buyScore: 3 },
+        { value: "nice", label: t("factorStrategicNice"), buildScore: 0, buyScore: 2 },
+      ],
+    },
+    {
+      id: "market",
+      name: t("factorMarketName"),
+      description: t("factorMarketDescription"),
+      options: [
+        { value: "mature", label: t("factorMarketMature"), buildScore: 0, buyScore: 3 },
+        { value: "emerging", label: t("factorMarketEmerging"), buildScore: 1, buyScore: 1 },
+        { value: "limited", label: t("factorMarketLimited"), buildScore: 2, buyScore: 0 },
+        { value: "none", label: t("factorMarketNone"), buildScore: 3, buyScore: 0 },
+      ],
+    },
+    {
+      id: "velocity",
+      name: t("factorVelocityName"),
+      description: t("factorVelocityDescription"),
+      options: [
+        { value: "stable", label: t("factorVelocityStable"), buildScore: 0, buyScore: 3 },
+        { value: "occasional", label: t("factorVelocityOccasional"), buildScore: 1, buyScore: 2 },
+        { value: "frequent", label: t("factorVelocityFrequent"), buildScore: 2, buyScore: 1 },
+        { value: "rapid", label: t("factorVelocityRapid"), buildScore: 3, buyScore: 0 },
+      ],
+    },
+    {
+      id: "integration",
+      name: t("factorIntegrationName"),
+      description: t("factorIntegrationDescription"),
+      options: [
+        { value: "standalone", label: t("factorIntegrationStandalone"), buildScore: 0, buyScore: 3 },
+        { value: "standard", label: t("factorIntegrationStandard"), buildScore: 1, buyScore: 2 },
+        { value: "custom", label: t("factorIntegrationCustom"), buildScore: 2, buyScore: 1 },
+        { value: "deep", label: t("factorIntegrationDeep"), buildScore: 3, buyScore: 0 },
+      ],
+    },
+    {
+      id: "capacity",
+      name: t("factorCapacityName"),
+      description: t("factorCapacityDescription"),
+      options: [
+        { value: "strong", label: t("factorCapacityStrong"), buildScore: 3, buyScore: 1 },
+        { value: "moderate", label: t("factorCapacityModerate"), buildScore: 2, buyScore: 2 },
+        { value: "limited", label: t("factorCapacityLimited"), buildScore: 1, buyScore: 3 },
+        { value: "none", label: t("factorCapacityNone"), buildScore: 0, buyScore: 3 },
+      ],
+    },
+  ];
+
+  function getRecommendationDetails(rec: Recommendation): { label: string; color: string; icon: typeof Building2; description: string } {
+    switch (rec) {
+      case "build":
+        return {
+          label: t("recBuildCustomLabel"),
+          color: "text-blue-600 bg-blue-50 border-blue-200",
+          icon: Building2,
+          description: t("recBuildCustomDescription"),
+        };
+      case "buy":
+        return {
+          label: t("recBuySaasLabel"),
+          color: "text-green-600 bg-green-50 border-green-200",
+          icon: ShoppingCart,
+          description: t("recBuySaasDescription"),
+        };
+      case "hybrid":
+        return {
+          label: t("recHybridLabel"),
+          color: "text-purple-600 bg-purple-50 border-purple-200",
+          icon: Layers,
+          description: t("recHybridDescription"),
+        };
+      default:
+        return {
+          label: t("recNeedsEvalLabel"),
+          color: "text-yellow-600 bg-yellow-50 border-yellow-200",
+          icon: Layers,
+          description: t("recNeedsEvalDescription"),
+        };
+    }
+  }
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, cognitoId } = useAuth();
@@ -299,12 +302,12 @@ export function BuildVsBuyAssessment() {
       const scores = getScores(c);
       const rec = getRecommendation(scores.build, scores.buy);
       return [
-        c.name || "Unnamed",
+        c.name || t("unnamed"),
         c.description,
         ...FACTORS.map((f) => {
           const answer = c.answers[f.id];
           const option = f.options.find((o) => o.value === answer);
-          return option?.label || "Not answered";
+          return option?.label || t("notAnswered");
         }),
         scores.build.toString(),
         scores.buy.toString(),
@@ -336,50 +339,50 @@ export function BuildVsBuyAssessment() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <Button variant="outline" size="sm" onClick={addCapability}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Capability
+          {t("addCapabilityButton")}
         </Button>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={exportToCsv}>
             <Download className="mr-2 h-4 w-4" />
-            Export CSV
+            {t("exportCsvButton")}
           </Button>
           {isAuthenticated ? (
             <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
               <DialogTrigger asChild>
                 <Button size="sm">
                   <Save className="mr-2 h-4 w-4" />
-                  {loadedSaveId ? "Update" : "Save"}
+                  {loadedSaveId ? t("updateAssessmentTitle") : t("saveAssessmentTitle")}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>{loadedSaveId ? "Update Assessment" : "Save Assessment"}</DialogTitle>
+                  <DialogTitle>{loadedSaveId ? t("updateAssessmentTitle") : t("saveAssessmentTitle")}</DialogTitle>
                   <DialogDescription>
-                    Give your assessment a name to find it later.
+                    {t("saveDialogDescription")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="py-4">
-                  <Label htmlFor="save-name">Name</Label>
+                  <Label htmlFor="save-name">{t("nameLabel")}</Label>
                   <Input
                     id="save-name"
                     value={saveName}
                     onChange={(e) => setSaveName(e.target.value)}
-                    placeholder="e.g., CRM Replacement Analysis"
+                    placeholder={t("namePlaceholder")}
                   />
                 </div>
                 <DialogFooter>
                   <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
-                    Cancel
+                    {t("cancelButton")}
                   </Button>
                   <Button onClick={handleSave} disabled={isSaving || !saveName.trim()}>
-                    {isSaving ? "Saving..." : "Save"}
+                    {isSaving ? t("savingButton") : t("saveButton")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
           ) : (
             <Button size="sm" variant="outline" onClick={() => router.push("/login")}>
-              Sign in to Save
+              {t("signInToSaveButton")}
             </Button>
           )}
         </div>
@@ -400,13 +403,13 @@ export function BuildVsBuyAssessment() {
                   <Input
                     value={capability.name}
                     onChange={(e) => updateCapability(capability.id, "name", e.target.value)}
-                    placeholder={`Capability ${index + 1}`}
+                    placeholder={t("capabilityPlaceholder", { index: index + 1 })}
                     className="text-lg font-semibold"
                   />
                   <Textarea
                     value={capability.description}
                     onChange={(e) => updateCapability(capability.id, "description", e.target.value)}
-                    placeholder="What does this capability do? Why is it needed?"
+                    placeholder={t("descriptionPlaceholder")}
                     rows={2}
                   />
                 </div>
@@ -432,7 +435,7 @@ export function BuildVsBuyAssessment() {
                     onValueChange={(value) => updateAnswer(capability.id, factor.id, value)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select an option..." />
+                      <SelectValue placeholder={t("selectOptionPlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {factor.options.map((option) => (
@@ -446,11 +449,11 @@ export function BuildVsBuyAssessment() {
               ))}
 
               <div>
-                <Label>Notes</Label>
+                <Label>{t("notesLabel")}</Label>
                 <Textarea
                   value={capability.notes}
                   onChange={(e) => updateCapability(capability.id, "notes", e.target.value)}
-                  placeholder="Additional context, constraints, or considerations..."
+                  placeholder={t("notesPlaceholder")}
                   rows={3}
                   className="mt-1"
                 />
@@ -464,7 +467,7 @@ export function BuildVsBuyAssessment() {
                       {recDetails && <recDetails.icon className="h-6 w-6" />}
                       <div>
                         <div className="font-semibold">
-                          {recDetails?.label || `${answeredCount}/${FACTORS.length} answered`}
+                          {recDetails?.label || t("answeredCount", { count: answeredCount, total: FACTORS.length })}
                         </div>
                         {recDetails && (
                           <div className="text-sm opacity-80">{recDetails.description}</div>
@@ -473,10 +476,10 @@ export function BuildVsBuyAssessment() {
                     </div>
                     <div className="text-right">
                       <div className="text-sm">
-                        Build: <span className="font-bold">{scores.build}</span>
+                        {t("buildLabel")}: <span className="font-bold">{scores.build}</span>
                       </div>
                       <div className="text-sm">
-                        Buy: <span className="font-bold">{scores.buy}</span>
+                        {t("buyLabel")}: <span className="font-bold">{scores.buy}</span>
                       </div>
                     </div>
                   </div>
@@ -491,8 +494,8 @@ export function BuildVsBuyAssessment() {
       {capabilities.length > 1 && (
         <Card>
           <CardHeader>
-            <CardTitle>Summary</CardTitle>
-            <CardDescription>Overview of all capabilities</CardDescription>
+            <CardTitle>{t("summaryTitle")}</CardTitle>
+            <CardDescription>{t("summaryDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -508,13 +511,13 @@ export function BuildVsBuyAssessment() {
                     className={`flex items-center justify-between rounded-lg border p-3 ${recDetails?.color || ""}`}
                   >
                     <div>
-                      <div className="font-medium">{c.name || "Unnamed"}</div>
+                      <div className="font-medium">{c.name || t("unnamed")}</div>
                       <div className="text-sm text-muted-foreground">
-                        Build: {scores.build} | Buy: {scores.buy}
+                        {t("buildLabel")}: {scores.build} | {t("buyLabel")}: {scores.buy}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-medium">{recDetails?.label || "Incomplete"}</div>
+                      <div className="font-medium">{recDetails?.label || t("incomplete")}</div>
                     </div>
                   </div>
                 );

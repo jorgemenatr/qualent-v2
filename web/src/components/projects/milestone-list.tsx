@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -65,12 +66,6 @@ interface MilestoneListProps {
   onRefresh: () => void;
 }
 
-const statusConfig: Record<string, { label: string; icon: React.ElementType; color: string }> = {
-  pending: { label: "Pending", icon: Circle, color: "text-muted-foreground" },
-  in_progress: { label: "In Progress", icon: Clock, color: "text-blue-500" },
-  completed: { label: "Completed", icon: CheckCircle2, color: "text-green-500" },
-};
-
 export function MilestoneList({
   milestones,
   projectId,
@@ -78,6 +73,14 @@ export function MilestoneList({
   cognitoId,
   onRefresh,
 }: MilestoneListProps) {
+  const t = useTranslations("ProjectComponents");
+
+  const statusConfig: Record<string, { label: string; icon: React.ElementType; color: string }> = {
+    pending: { label: t("statusPending"), icon: Circle, color: "text-muted-foreground" },
+    in_progress: { label: t("statusInProgress"), icon: Clock, color: "text-blue-500" },
+    completed: { label: t("statusCompleted"), icon: CheckCircle2, color: "text-green-500" },
+  };
+
   const [expandedMilestones, setExpandedMilestones] = useState<Set<string>>(new Set());
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingMilestone, setEditingMilestone] = useState<Milestone | null>(null);
@@ -185,7 +188,7 @@ export function MilestoneList({
   };
 
   const handleDelete = async (milestone: Milestone) => {
-    if (!confirm(`Delete milestone "${milestone.name}"? Tasks will be unlinked but not deleted.`)) {
+    if (!confirm(t("deleteMilestoneConfirm", { name: milestone.name }))) {
       return;
     }
 
@@ -219,42 +222,42 @@ export function MilestoneList({
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Milestones</h3>
+        <h3 className="text-lg font-semibold">{t("milestones")}</h3>
         {canEdit && (
           <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
             <DialogTrigger asChild>
               <Button size="sm" onClick={openCreate}>
                 <Plus className="h-4 w-4 mr-1" />
-                Add Milestone
+                {t("addMilestone")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create Milestone</DialogTitle>
+                <DialogTitle>{t("createMilestone")}</DialogTitle>
                 <DialogDescription>
-                  Add a new milestone to track project progress.
+                  {t("createMilestoneDescription")}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div>
-                  <label className="text-sm font-medium">Name</label>
+                  <label className="text-sm font-medium">{t("nameLabel")}</label>
                   <Input
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g., Phase 1 Complete"
+                    placeholder={t("milestoneNamePlaceholder")}
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Description (optional)</label>
+                  <label className="text-sm font-medium">{t("descriptionOptionalLabel")}</label>
                   <Textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="What does this milestone represent?"
+                    placeholder={t("milestoneDescriptionPlaceholder")}
                     rows={3}
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Due Date (optional)</label>
+                  <label className="text-sm font-medium">{t("dueDateOptionalLabel")}</label>
                   <Input
                     type="date"
                     value={formData.dueDate}
@@ -264,10 +267,10 @@ export function MilestoneList({
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCreateOpen(false)}>
-                  Cancel
+                  {t("cancelButton")}
                 </Button>
                 <Button onClick={handleCreate} disabled={isSubmitting || !formData.name.trim()}>
-                  {isSubmitting ? "Creating..." : "Create"}
+                  {isSubmitting ? t("creatingButton") : t("createButton")}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -280,10 +283,10 @@ export function MilestoneList({
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
             <ListTodo className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>No milestones yet</p>
+            <p>{t("noMilestonesYet")}</p>
             {canEdit && (
               <p className="text-sm mt-1">
-                Create milestones to organize and track project progress.
+                {t("createMilestonesHint")}
               </p>
             )}
           </CardContent>
@@ -329,7 +332,7 @@ export function MilestoneList({
                           )}
                           <span className="flex items-center gap-1">
                             <ListTodo className="h-3.5 w-3.5" />
-                            {progress.completed}/{progress.total} tasks
+                            {t("taskProgress", { completed: progress.completed, total: progress.total })}
                           </span>
                         </div>
 
@@ -388,7 +391,7 @@ export function MilestoneList({
                       {milestone.tasks && milestone.tasks.length > 0 ? (
                         <div className="ml-9 space-y-2">
                           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                            Tasks
+                            {t("tasksLabel")}
                           </p>
                           {milestone.tasks.map((task) => (
                             <div
@@ -414,7 +417,7 @@ export function MilestoneList({
                         </div>
                       ) : (
                         <p className="ml-9 text-sm text-muted-foreground">
-                          No tasks assigned to this milestone yet.
+                          {t("noTasksAssigned")}
                         </p>
                       )}
                     </CardContent>
@@ -430,31 +433,31 @@ export function MilestoneList({
       <Dialog open={!!editingMilestone} onOpenChange={(open) => !open && setEditingMilestone(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Milestone</DialogTitle>
+            <DialogTitle>{t("editMilestone")}</DialogTitle>
             <DialogDescription>
-              Update milestone details and status.
+              {t("editMilestoneDescription")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <label className="text-sm font-medium">Name</label>
+              <label className="text-sm font-medium">{t("nameLabel")}</label>
               <Input
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="e.g., Phase 1 Complete"
+                placeholder={t("milestoneNamePlaceholder")}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Description (optional)</label>
+              <label className="text-sm font-medium">{t("descriptionOptionalLabel")}</label>
               <Textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="What does this milestone represent?"
+                placeholder={t("milestoneDescriptionPlaceholder")}
                 rows={3}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Status</label>
+              <label className="text-sm font-medium">{t("statusLabel")}</label>
               <Select
                 value={formData.status}
                 onValueChange={(value) => setFormData({ ...formData, status: value })}
@@ -463,14 +466,14 @@ export function MilestoneList({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="in_progress">In Progress</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="pending">{t("statusPending")}</SelectItem>
+                  <SelectItem value="in_progress">{t("statusInProgress")}</SelectItem>
+                  <SelectItem value="completed">{t("statusCompleted")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-sm font-medium">Due Date (optional)</label>
+              <label className="text-sm font-medium">{t("dueDateOptionalLabel")}</label>
               <Input
                 type="date"
                 value={formData.dueDate}
@@ -480,10 +483,10 @@ export function MilestoneList({
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditingMilestone(null)}>
-              Cancel
+              {t("cancelButton")}
             </Button>
             <Button onClick={handleUpdate} disabled={isSubmitting || !formData.name.trim()}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
+              {isSubmitting ? t("savingButton") : t("saveChangesButton")}
             </Button>
           </DialogFooter>
         </DialogContent>

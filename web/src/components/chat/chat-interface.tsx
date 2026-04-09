@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, UIMessage } from "ai";
 import { AlertCircle, RefreshCw } from "lucide-react";
@@ -20,14 +22,15 @@ interface ChatInterfaceProps {
   initialMessage?: string;
 }
 
-const SUGGESTED_QUESTIONS = [
-  "What is the FIVES framework?",
-  "How do I know if a process is ready for automation?",
-  "Should we build or buy our automation solution?",
-  "What are common reasons AI pilots fail?",
-];
-
 export function ChatInterface({ initialMessage }: ChatInterfaceProps) {
+  const t = useTranslations("Chat");
+
+  const SUGGESTED_QUESTIONS = [
+    t("suggestedQuestion1"),
+    t("suggestedQuestion2"),
+    t("suggestedQuestion3"),
+    t("suggestedQuestion4"),
+  ];
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
 
@@ -74,11 +77,11 @@ export function ChatInterface({ initialMessage }: ChatInterfaceProps) {
       <div className="flex-1 overflow-y-auto px-4">
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center py-12">
-            <h2 className="text-xl font-semibold">Ask Anything</h2>
+            <h2 className="text-xl font-semibold">{t("heading")}</h2>
             <p className="mt-2 text-center text-muted-foreground">
-              I&apos;ve read all of PickleLlama&apos;s reports and frameworks.
+              {t("welcomeMessage")}
               <br />
-              Ask me about AI, automation, or technology strategy.
+              {t("welcomeSubMessage")}
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -119,10 +122,10 @@ export function ChatInterface({ initialMessage }: ChatInterfaceProps) {
                 <AlertCircle className="h-5 w-5 shrink-0" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">
-                    Something went wrong
+                    {t("errorTitle")}
                   </p>
                   <p className="text-xs opacity-80">
-                    {error.message || "Failed to get a response. Please try again."}
+                    {error.message || t("errorDefaultMessage")}
                   </p>
                 </div>
                 <Button
@@ -132,7 +135,7 @@ export function ChatInterface({ initialMessage }: ChatInterfaceProps) {
                   className="shrink-0"
                 >
                   <RefreshCw className="mr-1 h-3 w-3" />
-                  Retry
+                  {t("retryButton")}
                 </Button>
               </div>
             )}
@@ -151,11 +154,11 @@ export function ChatInterface({ initialMessage }: ChatInterfaceProps) {
           isLoading={isLoading}
         />
         <p className="mt-2 text-center text-xs text-muted-foreground">
-          AI responses may contain errors. For important decisions,{" "}
-          <a href="/talk" className="text-primary hover:underline">
-            consult with our team
-          </a>
-          .
+          {t("disclaimerPrefix")}{" "}
+          <Link href="/talk" className="text-primary hover:underline">
+            {t("consultLink")}
+          </Link>
+          {t("disclaimerSuffix")}
         </p>
       </div>
     </div>

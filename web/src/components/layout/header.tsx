@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, User, LogOut, FolderOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,20 +21,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/lib/auth";
-
-const navigation = [
-  { name: "Process", href: "/services" },
-  { name: "Who We Work With", href: "/who-we-work-with" },
-  { name: "Proof", href: "/proof" },
-  { name: "Pricing", href: "/pricing" },
-  { name: "Learn", href: "/learn" },
-  { name: "About", href: "/about" },
-];
+import { LocaleSwitcher } from "./locale-switcher";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { isAuthenticated, isLoading, name, email, login, logout } = useAuth();
+  const t = useTranslations("Nav");
+
+  const navigation = [
+    { name: t("process"), href: "/services" },
+    { name: t("whoWeWorkWith"), href: "/who-we-work-with" },
+    { name: t("proof"), href: "/proof" },
+    { name: t("pricing"), href: "/pricing" },
+    { name: t("learn"), href: "/learn" },
+    { name: t("about"), href: "/about" },
+  ];
 
   // Prevent hydration mismatch by only rendering auth UI after mount
   useEffect(() => {
@@ -64,14 +67,13 @@ export function Header() {
           <span className="flex items-baseline text-xl font-semibold tracking-tight">
             <Image
               src="/logo-text.svg"
-              alt="PickleLlama"
+              alt={t("logoAlt")}
               width={1020}
               height={160}
               className="h-8 w-auto translate-y-[1px]"
               priority
             />
-            <span className="text-foreground" style={{ fontSize: '28px' }}>.Studio</span>
-            {/* <span className="hidden sm:inline text-muted-foreground font-normal text-base ml-1">- Enhanced Software Engineering</span> */}
+            <span className="text-foreground" style={{ fontSize: '28px' }}>{t("logoSuffix")}</span>
           </span>
         </Link>
 
@@ -87,8 +89,10 @@ export function Header() {
             </Link>
           ))}
           <Button asChild>
-            <Link href="/talk">Let&apos;s Talk</Link>
+            <Link href="/talk">{t("ctaButton")}</Link>
           </Button>
+
+          <LocaleSwitcher />
 
           {/* Auth - only render after mount to prevent hydration mismatch */}
           {!mounted || isLoading ? (
@@ -106,7 +110,7 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{name || "User"}</p>
+                  <p className="text-sm font-medium">{name || t("userFallback")}</p>
                   {email && (
                     <p className="text-xs text-muted-foreground">{email}</p>
                   )}
@@ -115,13 +119,13 @@ export function Header() {
                 <DropdownMenuItem asChild>
                   <Link href="/projects" className="cursor-pointer">
                     <FolderOpen className="mr-2 h-4 w-4" />
-                    Projects
+                    {t("dropdownProjects")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/profile" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />
-                    Profile
+                    {t("dropdownProfile")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -130,13 +134,13 @@ export function Header() {
                   className="cursor-pointer text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
+                  {t("dropdownSignOut")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button variant="outline" size="sm" onClick={login}>
-              Sign In
+              {t("signIn")}
             </Button>
           )}
         </div>
@@ -146,11 +150,11 @@ export function Header() {
           <SheetTrigger asChild className="md:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-6 w-6" />
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t("openMenu")}</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <SheetTitle className="sr-only">{t("mobileMenuTitle")}</SheetTitle>
             <div className="flex flex-col gap-6 pt-6">
               {navigation.map((item) => (
                 <Link
@@ -164,9 +168,11 @@ export function Header() {
               ))}
               <Button asChild className="mt-4">
                 <Link href="/talk" onClick={() => setMobileMenuOpen(false)}>
-                  Let&apos;s Talk
+                  {t("ctaButton")}
                 </Link>
               </Button>
+
+              <LocaleSwitcher />
 
               {/* Mobile Auth - only render after mount to prevent hydration mismatch */}
               <div className="mt-4 border-t border-border pt-4">
@@ -181,7 +187,7 @@ export function Header() {
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-medium">{name || "User"}</p>
+                        <p className="font-medium">{name || t("userFallback")}</p>
                         {email && (
                           <p className="text-sm text-muted-foreground">
                             {email}
@@ -195,7 +201,7 @@ export function Header() {
                       className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
                     >
                       <FolderOpen className="h-4 w-4" />
-                      Projects
+                      {t("dropdownProjects")}
                     </Link>
                     <Link
                       href="/profile"
@@ -203,7 +209,7 @@ export function Header() {
                       className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
                     >
                       <User className="h-4 w-4" />
-                      Profile
+                      {t("dropdownProfile")}
                     </Link>
                     <Button
                       variant="outline"
@@ -214,7 +220,7 @@ export function Header() {
                       }}
                     >
                       <LogOut className="mr-2 h-4 w-4" />
-                      Sign Out
+                      {t("dropdownSignOut")}
                     </Button>
                   </div>
                 ) : (
@@ -225,7 +231,7 @@ export function Header() {
                       login();
                     }}
                   >
-                    Sign In
+                    {t("signIn")}
                   </Button>
                 )}
               </div>

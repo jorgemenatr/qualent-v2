@@ -1,31 +1,34 @@
-import Link from "next/link";
 import Image from "next/image";
+import { Link } from "@/i18n/navigation";
 import { Container } from "./container";
+import { getTranslations } from "next-intl/server";
 
-const footerLinks = {
-  process: [
-    { name: "First Meeting", href: "/services/understanding" },
-    { name: "Research Report", href: "/services/research" },
-    { name: "Problem Identification", href: "/services/problem-identification" },
-    { name: "Implementation", href: "/services/implementation" },
-    { name: "Partnership", href: "/services/partnership" },
-  ],
-  resources: [
-    { name: "Learn", href: "/learn" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "Thunk Box", href: "/thunkbox" },
-  ],
-  company: [
-    { name: "About", href: "/about" },
-    { name: "Who We Work With", href: "/who-we-work-with" },
-    { name: "Careers", href: "/careers" },
-    { name: "Contact", href: "/talk" },
-    { name: "Privacy", href: "/privacy" },
-    { name: "Terms", href: "/terms" },
-  ],
-};
+export async function Footer() {
+  const t = await getTranslations("Footer");
 
-export function Footer() {
+  const footerLinks = {
+    process: [
+      { name: t("processFirstMeeting"), href: "/services/understanding" },
+      { name: t("processResearchReport"), href: "/services/research" },
+      { name: t("processProblemIdentification"), href: "/services/problem-identification" },
+      { name: t("processImplementation"), href: "/services/implementation" },
+      { name: t("processPartnership"), href: "/services/partnership" },
+    ],
+    resources: [
+      { name: t("resourcesLearn"), href: "/learn" },
+      { name: t("resourcesPricing"), href: "/pricing" },
+      { name: t("resourcesThunkBox"), href: "/thunkbox" },
+    ],
+    company: [
+      { name: t("companyAbout"), href: "/about" },
+      { name: t("companyWhoWeWorkWith"), href: "/who-we-work-with" },
+      { name: t("companyCareers"), href: "/careers" },
+      { name: t("companyContact"), href: "/talk" },
+      { name: t("companyPrivacy"), href: "/privacy" },
+      { name: t("companyTerms"), href: "/terms" },
+    ],
+  };
+
   return (
     <footer className="border-t border-border bg-muted/30">
       <Container className="py-12 md:py-16">
@@ -35,7 +38,7 @@ export function Footer() {
             <Link href="/" className="inline-block">
               <Image
                 src="/logo.png"
-                alt="PickleLlama.Studio"
+                alt={t("logoAlt")}
                 width={200}
                 height={200}
                 className="h-40 w-auto"
@@ -45,10 +48,10 @@ export function Footer() {
 
           {/* Process */}
           <div>
-            <h3 className="text-sm font-semibold">Process</h3>
+            <h3 className="text-sm font-semibold">{t("processSectionTitle")}</h3>
             <ul className="mt-4 space-y-3">
               {footerLinks.process.map((link) => (
-                <li key={link.name}>
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -62,10 +65,10 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-sm font-semibold">Resources</h3>
+            <h3 className="text-sm font-semibold">{t("resourcesSectionTitle")}</h3>
             <ul className="mt-4 space-y-3">
               {footerLinks.resources.map((link) => (
-                <li key={link.name}>
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -79,10 +82,10 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold">Company</h3>
+            <h3 className="text-sm font-semibold">{t("companySectionTitle")}</h3>
             <ul className="mt-4 space-y-3">
               {footerLinks.company.map((link) => (
-                <li key={link.name}>
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -98,7 +101,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 border-t border-border pt-8">
           <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} PickleLlama. All rights reserved.
+            &copy; {new Date().getFullYear()} {t("copyright")}
           </p>
         </div>
       </Container>

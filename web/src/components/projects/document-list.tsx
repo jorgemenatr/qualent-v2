@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -57,12 +58,6 @@ const typeIcons: Record<string, typeof FileText> = {
   general: File,
 };
 
-const typeLabels: Record<string, string> = {
-  business: "Business",
-  technical: "Technical",
-  general: "General",
-};
-
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -77,6 +72,14 @@ export function DocumentList({
   onAddLink,
   onUpload,
 }: DocumentListProps) {
+  const t = useTranslations("ProjectComponents");
+
+  const typeLabels: Record<string, string> = {
+    business: t("typeBusiness"),
+    technical: t("typeTechnical"),
+    general: t("typeGeneral"),
+  };
+
   const [filter, setFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
 
@@ -91,20 +94,20 @@ export function DocumentList({
       {/* Filters and actions */}
       <div className="flex items-center gap-4">
         <Input
-          placeholder="Search documents..."
+          placeholder={t("searchDocuments")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-xs"
         />
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Filter type" />
+            <SelectValue placeholder={t("filterType")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Types</SelectItem>
-            <SelectItem value="business">Business</SelectItem>
-            <SelectItem value="technical">Technical</SelectItem>
-            <SelectItem value="general">General</SelectItem>
+            <SelectItem value="all">{t("allTypes")}</SelectItem>
+            <SelectItem value="business">{t("typeBusiness")}</SelectItem>
+            <SelectItem value="technical">{t("typeTechnical")}</SelectItem>
+            <SelectItem value="general">{t("typeGeneral")}</SelectItem>
           </SelectContent>
         </Select>
         {canEdit && (
@@ -112,13 +115,13 @@ export function DocumentList({
             {onAddLink && (
               <Button variant="outline" size="sm" onClick={onAddLink}>
                 <LinkIcon className="h-4 w-4 mr-1" />
-                Add Link
+                {t("addLink")}
               </Button>
             )}
             {onUpload && (
               <Button size="sm" onClick={onUpload}>
                 <Upload className="h-4 w-4 mr-1" />
-                Upload
+                {t("upload")}
               </Button>
             )}
           </div>
@@ -129,19 +132,19 @@ export function DocumentList({
       {filteredDocs.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
           <File className="h-12 w-12 mx-auto mb-3 opacity-50" />
-          <p>{documents.length === 0 ? "No documents yet" : "No documents match your filters"}</p>
+          <p>{documents.length === 0 ? t("noDocumentsYet") : t("noDocumentsMatch")}</p>
           {canEdit && documents.length === 0 && (
             <div className="flex gap-2 justify-center mt-4">
               {onAddLink && (
                 <Button variant="outline" size="sm" onClick={onAddLink}>
                   <Plus className="h-4 w-4 mr-1" />
-                  Add Link
+                  {t("addLink")}
                 </Button>
               )}
               {onUpload && (
                 <Button size="sm" onClick={onUpload}>
                   <Plus className="h-4 w-4 mr-1" />
-                  Upload File
+                  {t("uploadFile")}
                 </Button>
               )}
             </div>
@@ -190,7 +193,7 @@ export function DocumentList({
                             onClick={() => window.open(doc.externalUrl!, "_blank")}
                           >
                             <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                            Open
+                            {t("open")}
                           </Button>
                         ) : (
                           <Button
@@ -200,7 +203,7 @@ export function DocumentList({
                             onClick={() => onDownload?.(doc)}
                           >
                             <Download className="h-3.5 w-3.5 mr-1" />
-                            Download
+                            {t("download")}
                           </Button>
                         )}
                         {canEdit && (

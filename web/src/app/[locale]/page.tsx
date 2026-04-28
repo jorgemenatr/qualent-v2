@@ -25,6 +25,8 @@ const clientLogos = [
   { name: "CBTS", src: "/clients/cbts.webp", width: 100, height: 40, invert: true },
   { name: "Stacking Projects", src: "/clients/stacking-projects.png", width: 140, height: 40, invert: true },
   { name: "REPS", src: "/clients/reps.jpeg", width: 100, height: 40 },
+  { name: "Torq Logistics", src: "/clients/torq-logistics.svg", width: 120, height: 40 },
+  { name: "Buffalo Rail", src: "/clients/buffalo-rail.svg", width: 160, height: 40 },
 ];
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -48,12 +50,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </h1>
             <p className="mt-8 text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {t("heroSubLine1")}
-              <br className="hidden sm:block" />
-              {t("heroSubLine2")}
-              <br />
-              <span className="text-foreground font-medium">
-                {t("heroSubLine3")}
-              </span>
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button size="lg" asChild>

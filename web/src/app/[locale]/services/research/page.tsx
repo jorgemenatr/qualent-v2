@@ -18,7 +18,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
   return (
     <>
       {/* Hero */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-20">
         <Container size="small">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
             <Search className="h-6 w-6 text-primary" />
@@ -41,19 +41,20 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       </section>
 
       {/* What We Research */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatWeResearchTitle")}</h2>
-          <div className="mt-8 space-y-4">
+          <div className="mt-8 space-y-0">
             {[
               t("whatWeResearchItem1"),
               t("whatWeResearchItem2"),
               t("whatWeResearchItem3"),
               t("whatWeResearchItem4"),
               t("whatWeResearchItem5"),
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <span className="text-muted-foreground">{item}</span>
               </div>
             ))}
@@ -62,19 +63,20 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       </section>
 
       {/* What You Get */}
-      <section className="bg-muted/50 py-20">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatYouGetTitle")}</h2>
-          <div className="mt-8 space-y-4">
+          <div className="mt-8 space-y-0">
             {[
               t("whatYouGetItem1"),
               t("whatYouGetItem2"),
               t("whatYouGetItem3"),
               t("whatYouGetItem4"),
               t("whatYouGetItem5"),
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <span className="text-muted-foreground">{item}</span>
               </div>
             ))}
@@ -83,8 +85,9 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       </section>
 
       {/* When We Recommend Building */}
-      <section className="py-20">
+      <section className="py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whenBuildTitle")}</h2>
           <p className="mt-4 text-muted-foreground">
             {t("whenBuildIntro")}
@@ -132,9 +135,9 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       </section>
 
       {/* Pricing Note */}
-      <section className="bg-muted/50 py-16">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
-          <div className="rounded-lg border border-border bg-card/80 p-6 md:p-8">
+          <div className="rounded-lg bg-amber-50 border-l-4 border-l-amber-500 p-6 md:p-8 dark:bg-amber-950/30 dark:border-l-amber-400">
             <h3 className="text-xl font-semibold mb-4">{t("pricingNoteTitle")}</h3>
             <div className="space-y-4 text-muted-foreground">
               <p>{t("pricingNotePara1")}</p>
@@ -148,7 +151,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="text-center">
             <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>

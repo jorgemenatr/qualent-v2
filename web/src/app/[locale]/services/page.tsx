@@ -21,6 +21,21 @@ const stepHrefs = [
   "/services/partnership",
 ];
 
+const STEP_COLORS = [
+  { bg: "bg-emerald-600", bgLight: "bg-emerald-500/10", text: "text-emerald-600", border: "border-emerald-500/30", hover: "hover:border-emerald-500/40" },
+  { bg: "bg-blue-600", bgLight: "bg-blue-500/10", text: "text-blue-600", border: "border-blue-500/30", hover: "hover:border-blue-500/40" },
+  { bg: "bg-amber-600", bgLight: "bg-amber-500/10", text: "text-amber-600", border: "border-amber-500/30", hover: "hover:border-amber-500/40" },
+  { bg: "bg-violet-600", bgLight: "bg-violet-500/10", text: "text-violet-600", border: "border-violet-500/30", hover: "hover:border-violet-500/40" },
+  { bg: "bg-rose-600", bgLight: "bg-rose-500/10", text: "text-rose-600", border: "border-rose-500/30", hover: "hover:border-rose-500/40" },
+];
+
+const REASON_BORDER_COLORS = [
+  "border-l-emerald-500",
+  "border-l-blue-500",
+  "border-l-amber-500",
+  "border-l-violet-500",
+];
+
 export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -94,7 +109,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       </section>
 
       {/* Section 1: Why Understanding Comes First */}
-      <section className="border-t border-border py-16 md:py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl md:text-3xl font-bold">
@@ -114,7 +129,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
             </p>
           </div>
           <div className="mt-8">
-            <Button variant="outline" asChild>
+            <Button asChild>
               <Link href="/services/understanding">
                 {t("section1Cta")}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -125,7 +140,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       </section>
 
       {/* Section 2: Why We Try to Convince You Not to Hire Us */}
-      <section className="relative bg-muted/50 py-16 md:py-20 overflow-hidden">
+      <section className="relative bg-muted/50 py-12 md:py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute right-0 top-0 w-[400px] h-[300px] rounded-full bg-primary/5 blur-3xl" />
         </div>
@@ -206,9 +221,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className="flex gap-4 p-4 rounded-lg border border-border bg-background/50"
+                    className={`flex gap-4 p-4 rounded-lg border-l-4 ${REASON_BORDER_COLORS[index]} border border-border bg-background/50`}
                   >
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${STEP_COLORS[index].bg} text-xs font-bold text-white`}>
                       {index + 1}
                     </span>
                     <div>
@@ -228,7 +243,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
           </p>
 
           <div className="mt-8">
-            <Button variant="outline" asChild>
+            <Button asChild>
               <Link href="/services/research">
                 {t("section2Cta")}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -239,7 +254,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       </section>
 
       {/* Section 3: Problem Identification */}
-      <section className="border-t border-border py-16 md:py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl md:text-3xl font-bold">
@@ -277,9 +292,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="flex gap-4 p-4 rounded-lg border border-border bg-background/50"
+                  className={`flex gap-4 p-4 rounded-lg border-l-4 ${REASON_BORDER_COLORS[index]} border border-border bg-background/50`}
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                  <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${STEP_COLORS[index].bg} text-xs font-bold text-white`}>
                     {index + 1}
                   </span>
                   <div>
@@ -298,7 +313,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
           </p>
 
           <div className="mt-8">
-            <Button variant="outline" asChild>
+            <Button asChild>
               <Link href="/services/problem-identification">
                 {t("section3Cta")}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -309,7 +324,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       </section>
 
       {/* Section 4: When We Build, We Do It Differently */}
-      <section className="border-t border-border py-16 md:py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl md:text-3xl font-bold">
@@ -367,7 +382,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
           </div>
 
           <div className="mt-8">
-            <Button variant="outline" asChild>
+            <Button asChild>
               <Link href="/services/implementation">
                 {t("section4Cta")}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -377,67 +392,70 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
         </Container>
       </section>
 
-      {/* Section 5: The Offer Summary */}
-      <section className="relative bg-muted/50 py-16 md:py-20 overflow-hidden">
+      {/* Section 5: The Offer Summary - Dark contrasting section */}
+      <section className="relative bg-slate-900 text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-primary/3 blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-white/3 blur-3xl" />
         </div>
 
         <Container className="relative">
           <div className="text-center mb-12">
             <div className="mx-auto w-12 h-1 bg-primary rounded-full mb-6" />
-            <h2 className="text-2xl md:text-3xl font-bold">{t("offerTitle")}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white">{t("offerTitle")}</h2>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {steps.map((step) => (
-              <Card
-                key={step.title}
-                className="flex flex-col border-2 border-transparent bg-card/80 backdrop-blur-sm transition-all hover:border-primary/20 hover:shadow-lg"
-              >
-                <CardContent className="flex flex-1 flex-col p-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                    <step.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground flex-1">
-                    {step.description}
-                  </p>
-                  <p className="mt-4 text-sm font-medium text-primary">
-                    {step.cost}
-                  </p>
-                  <Button variant="ghost" size="sm" asChild className="mt-4 -ml-2">
-                    <Link href={step.href}>
-                      {t("offerDetails")} <ArrowRight className="ml-1 h-3 w-3" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+            {steps.map((step, index) => {
+              const color = STEP_COLORS[index];
+              return (
+                <Card
+                  key={step.title}
+                  className={`flex flex-col border-2 ${color.border} bg-slate-800/80 backdrop-blur-sm transition-all ${color.hover} hover:shadow-lg`}
+                >
+                  <CardContent className="flex flex-1 flex-col p-6">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${color.bgLight}`}>
+                      <step.icon className={`h-6 w-6 ${color.text}`} />
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold text-white">{step.title}</h3>
+                    <p className="mt-2 text-sm text-slate-300 flex-1">
+                      {step.description}
+                    </p>
+                    <p className={`mt-4 text-sm font-medium ${color.text}`}>
+                      {step.cost}
+                    </p>
+                    <Button variant="ghost" size="sm" asChild className="mt-4 -ml-2 text-slate-300 hover:text-white">
+                      <Link href={step.href}>
+                        {t("offerDetails")} <ArrowRight className="ml-1 h-3 w-3" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
 
           {/* Pricing Summary */}
           <div className="mt-16 max-w-2xl mx-auto">
-            <div className="rounded-lg border border-primary/20 bg-card/90 p-8 text-center">
-              <h3 className="text-xl font-semibold mb-4">{t("pricingTitle")}</h3>
-              <p className="text-muted-foreground">
+            <div className="rounded-lg border border-slate-700 bg-slate-800/90 p-8 text-center">
+              <h3 className="text-xl font-semibold mb-4 text-white">{t("pricingTitle")}</h3>
+              <p className="text-slate-300">
                 {t("pricingIntro")}
               </p>
-              <p className="mt-4 text-lg font-semibold text-foreground">
+              <p className="mt-4 text-lg font-semibold text-white">
                 {t.rich("pricingFormula", {
                   highlight: (chunks) => <span className="text-primary">{chunks}</span>,
                 })}
               </p>
-              <ul className="mt-6 text-sm text-muted-foreground space-y-2">
+              <ul className="mt-6 text-sm text-slate-300 space-y-2">
                 <li>{t("pricingBullet1")}</li>
                 <li>{t("pricingBullet2")}</li>
                 <li>{t("pricingBullet3")}</li>
               </ul>
-              <p className="mt-6 text-muted-foreground">
-                <strong className="text-foreground">{t("pricingExampleLabel")}</strong>{" "}
+              <p className="mt-6 text-slate-300">
+                <strong className="text-white">{t("pricingExampleLabel")}</strong>{" "}
                 {t("pricingExampleText")}
               </p>
-              <Button variant="outline" size="sm" asChild className="mt-6">
+              <Button variant="secondary" size="sm" asChild className="mt-6">
                 <Link href="/pricing">
                   {t("pricingCta")} <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>

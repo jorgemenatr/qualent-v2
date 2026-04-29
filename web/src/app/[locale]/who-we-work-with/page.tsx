@@ -31,31 +31,37 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
       icon: Handshake,
       title: t("value1Title"),
       description: t("value1Description"),
+      bg: "bg-emerald-50/50",
     },
     {
       icon: Compass,
       title: t("value2Title"),
       description: t("value2Description"),
+      bg: "bg-blue-50/50",
     },
     {
       icon: FlaskConical,
       title: t("value3Title"),
       description: t("value3Description"),
+      bg: "bg-amber-50/50",
     },
     {
       icon: Heart,
       title: t("value4Title"),
       description: t("value4Description"),
+      bg: "bg-rose-50/50",
     },
     {
       icon: Zap,
       title: t("value5Title"),
       description: t("value5Description"),
+      bg: "bg-violet-50/50",
     },
     {
       icon: Building2,
       title: t("value6Title"),
       description: t("value6Description"),
+      bg: "bg-cyan-50/50",
     },
   ];
 
@@ -77,14 +83,14 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
   ];
 
   const industries = [
-    t("industry1"),
-    t("industry2"),
-    t("industry3"),
-    t("industry4"),
-    t("industry5"),
-    t("industry6"),
-    t("industry7"),
-    t("industry8"),
+    { label: t("industry1"), color: "bg-emerald-500/20 text-emerald-200 border-emerald-400/30" },
+    { label: t("industry2"), color: "bg-blue-500/20 text-blue-200 border-blue-400/30" },
+    { label: t("industry3"), color: "bg-amber-500/20 text-amber-200 border-amber-400/30" },
+    { label: t("industry4"), color: "bg-rose-500/20 text-rose-200 border-rose-400/30" },
+    { label: t("industry5"), color: "bg-violet-500/20 text-violet-200 border-violet-400/30" },
+    { label: t("industry6"), color: "bg-cyan-500/20 text-cyan-200 border-cyan-400/30" },
+    { label: t("industry7"), color: "bg-pink-500/20 text-pink-200 border-pink-400/30" },
+    { label: t("industry8"), color: "bg-teal-500/20 text-teal-200 border-teal-400/30" },
   ];
 
   return (
@@ -114,8 +120,7 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
       {/* Pull Quote */}
       <section className="border-t border-border py-16">
         <Container size="small">
-          <div className="text-center">
-            <div className="w-10 h-0.5 bg-primary rounded-full mx-auto mb-8" />
+          <div className="bg-primary/5 border-l-4 border-l-primary rounded-r-lg p-8 md:p-10">
             <blockquote className="text-2xl md:text-3xl font-bold tracking-tight leading-snug max-w-3xl mx-auto">
               {t("pullQuote")}
             </blockquote>
@@ -154,7 +159,7 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
             {values.map((value) => (
               <div
                 key={value.title}
-                className="rounded-lg border border-border bg-card/80 p-6 transition-colors hover:border-primary/30"
+                className={`rounded-lg border border-border ${value.bg} p-6 transition-colors hover:border-primary/30`}
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 mb-4">
                   <value.icon className="h-5 w-5 text-primary" />
@@ -183,7 +188,7 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
           <div className="grid gap-8 md:grid-cols-2">
             {/* Good fit */}
             <div>
-              <h3 className="flex items-center gap-2 text-base font-bold text-primary pb-3 mb-5 border-b-2 border-primary">
+              <h3 className="flex items-center gap-2 text-base font-bold text-emerald-600 pb-3 mb-5 border-b-2 border-emerald-200">
                 <Check className="h-4 w-4" />
                 {t("goodFitHeading")}
               </h3>
@@ -193,7 +198,7 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
                     key={item}
                     className="flex items-start gap-3 py-3 border-b border-border last:border-0"
                   >
-                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
                     <span className="text-sm text-muted-foreground">
                       {item}
                     </span>
@@ -204,7 +209,7 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
 
             {/* Not a fit */}
             <div>
-              <h3 className="flex items-center gap-2 text-base font-bold text-muted-foreground pb-3 mb-5 border-b-2 border-border">
+              <h3 className="flex items-center gap-2 text-base font-bold text-rose-500 pb-3 mb-5 border-b-2 border-rose-200">
                 <Minus className="h-4 w-4" />
                 {t("notFitHeading")}
               </h3>
@@ -214,7 +219,7 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
                     key={item}
                     className="flex items-start gap-3 py-3 border-b border-border last:border-0"
                   >
-                    <Minus className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <Minus className="h-4 w-4 text-rose-500 mt-0.5 shrink-0" />
                     <span className="text-sm text-muted-foreground">
                       {item}
                     </span>
@@ -241,10 +246,10 @@ export default async function WhoWeWorkWithPage({ params }: { params: Promise<{ 
           <div className="flex flex-wrap justify-center gap-3">
             {industries.map((industry) => (
               <span
-                key={industry}
-                className="rounded-full border border-background/20 px-5 py-2.5 text-sm text-background/80 transition-colors hover:border-primary hover:text-background hover:bg-primary/15"
+                key={industry.label}
+                className={`rounded-full border px-5 py-2.5 text-sm transition-colors hover:border-primary hover:text-background hover:bg-primary/15 ${industry.color}`}
               >
-                {industry}
+                {industry.label}
               </span>
             ))}
           </div>

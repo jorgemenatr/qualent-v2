@@ -18,7 +18,7 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
   return (
     <>
       {/* Hero */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-20">
         <Container size="small">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
             <Goal className="h-6 w-6 text-primary" />
@@ -37,8 +37,9 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
       </section>
 
       {/* The Challenge */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("challengeTitle")}</h2>
           <div className="mt-6 space-y-4 text-muted-foreground">
             <p>{t("challengePara1")}</p>
@@ -51,10 +52,11 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
       </section>
 
       {/* What We Do */}
-      <section className="bg-muted/50 py-20">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatWeDoTitle")}</h2>
-          <div className="mt-8 space-y-6">
+          <div className="mt-8 space-y-0">
             {[
               {
                 title: t("whatWeDo1Title"),
@@ -76,9 +78,9 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
                 title: t("whatWeDo5Title"),
                 description: t("whatWeDo5Description"),
               },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-4">
-                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item.title} className={`flex gap-4 p-4 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <div>
                   <h3 className="font-semibold">{item.title}</h3>
                   <p className="mt-1 text-muted-foreground">
@@ -92,10 +94,11 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
       </section>
 
       {/* What You Get */}
-      <section className="py-20">
+      <section className="py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatYouGetTitle")}</h2>
-          <div className="mt-8 space-y-4">
+          <div className="mt-8 space-y-0">
             {[
               t("whatYouGetItem1"),
               t("whatYouGetItem2"),
@@ -103,9 +106,9 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
               t("whatYouGetItem4"),
               t("whatYouGetItem5"),
               t("whatYouGetItem6"),
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <span className="text-muted-foreground">{item}</span>
               </div>
             ))}
@@ -114,9 +117,9 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
       </section>
 
       {/* Why This Matters */}
-      <section className="bg-muted/50 py-16">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
-          <div className="rounded-lg border border-border bg-card/80 p-6 md:p-8">
+          <div className="rounded-lg bg-amber-50 border-l-4 border-l-amber-500 p-6 md:p-8 dark:bg-amber-950/30 dark:border-l-amber-400">
             <h3 className="text-xl font-semibold mb-4">{t("whyMattersTitle")}</h3>
             <div className="space-y-4 text-muted-foreground">
               <p>{t("whyMattersPara1")}</p>
@@ -130,7 +133,7 @@ export default async function ProblemIdentificationPage({ params }: { params: Pr
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="text-center">
             <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>

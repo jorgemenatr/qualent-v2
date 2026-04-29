@@ -94,7 +94,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* The Guarantee Section */}
       <section
         id="guarantee"
-        className="border-t border-border bg-primary/5 py-16 md:py-20"
+        className="border-t border-border bg-emerald-50 py-12 md:py-16"
       >
         <Container>
           <div className="mx-auto max-w-3xl text-center">
@@ -104,7 +104,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
               {t("guaranteeTitle")}
             </h2>
-            <p className="mt-4 text-2xl md:text-3xl font-semibold text-primary">
+            <p className="mt-4 text-3xl md:text-4xl font-bold text-primary">
               {t("guaranteeHeadline")}
             </p>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
@@ -117,7 +117,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* Why Now Section - The 6 Bullets */}
-      <section className="border-t border-border py-16 md:py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container>
           <div className="mx-auto max-w-2xl text-center mb-10">
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -133,31 +133,37 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               {
                 title: t("whyNowCard1Title"),
                 text: t("whyNowCard1Text"),
+                borderColor: "border-l-emerald-500",
               },
               {
                 title: t("whyNowCard2Title"),
                 text: t("whyNowCard2Text"),
+                borderColor: "border-l-amber-500",
               },
               {
                 title: t("whyNowCard3Title"),
                 text: t("whyNowCard3Text"),
+                borderColor: "border-l-blue-500",
               },
               {
                 title: t("whyNowCard4Title"),
                 text: t("whyNowCard4Text"),
+                borderColor: "border-l-rose-500",
               },
               {
                 title: t("whyNowCard5Title"),
                 text: t("whyNowCard5Text"),
+                borderColor: "border-l-violet-500",
               },
               {
                 title: t("whyNowCard6Title"),
                 text: t("whyNowCard6Text"),
+                borderColor: "border-l-cyan-500",
               },
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-border bg-card p-5"
+                className={`rounded-lg border border-border border-l-4 ${item.borderColor} bg-card p-5`}
               >
                 <h3 className="font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -170,7 +176,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* What We Don't Do Section */}
-      <section className="border-t border-border bg-muted/50 py-16 md:py-20">
+      <section className="border-t border-border bg-muted/50 py-12 md:py-16">
         <Container>
           <div className="grid gap-10 md:grid-cols-2 md:items-center">
             <div>
@@ -180,7 +186,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <p className="mt-3 text-muted-foreground">
                 {t("whatWeDontDoSubtitle")}
               </p>
-              <ul className="mt-6 space-y-3">
+              <ul className="mt-6 space-y-3 rounded-lg bg-rose-50 p-5">
                 {[
                   t("whatWeDontDoItem1"),
                   t("whatWeDontDoItem2"),
@@ -189,8 +195,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   t("whatWeDontDoItem5"),
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
-                    <XCircle className="h-4 w-4 flex-shrink-0 text-destructive" />
-                    <span className="text-sm">{t("whatWeDontDoPrefix")} {item}</span>
+                    <XCircle className="h-4 w-4 flex-shrink-0 text-rose-600" />
+                    <span className="text-sm"><span className="text-rose-600 font-semibold">{t("whatWeDontDoPrefix")}</span> {item}</span>
                   </li>
                 ))}
               </ul>
@@ -214,7 +220,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* What We Actually Do Section */}
-      <section className="border-t border-border py-16 md:py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container>
           <div className="mx-auto max-w-2xl text-center mb-10">
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -223,10 +229,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
-            <Card className="border-2 border-transparent transition-colors hover:border-primary/20">
+            <Card className="border-t-4 border-t-emerald-500 bg-emerald-50/50 transition-colors hover:border-t-emerald-600">
               <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <Goal className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
+                  <Goal className="h-5 w-5 text-emerald-600" />
                 </div>
                 <h3 className="mt-4 font-semibold">{t("whatWeActuallyDoCard1Title")}</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -241,10 +247,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-transparent transition-colors hover:border-primary/20">
+            <Card className="border-t-4 border-t-blue-500 bg-blue-50/50 transition-colors hover:border-t-blue-600">
               <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <Zap className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                  <Zap className="h-5 w-5 text-blue-600" />
                 </div>
                 <h3 className="mt-4 font-semibold">{t("whatWeActuallyDoCard2Title")}</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -259,10 +265,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-transparent transition-colors hover:border-primary/20">
+            <Card className="border-t-4 border-t-violet-500 bg-violet-50/50 transition-colors hover:border-t-violet-600">
               <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <Rocket className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100">
+                  <Rocket className="h-5 w-5 text-violet-600" />
                 </div>
                 <h3 className="mt-4 font-semibold">{t("whatWeActuallyDoCard3Title")}</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -281,7 +287,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* Case Studies Section */}
-      <section className="border-t border-border bg-muted/50 py-16 md:py-20">
+      <section className="border-t border-border bg-muted/50 py-12 md:py-16">
         <Container>
           <div className="mx-auto max-w-2xl text-center mb-10">
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -293,8 +299,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
-            {caseStudies.map((study) => (
-              <Card key={study.slug} className="flex flex-col">
+            {caseStudies.map((study, index) => {
+              const accentColors = ["bg-emerald-500", "bg-blue-500", "bg-amber-500"];
+              const accentColor = accentColors[index % accentColors.length];
+              return (
+              <Card key={study.slug} className="flex flex-col overflow-hidden">
+                <div className={`h-1 ${accentColor}`} />
                 <CardHeader>
                   <p className="text-sm text-muted-foreground">
                     {study.meta.client || study.meta.industry}
@@ -323,7 +333,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-8 text-center">
@@ -337,7 +348,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* The Three Risks Section */}
-      <section className="border-t border-border bg-muted/50 py-16 md:py-20">
+      <section className="border-t border-border bg-muted/50 py-12 md:py-16">
         <Container>
           <div className="mx-auto max-w-2xl text-center mb-10">
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -349,9 +360,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-lg border border-border bg-card p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 mb-3">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
+            <div className="rounded-lg border border-border border-l-4 border-l-amber-500 bg-amber-50/50 p-5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 mb-3">
+                <AlertTriangle className="h-5 w-5 text-amber-600" />
               </div>
               <h3 className="font-semibold">{t("riskOperationalTitle")}</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -359,9 +370,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </p>
             </div>
 
-            <div className="rounded-lg border border-border bg-card p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 mb-3">
-                <Users className="h-5 w-5 text-destructive" />
+            <div className="rounded-lg border border-border border-l-4 border-l-rose-500 bg-rose-50/50 p-5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100 mb-3">
+                <Users className="h-5 w-5 text-rose-600" />
               </div>
               <h3 className="font-semibold">{t("riskPeopleTitle")}</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -369,9 +380,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </p>
             </div>
 
-            <div className="rounded-lg border border-border bg-card p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 mb-3">
-                <TrendingDown className="h-5 w-5 text-destructive" />
+            <div className="rounded-lg border border-border border-l-4 border-l-orange-500 bg-orange-50/50 p-5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100 mb-3">
+                <TrendingDown className="h-5 w-5 text-orange-600" />
               </div>
               <h3 className="font-semibold">{t("riskCompetitiveTitle")}</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -383,22 +394,22 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20">
+      <section className="bg-slate-900 text-white py-12 md:py-16">
         <Container>
           <div className="mx-auto max-w-xl text-center">
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-white">
               {t("ctaTitle")}
             </h2>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-slate-300">
               {t("ctaLine1")}
             </p>
-            <p className="mt-3 text-sm text-muted-foreground">
+            <p className="mt-3 text-sm text-slate-300">
               {t("ctaLine2")}
             </p>
-            <p className="mt-3 text-xs text-muted-foreground/80 italic">
+            <p className="mt-3 text-xs text-slate-400 italic">
               {t("ctaLine3")}
             </p>
-            <Button size="lg" className="mt-6" asChild>
+            <Button size="lg" className="mt-8 text-base px-8" asChild>
               <Link href="/talk">
                 {t("ctaButton")} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

@@ -10,6 +10,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
+const STEP_CIRCLE_COLORS = [
+  "bg-emerald-600",
+  "bg-blue-600",
+  "bg-amber-600",
+  "bg-violet-600",
+  "bg-rose-600",
+];
+
 export default async function ImplementationPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -18,7 +26,7 @@ export default async function ImplementationPage({ params }: { params: Promise<{
   return (
     <>
       {/* Hero */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-20">
         <Container size="small">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
             <Zap className="h-6 w-6 text-primary" />
@@ -39,8 +47,9 @@ export default async function ImplementationPage({ params }: { params: Promise<{
       </section>
 
       {/* How It Works */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("howItWorksTitle")}</h2>
           <div className="mt-8 space-y-8">
             {[
@@ -74,9 +83,9 @@ export default async function ImplementationPage({ params }: { params: Promise<{
                 duration: t("phase5Duration"),
                 description: t("phase5Description"),
               },
-            ].map((phase) => (
+            ].map((phase, index) => (
               <div key={phase.step} className="flex gap-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${STEP_CIRCLE_COLORS[index]} text-sm font-bold text-white`}>
                   {phase.step}
                 </div>
                 <div>
@@ -95,8 +104,9 @@ export default async function ImplementationPage({ params }: { params: Promise<{
       </section>
 
       {/* Why Prototype First */}
-      <section className="bg-muted/50 py-20">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whyPrototypeTitle")}</h2>
           <div className="mt-6 space-y-4 text-muted-foreground">
             <p>
@@ -117,7 +127,7 @@ export default async function ImplementationPage({ params }: { params: Promise<{
                 key={item}
                 className="rounded-lg border border-border bg-card/80 p-4 text-center"
               >
-                <CheckCircle className="mx-auto h-6 w-6 text-primary" />
+                <CheckCircle className="mx-auto h-6 w-6 text-emerald-500" />
                 <p className="mt-2 text-sm font-medium">{item}</p>
               </div>
             ))}
@@ -126,8 +136,9 @@ export default async function ImplementationPage({ params }: { params: Promise<{
       </section>
 
       {/* What We Build */}
-      <section className="py-20">
+      <section className="py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatWeBuildTitle")}</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
@@ -137,9 +148,9 @@ export default async function ImplementationPage({ params }: { params: Promise<{
               t("whatWeBuildItem4"),
               t("whatWeBuildItem5"),
               t("whatWeBuildItem6"),
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <CheckCircle className="h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item} className={`flex items-center gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <span>{item}</span>
               </div>
             ))}
@@ -148,9 +159,9 @@ export default async function ImplementationPage({ params }: { params: Promise<{
       </section>
 
       {/* Pricing */}
-      <section className="bg-muted/50 py-16">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
-          <div className="rounded-lg border border-primary/20 bg-card/90 p-8 text-center">
+          <div className="rounded-lg bg-amber-50 border-l-4 border-l-amber-500 p-8 text-center dark:bg-amber-950/30 dark:border-l-amber-400">
             <h3 className="text-xl font-semibold mb-4">{t("pricingSectionTitle")}</h3>
             <p className="text-3xl font-bold text-primary">
               {t("pricingHeadline")}
@@ -172,7 +183,7 @@ export default async function ImplementationPage({ params }: { params: Promise<{
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="text-center">
             <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>

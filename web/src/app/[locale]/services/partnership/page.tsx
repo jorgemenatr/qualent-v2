@@ -18,7 +18,7 @@ export default async function PartnershipPage({ params }: { params: Promise<{ lo
   return (
     <>
       {/* Hero */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-20">
         <Container size="small">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
             <Handshake className="h-6 w-6 text-primary" />
@@ -39,10 +39,11 @@ export default async function PartnershipPage({ params }: { params: Promise<{ lo
       </section>
 
       {/* What's Included */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatsIncludedTitle")}</h2>
-          <div className="mt-8 space-y-6">
+          <div className="mt-8 space-y-0">
             {[
               {
                 title: t("included1Title"),
@@ -64,9 +65,9 @@ export default async function PartnershipPage({ params }: { params: Promise<{ lo
                 title: t("included5Title"),
                 description: t("included5Description"),
               },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-4">
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item.title} className={`flex gap-4 p-4 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <div>
                   <h3 className="font-semibold">{item.title}</h3>
                   <p className="mt-1 text-muted-foreground">{item.description}</p>
@@ -78,27 +79,28 @@ export default async function PartnershipPage({ params }: { params: Promise<{ lo
       </section>
 
       {/* How It Works */}
-      <section className="bg-muted/50 py-20">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("howItWorksTitle")}</h2>
           <p className="mt-4 text-muted-foreground">
             {t("howItWorksIntro")}
           </p>
-          <div className="mt-8 space-y-4">
+          <div className="mt-8 space-y-0">
             {[
               t("howItWorksItem1"),
               t("howItWorksItem2"),
               t("howItWorksItem3"),
               t("howItWorksItem4"),
               t("howItWorksItem5"),
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
+            ].map((item, index) => (
+              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
                 <div className="h-1.5 w-1.5 mt-2.5 flex-shrink-0 rounded-full bg-primary" />
                 <span className="text-muted-foreground">{item}</span>
               </div>
             ))}
           </div>
-          <div className="mt-8 rounded-lg border border-border bg-card/80 p-6">
+          <div className="mt-8 rounded-lg bg-amber-50 border-l-4 border-l-amber-500 p-6 dark:bg-amber-950/30 dark:border-l-amber-400">
             <p className="text-muted-foreground">
               {t("howItWorksNote")}
             </p>
@@ -107,8 +109,9 @@ export default async function PartnershipPage({ params }: { params: Promise<{ lo
       </section>
 
       {/* Why Partnership Matters */}
-      <section className="py-20">
+      <section className="py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whyMattersTitle")}</h2>
           <div className="mt-6 space-y-4 text-muted-foreground">
             <p>{t("whyMattersPara1")}</p>
@@ -121,7 +124,7 @@ export default async function PartnershipPage({ params }: { params: Promise<{ lo
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="text-center">
             <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>

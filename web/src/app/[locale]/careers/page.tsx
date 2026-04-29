@@ -22,21 +22,25 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
       icon: Zap,
       title: t("value1Title"),
       description: t("value1Description"),
+      accent: "border-l-emerald-500",
     },
     {
       icon: Brain,
       title: t("value2Title"),
       description: t("value2Description"),
+      accent: "border-l-blue-500",
     },
     {
       icon: Users,
       title: t("value3Title"),
       description: t("value3Description"),
+      accent: "border-l-amber-500",
     },
     {
       icon: Clock,
       title: t("value4Title"),
       description: t("value4Description"),
+      accent: "border-l-violet-500",
     },
   ];
 
@@ -65,7 +69,7 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* What It's Like */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-16">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl font-bold">{t("whatItsLikeHeading")}</h2>
@@ -73,7 +77,7 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
             {values.map((value) => (
               <div
                 key={value.title}
-                className="rounded-lg border border-border bg-card/80 p-6 transition-colors hover:border-primary/30"
+                className={`rounded-lg border border-border border-l-4 ${value.accent} bg-card/80 p-6 transition-colors`}
               >
                 <value.icon className="h-6 w-6 text-primary mb-3" />
                 <h3 className="text-lg font-semibold">{value.title}</h3>
@@ -87,7 +91,7 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* Who We're Looking For */}
-      <section className="relative bg-muted/50 py-20 overflow-hidden">
+      <section className="relative bg-muted/50 py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute right-0 top-0 w-[400px] h-[300px] rounded-full bg-primary/5 blur-3xl" />
         </div>
@@ -101,31 +105,31 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
             </p>
             <ul className="space-y-3 ml-1">
               <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                <ArrowRight className="h-5 w-5 text-emerald-500 mt-0.5 shrink-0" />
                 <span>
                   {t("lookingForItem1")}
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                <ArrowRight className="h-5 w-5 text-blue-500 mt-0.5 shrink-0" />
                 <span>
                   {t("lookingForItem2")}
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                <ArrowRight className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
                 <span>
                   {t("lookingForItem3")}
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                <ArrowRight className="h-5 w-5 text-violet-500 mt-0.5 shrink-0" />
                 <span>
                   {t("lookingForItem4")}
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                <ArrowRight className="h-5 w-5 text-rose-500 mt-0.5 shrink-0" />
                 <span>
                   {t("lookingForItem5")}
                 </span>
@@ -136,7 +140,7 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* Open Positions */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-16">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl font-bold">{t("openPositionsHeading")}</h2>
@@ -149,7 +153,7 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* CTA */}
-      <section className="relative border-t border-border py-20 overflow-hidden">
+      <section className="relative border-t border-border py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(34,197,94,0.08),transparent_70%)]" />
         </div>

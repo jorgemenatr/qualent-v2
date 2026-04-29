@@ -23,16 +23,22 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
       icon: Calculator,
       title: t("benefit1Title"),
       description: t("benefit1Description"),
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
     },
     {
       icon: Target,
       title: t("benefit2Title"),
       description: t("benefit2Description"),
+      iconBg: "bg-amber-100",
+      iconColor: "text-amber-600",
     },
     {
       icon: Shield,
       title: t("benefit3Title"),
       description: t("benefit3Description"),
+      iconBg: "bg-emerald-100",
+      iconColor: "text-emerald-600",
     },
   ];
 
@@ -69,14 +75,14 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* Example Calculation */}
-      <section className="relative border-t border-border py-20 overflow-hidden">
+      <section className="relative border-t border-border py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/5 blur-3xl" />
         </div>
 
         <Container className="relative">
           <div className="mx-auto max-w-2xl">
-            <Card className="border-2 border-primary/20 bg-card/90 backdrop-blur-sm overflow-hidden">
+            <Card className="border-2 border-emerald-200 bg-emerald-50 backdrop-blur-sm overflow-hidden">
               <div className="bg-primary/5 px-6 py-4 border-b border-primary/10">
                 <p className="text-sm font-medium text-primary uppercase tracking-wide">
                   {t("exampleLabel")}
@@ -112,7 +118,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* Benefits */}
-      <section className="relative bg-muted/50 py-20 overflow-hidden">
+      <section className="relative bg-muted/50 py-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-20 right-0 w-[350px] h-[300px] rounded-full bg-primary/6 blur-3xl" />
           <div className="absolute -bottom-20 left-0 w-[350px] h-[300px] rounded-full bg-[rgba(132,204,22,0.05)] blur-3xl" />
@@ -132,8 +138,8 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
                   className="flex gap-4 md:gap-6 p-6 rounded-lg border border-border bg-card/80 transition-colors hover:border-primary/30"
                 >
                   <div className="flex-shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <benefit.icon className="h-6 w-6 text-primary" />
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.iconBg}`}>
+                      <benefit.icon className={`h-6 w-6 ${benefit.iconColor}`} />
                     </div>
                   </div>
                   <div>
@@ -148,9 +154,9 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* Honest Disclaimer */}
-      <section className="border-t border-border py-16">
+      <section className="border-t border-border py-14">
         <Container size="small">
-          <div className="rounded-lg border border-border bg-card/50 p-8 md:p-10">
+          <div className="rounded-lg bg-amber-50 border-l-4 border-l-amber-500 p-8 md:p-10">
             <h3 className="text-xl font-semibold mb-4">{t("honestyTitle")}</h3>
             <p className="text-muted-foreground leading-relaxed">
               {t("honestyLine1")} <strong className="text-foreground">{t("honestyLine1Bold")}</strong>
@@ -158,11 +164,11 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
             <p className="mt-4 text-muted-foreground leading-relaxed">
               {t("honestyLine2")}
             </p>
-            <div className="mt-6 flex items-center gap-2 text-primary">
+            <div className="mt-6 flex items-center gap-2 text-emerald-600">
               <Check className="h-5 w-5" />
               <span className="font-medium">{t("honestyCheck1")}</span>
             </div>
-            <div className="flex items-center gap-2 text-primary">
+            <div className="flex items-center gap-2 text-emerald-600">
               <Check className="h-5 w-5" />
               <span className="font-medium">{t("honestyCheck2")}</span>
             </div>

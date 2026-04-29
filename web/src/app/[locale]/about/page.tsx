@@ -46,7 +46,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       </section>
 
       {/* Story */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-16">
         <Container size="small">
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl font-bold">{t("storyTitle")}</h2>
@@ -60,17 +60,19 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <p>
               {t("storyParagraph3")}
             </p>
-            <p>{t("storyParagraph4")} <i>{t("storyParagraph4Emphasis")}</i> {t("storyParagraph4End")}
-              <br />
-              <br />
-              <strong>{t("storyParagraph4Bold")}</strong>
-            </p>
+            <div className="border-l-4 border-l-primary pl-6">
+              <p>{t("storyParagraph4")} <i>{t("storyParagraph4Emphasis")}</i> {t("storyParagraph4End")}
+                <br />
+                <br />
+                <strong>{t("storyParagraph4Bold")}</strong>
+              </p>
+            </div>
           </div>
         </Container>
       </section>
 
       {/* How We Work */}
-      <section className="relative bg-muted/50 py-20 overflow-hidden">
+      <section className="relative bg-muted/50 py-16 overflow-hidden">
         {/* Subtle background accent */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute right-0 top-0 w-[400px] h-[300px] rounded-full bg-primary/5 blur-3xl" />
@@ -80,25 +82,25 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="w-12 h-1 bg-primary rounded-full mb-6" />
           <h2 className="text-2xl font-bold">{t("howWeWorkTitle")}</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg border border-border bg-card/80 p-6 transition-colors hover:border-primary/30">
+            <div className="rounded-lg border border-border border-t-4 border-t-emerald-500 bg-emerald-50/50 p-6 transition-colors hover:border-primary/30 hover:border-t-emerald-500">
               <h3 className="text-lg font-semibold">{t("howWeWorkCard1Title")}</h3>
               <p className="mt-2 text-muted-foreground">
                 {t("howWeWorkCard1Text")}
               </p>
             </div>
-            <div className="rounded-lg border border-border bg-card/80 p-6 transition-colors hover:border-primary/30">
+            <div className="rounded-lg border border-border border-t-4 border-t-blue-500 bg-blue-50/50 p-6 transition-colors hover:border-primary/30 hover:border-t-blue-500">
               <h3 className="text-lg font-semibold">{t("howWeWorkCard2Title")}</h3>
               <p className="mt-2 text-muted-foreground">
                 {t("howWeWorkCard2Text")}
               </p>
             </div>
-            <div className="rounded-lg border border-border bg-card/80 p-6 transition-colors hover:border-primary/30">
+            <div className="rounded-lg border border-border border-t-4 border-t-amber-500 bg-amber-50/50 p-6 transition-colors hover:border-primary/30 hover:border-t-amber-500">
               <h3 className="text-lg font-semibold">{t("howWeWorkCard3Title")}</h3>
               <p className="mt-2 text-muted-foreground">
                 {t("howWeWorkCard3Text")}
               </p>
             </div>
-            <div className="rounded-lg border border-border bg-card/80 p-6 transition-colors hover:border-primary/30">
+            <div className="rounded-lg border border-border border-t-4 border-t-violet-500 bg-violet-50/50 p-6 transition-colors hover:border-primary/30 hover:border-t-violet-500">
               <h3 className="text-lg font-semibold">{t("howWeWorkCard4Title")}</h3>
               <p className="mt-2 text-muted-foreground">
                 {t("howWeWorkCard4Text")}
@@ -127,7 +129,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       */}
 
       {/* CTA */}
-      <section className="relative border-t border-border py-20 overflow-hidden">
+      <section className="relative border-t border-border py-16 overflow-hidden">
         {/* Subtle centered glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(34,197,94,0.08),transparent_70%)]" />

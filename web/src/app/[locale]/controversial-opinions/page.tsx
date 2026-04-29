@@ -75,25 +75,44 @@ export default async function ControversialOpinionsPage({ params }: { params: Pr
       </section>
 
       {/* Opinions */}
-      {opinions.map((opinion, index) => (
-        <section
-          key={opinion.title}
-          className={`py-16 ${index % 2 === 0 ? "bg-muted/30" : ""}`}
-        >
-          <Container size="small">
-            <div className="w-12 h-1 bg-primary rounded-full mb-6" />
-            <h2 className="text-2xl font-bold">{opinion.title}</h2>
-            <p className="mt-2 text-lg text-primary font-medium">
-              {opinion.subtitle}
-            </p>
-            <div className="mt-6 space-y-4 text-muted-foreground">
-              {opinion.content.map((paragraph, pIndex) => (
-                <p key={pIndex}>{paragraph}</p>
-              ))}
-            </div>
-          </Container>
-        </section>
-      ))}
+      {opinions.map((opinion, index) => {
+        const accentColors = [
+          "border-l-emerald-500",
+          "border-l-blue-500",
+          "border-l-amber-500",
+          "border-l-violet-500",
+          "border-l-rose-500",
+          "border-l-cyan-500",
+        ];
+        const subtitleColors = [
+          "text-emerald-600",
+          "text-blue-600",
+          "text-amber-600",
+          "text-violet-600",
+          "text-rose-600",
+          "text-cyan-600",
+        ];
+        return (
+          <section
+            key={opinion.title}
+            className={`py-16 ${index % 2 === 0 ? "bg-slate-50" : "bg-white"}`}
+          >
+            <Container size="small">
+              <div className={`border-l-4 ${accentColors[index % accentColors.length]} pl-6`}>
+                <h2 className="text-2xl font-bold">{opinion.title}</h2>
+                <p className={`mt-2 text-xl font-medium ${subtitleColors[index % subtitleColors.length]}`}>
+                  {opinion.subtitle}
+                </p>
+              </div>
+              <div className="mt-6 space-y-4 text-muted-foreground">
+                {opinion.content.map((paragraph, pIndex) => (
+                  <p key={pIndex}>{paragraph}</p>
+                ))}
+              </div>
+            </Container>
+          </section>
+        );
+      })}
 
       {/* CTA */}
       <section className="relative border-t border-border py-20 overflow-hidden">

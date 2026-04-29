@@ -10,6 +10,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
+const STEP_CIRCLE_COLORS = [
+  "bg-emerald-600",
+  "bg-blue-600",
+  "bg-amber-600",
+  "bg-violet-600",
+  "bg-rose-600",
+];
+
 export default async function UnderstandingPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -18,7 +26,7 @@ export default async function UnderstandingPage({ params }: { params: Promise<{ 
   return (
     <>
       {/* Hero */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-20">
         <Container size="small">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
             <FileText className="h-6 w-6 text-primary" />
@@ -39,8 +47,9 @@ export default async function UnderstandingPage({ params }: { params: Promise<{ 
       </section>
 
       {/* What Happens */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatHappensTitle")}</h2>
           <div className="mt-8 space-y-6">
             {[
@@ -59,9 +68,9 @@ export default async function UnderstandingPage({ params }: { params: Promise<{ 
                 title: t("whatHappensStep3Title"),
                 description: t("whatHappensStep3Description"),
               },
-            ].map((item) => (
+            ].map((item, index) => (
               <div key={item.step} className="flex gap-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${STEP_CIRCLE_COLORS[index]} text-sm font-bold text-white`}>
                   {item.step}
                 </div>
                 <div>
@@ -75,19 +84,20 @@ export default async function UnderstandingPage({ params }: { params: Promise<{ 
       </section>
 
       {/* What You Get */}
-      <section className="bg-muted/50 py-20">
+      <section className="bg-muted/50 py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whatYouGetTitle")}</h2>
-          <div className="mt-8 space-y-4">
+          <div className="mt-8 space-y-0">
             {[
               t("whatYouGetItem1"),
               t("whatYouGetItem2"),
               t("whatYouGetItem3"),
               t("whatYouGetItem4"),
               t("whatYouGetItem5"),
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+            ].map((item, index) => (
+              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
+                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <span className="text-muted-foreground">{item}</span>
               </div>
             ))}
@@ -96,8 +106,9 @@ export default async function UnderstandingPage({ params }: { params: Promise<{ 
       </section>
 
       {/* Why We Do This */}
-      <section className="py-20">
+      <section className="py-12 md:py-16">
         <Container size="small">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
           <h2 className="text-2xl font-bold">{t("whyTitle")}</h2>
           <div className="mt-6 space-y-4 text-muted-foreground">
             <p>{t("whyPara1")}</p>
@@ -111,7 +122,7 @@ export default async function UnderstandingPage({ params }: { params: Promise<{ 
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border py-20">
+      <section className="border-t border-border py-12 md:py-16">
         <Container size="small">
           <div className="text-center">
             <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>

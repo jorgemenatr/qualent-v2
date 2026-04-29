@@ -58,36 +58,43 @@ export default async function ProofPage({
       <section className="border-t border-border py-20">
         <Container>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {caseStudies.map((study) => (
-              <Card key={study.slug} className="flex flex-col">
-                <CardHeader>
-                  <p className="text-sm text-muted-foreground">
-                    {study.meta.client || study.meta.industry}
-                  </p>
-                  <CardTitle className="mt-2">{study.meta.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-1 flex-col">
-                  {study.meta.result && (
-                    <div className="flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-3">
-                      <TrendingUp className="h-4 w-4 text-primary" />
-                      <p className="text-lg font-semibold text-primary">
-                        {study.meta.result}
-                      </p>
+            {caseStudies.map((study, index) => {
+              const topBarColors = [
+                "border-t-emerald-500",
+                "border-t-blue-500",
+                "border-t-amber-500",
+              ];
+              return (
+                <Card key={study.slug} className={`flex flex-col border-t-4 ${topBarColors[index % topBarColors.length]}`}>
+                  <CardHeader>
+                    <p className="text-sm text-muted-foreground">
+                      {study.meta.client || study.meta.industry}
+                    </p>
+                    <CardTitle className="mt-2">{study.meta.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-1 flex-col">
+                    {study.meta.result && (
+                      <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3">
+                        <TrendingUp className="h-4 w-4 text-emerald-600" />
+                        <p className="text-lg font-semibold text-emerald-600">
+                          {study.meta.result}
+                        </p>
+                      </div>
+                    )}
+                    <p className="mt-4 text-muted-foreground">
+                      {study.meta.description}
+                    </p>
+                    <div className="mt-auto pt-4">
+                      <Button variant="link" className="h-auto p-0" asChild>
+                        <Link href={`/proof/${study.slug}`}>
+                          {t("readCaseStudyButton")} <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </Button>
                     </div>
-                  )}
-                  <p className="mt-4 text-muted-foreground">
-                    {study.meta.description}
-                  </p>
-                  <div className="mt-auto pt-4">
-                    <Button variant="link" className="h-auto p-0" asChild>
-                      <Link href={`/proof/${study.slug}`}>
-                        {t("readCaseStudyButton")} <ArrowRight className="ml-1 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </Container>
       </section>

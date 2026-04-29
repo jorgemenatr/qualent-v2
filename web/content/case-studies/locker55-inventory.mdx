@@ -1,0 +1,134 @@
+---
+title: "Locker55: From Excel to Intelligent Inventory"
+description: "How a specialty sports equipment retailer in Mexico replaced a 25-sheet, 24,000-row Excel workbook with a full-stack inventory system — complete with AI-powered email parsing, WhatsApp automation, and barcode scanning — for $5/month."
+date: "2026-04-15"
+author: "PickleLlama Team"
+tags: ["Inventory Management", "Automation", "AI", "Barcode Scanning", "WhatsApp Integration"]
+client: "Specialty Sports Equipment Retailer"
+result: "Replaced 25-sheet Excel workbook, 10-15 min saved per order, instant financial reporting"
+industry: "Retail"
+published: true
+---
+
+## The Challenge
+
+A specialty baseball and sports equipment retailer in Merida, Mexico was running their entire business on a single Excel workbook. And it was enormous.
+
+**25 sheets. 24,000+ rows. One file.**
+
+This one spreadsheet handled everything: purchase orders from US vendors, import tracking through a third-party logistics partner in Monterrey, in-store inventory, customer records, sales tracking, shipping labels, monthly financial reports, and year-over-year analytics.
+
+Every single transaction required manual data entry at three separate points:
+
+1. **Vendor order confirmation emails** — someone had to read the email, then manually copy item descriptions, quantities, and prices into the spreadsheet
+2. **Importer messages via WhatsApp** — when items arrived at the import broker, their costs and markups had to be manually transcribed from chat messages into Excel
+3. **Physical receiving** — when inventory finally arrived at the store, it was counted by hand and logged manually, with no barcode verification
+
+The cost chain was particularly painful. Every item required a manual calculation: USD price, exchange rate conversion, 14% import fee, shipping costs, and finally the landed cost in Mexican pesos. All done with Excel formulas that nobody fully understood and everyone was afraid to break.
+
+Month-end financial reporting meant 2-3 hours of manual aggregation across 12 monthly tabs. Want to know your profit margin on gloves vs. bats? That's another hour of filtering and pivot tables.
+
+The owner knew this wasn't sustainable. With nearly 2,000 SKUs across 25+ product categories and around 50 regular customers, the business had outgrown its spreadsheet.
+
+## The Approach
+
+We didn't start by building software. We started by studying the Excel file.
+
+### Understanding the Real Workflow
+
+The 25-sheet workbook was actually a well-designed system — it had evolved over years to match the real workflow. Monthly tabs tracked sales chronologically. A dedicated tab calculated shipping rates by carrier and service level. Another tracked credit card balances across multiple accounts.
+
+The spreadsheet wasn't the problem. The manual entry was.
+
+We identified three automation opportunities that would eliminate the most painful manual work:
+
+1. **Automated email parsing** — extract order details from vendor confirmation emails automatically
+2. **WhatsApp integration** — capture importer cost updates from WhatsApp messages and link them to purchase orders
+3. **Barcode scanning** — verify incoming inventory with phone-based barcode scanning instead of manual counts
+
+### Day-One Replacement
+
+A critical requirement: the system had to replace Excel completely on day one. No parallel running. No "use both for a while." The owner wanted to close the spreadsheet and open the web app.
+
+This meant importing all existing data — 1,989 products, 50 customers, shipping rate tables, credit card accounts — in the first deployment.
+
+## The Solution
+
+### Full-Stack Web Application
+
+We built Locker55 as a Next.js application with a PostgreSQL database, deployed on AWS Amplify. The system mirrors the four-stage inventory lifecycle the owner had been tracking manually:
+
+**ORDERED → AT IMPORTER → IN STORE → SOLD**
+
+Each stage transitions automatically based on external events — an email from a vendor, a WhatsApp message from the importer, a barcode scan at receiving, or a sale recorded at the counter.
+
+### Automation #1: AI-Powered Email Parsing
+
+Every 5 minutes, a scheduled Lambda function checks the store's Gmail inbox for vendor order confirmations. When it finds one, Claude Haiku extracts the structured data: order number, item descriptions, quantities, unit prices in USD, and tracking numbers.
+
+The parsed data creates a purchase order automatically. No manual entry required.
+
+We chose Claude Haiku over regex patterns because vendor email formats vary wildly — eBay confirmation emails look nothing like Rawlings order confirmations. At $0.01 per email parsed, the AI approach is cheaper than the time spent maintaining regex rules.
+
+### Automation #2: WhatsApp Importer Communication
+
+The import broker communicates exclusively via WhatsApp. When they send a message with tracking numbers, import costs, or shipping updates, webhooks from the WhatsApp Business API capture it automatically.
+
+The system matches incoming messages to existing purchase orders, updates their status from ORDERED to AT IMPORTER, and records the actual import fees and shipping costs. It can even generate contextual auto-responses to routine importer questions like "what's the status of order X?"
+
+### Automation #3: Barcode Scanning
+
+When inventory arrives at the store, staff scan each item's barcode using their phone camera. The system uses the browser's native BarcodeDetector API — no app download required.
+
+For the first scan of any product, the system prompts staff to pair the barcode with an existing product record. After that, every scan is instant: scan, confirm, and the inventory count updates in real-time.
+
+We built 4K resolution capture with 3-pass image preprocessing to handle the realities of a busy stockroom — poor lighting, odd angles, damaged labels.
+
+### Real-Time Financial Dashboard
+
+The dashboard that replaced 2-3 hours of month-end spreadsheet work shows everything at a glance:
+
+- Monthly P&L with revenue, cost, and profit margin
+- Breakdowns by locality (in-store vs. shipped), customer, payment method, and carrier
+- Year-over-year sales trends from 2018 to present
+- Low-stock alerts with suggested reorder quantities
+- Credit card balance tracking across multiple accounts
+
+### Cost Chain Automation
+
+The manual calculation nightmare — USD price → exchange rate → import fee → shipping → landed cost in MXN — is now fully automated. Exchange rates update from Banxico's API. Import fees default to 14% but can be overridden per order. Shipping costs are captured from importer WhatsApp messages.
+
+Every line item shows the complete cost chain, and profit margins calculate automatically at the point of sale.
+
+## The Results
+
+The system went live with a full data import on day one. The Excel file was closed.
+
+**Time savings:**
+- ~10-15 minutes saved per purchase order cycle (previously required manual entry at three separate points)
+- Month-end financial reporting: from 2-3 hours of manual aggregation to instant dashboard access
+- Receiving process: barcode-verified in seconds vs. manual count-and-type
+
+**Accuracy improvements:**
+- Cost chain calculations are now error-free — no more broken Excel formulas or missed exchange rate updates
+- 100% barcode-verified receiving eliminates short shipment surprises
+- Inventory counts are real-time across all four lifecycle stages
+
+**Visibility gains:**
+- "What's at the importer?" is now a dashboard filter, not a phone call
+- Low-stock alerts trigger automatically instead of being discovered during a sale
+- Profit margins visible per product, per category, per customer — enabling better pricing decisions
+
+**Infrastructure cost:** $5/month total. Serverless PostgreSQL, managed hosting, Lambda crons, and S3 storage — all running on free tiers and minimal usage pricing.
+
+## Why This Matters
+
+This project is a textbook example of a problem that was too expensive to solve — until recently.
+
+A traditional custom inventory system for a small retailer would have cost $50,000-$100,000 and taken 6+ months. The economics never made sense for a business this size.
+
+But with modern tools — Next.js for rapid full-stack development, Claude Haiku for intelligent email parsing at pennies per transaction, serverless infrastructure at $5/month — the math changed completely.
+
+The owner isn't a tech company. They sell baseball gloves. But they had a real operational problem that was costing real time and real money every single day. And now it's solved.
+
+That's the kind of problem we exist to fix.

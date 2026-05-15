@@ -1,16 +1,38 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { Link } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ArrowLeft, Calendar, Clock, User, Building2, TrendingUp } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  Clock,
+  Building2,
+  TrendingUp,
+  Factory,
+} from "lucide-react";
+
 import { Container } from "@/components/layout";
+import { Button } from "@/components/ui/button";
 import { MDXContent } from "@/components/mdx";
 import { getContentBySlug, getAllSlugs } from "@/lib/content";
 import { routing } from "@/i18n/routing";
+import { PreviewToggle } from "./preview-toggle";
 
+/** Props for the case study page, following Next.js 15 async params pattern. */
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
+
+/** Band color mappings for the decorative accent stripe on the hero. */
+const BAND_COLOR_MAP: Record<string, string> = {
+  green: "from-emerald-500 to-emerald-600",
+  acid: "from-lime-400 to-lime-500",
+  warm: "from-amber-400 to-orange-500",
+  dark: "from-stone-700 to-stone-900",
+  stripe: "from-indigo-500 to-violet-600",
+};
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs("case-studies");
@@ -44,6 +66,10 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * Individual case study page with rich layout including hero section,
+ * metrics strip, live site preview, MDX content, and call-to-action.
+ */
 export default async function CaseStudyPage({ params }: PageProps) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
@@ -55,82 +81,199 @@ export default async function CaseStudyPage({ params }: PageProps) {
     notFound();
   }
 
-  return (
-    <article className="py-12">
-      <Container size="small">
-        {/* Back Link */}
-        <Link
-          href="/proof"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t("backLink")}
-        </Link>
+  const { meta, content, readingTime: readTime } = caseStudy;
+  const hasMetrics = meta.metrics && meta.metrics.length > 0;
+  const hasPreview = Boolean(meta.preview_url);
+  const hasTags = meta.tags && meta.tags.length > 0;
+  const highlightSet = new Set(meta.tags_highlight ?? []);
+  const bandGradient =
+    BAND_COLOR_MAP[meta.band_color ?? "green"] ?? BAND_COLOR_MAP.green;
 
-        {/* Header */}
-        <header className="mb-12">
-          {/* Result Badge */}
-          {caseStudy.meta.result && (
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary">
-              <TrendingUp className="h-4 w-4" />
-              <span className="font-semibold">{caseStudy.meta.result}</span>
+  return (
+    <article>
+      {/* ----------------------------------------------------------------- */}
+      {/* Decorative band accent                                            */}
+      {/* ----------------------------------------------------------------- */}
+      <div
+        className={`h-1 w-full bg-gradient-to-r ${bandGradient}`}
+        aria-hidden="true"
+      />
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Hero Section                                                      */}
+      {/* ----------------------------------------------------------------- */}
+      <section className="bg-stone-50 pb-12 pt-10 dark:bg-stone-950">
+        <Container size="small">
+          {/* Back link */}
+          <Link
+            href="/proof"
+            className="group mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+            {t("backLink")}
+          </Link>
+
+          {/* Industry tag */}
+          {meta.industry && (
+            <div className="mb-4 flex items-center gap-2">
+              <Factory className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                {meta.industry}
+              </span>
             </div>
           )}
 
-          <h1 className="text-4xl font-bold tracking-tight">
-            {caseStudy.meta.title}
+          {/* Title */}
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            {meta.title}
           </h1>
-          <p className="mt-4 text-xl text-muted-foreground">
-            {caseStudy.meta.description}
+
+          {/* Description */}
+          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+            {meta.description}
           </p>
 
-          {/* Meta */}
-          <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-            {caseStudy.meta.client && (
-              <div className="flex items-center gap-2">
-                <Building2 className="h-4 w-4" />
-                {caseStudy.meta.client}
+          {/* Metadata row */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-muted-foreground">
+            {meta.client && (
+              <div className="flex items-center gap-1.5">
+                <Building2 className="h-3.5 w-3.5" />
+                <span>{meta.client}</span>
               </div>
             )}
-            {caseStudy.meta.industry && (
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                {caseStudy.meta.industry}
+            {meta.industry && (
+              <div className="flex items-center gap-1.5">
+                <Factory className="h-3.5 w-3.5" />
+                <span>{meta.industry}</span>
               </div>
             )}
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              {new Date(caseStudy.meta.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-              })}
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5" />
+              <span>
+                {new Date(meta.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </span>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              {caseStudy.readingTime}
+            <div className="flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" />
+              <span>{readTime}</span>
             </div>
           </div>
 
-          {/* Tags */}
-          {caseStudy.meta.tags && caseStudy.meta.tags.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {caseStudy.meta.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
+          {/* Result badge */}
+          {meta.result && (
+            <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+              <TrendingUp className="h-4 w-4" />
+              {meta.result}
             </div>
           )}
-        </header>
+        </Container>
+      </section>
 
-        {/* Content */}
-        <div className="prose prose-neutral dark:prose-invert max-w-none">
-          <MDXContent source={caseStudy.content} />
-        </div>
-      </Container>
+      {/* ----------------------------------------------------------------- */}
+      {/* Metrics Strip                                                     */}
+      {/* ----------------------------------------------------------------- */}
+      {hasMetrics && (
+        <section className="border-b border-t border-border bg-background">
+          <Container>
+            <div className="grid grid-cols-2 divide-x divide-border sm:grid-cols-3 lg:grid-cols-4">
+              {meta.metrics!.map((metric) => (
+                <div
+                  key={metric.label}
+                  className="px-4 py-6 text-center sm:px-6 sm:py-8"
+                >
+                  <p className="text-2xl font-bold tracking-tight sm:text-3xl">
+                    {metric.value}
+                  </p>
+                  <p className="mt-1 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                    {metric.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Live Preview                                                      */}
+      {/* ----------------------------------------------------------------- */}
+      {hasPreview && (
+        <section className="bg-stone-50 py-10 dark:bg-stone-950">
+          <Container>
+            <PreviewToggle
+              previewUrl={meta.preview_url!}
+              liveUrl={meta.live_url}
+              viewLiveSiteLabel={t("viewLiveSite")}
+            />
+          </Container>
+        </section>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
+      {/* MDX Content                                                       */}
+      {/* ----------------------------------------------------------------- */}
+      <section className="py-12 sm:py-16">
+        <Container size="small">
+          <div className="prose prose-neutral dark:prose-invert mx-auto max-w-none">
+            <MDXContent source={content} />
+          </div>
+        </Container>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Tech Tags                                                         */}
+      {/* ----------------------------------------------------------------- */}
+      {hasTags && (
+        <section className="border-t border-border py-10">
+          <Container size="small">
+            <h2 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              {t("techLabel")}
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {meta.tags!.map((tag) => {
+                const isHighlighted = highlightSet.has(tag);
+                return (
+                  <span
+                    key={tag}
+                    className={
+                      isHighlighted
+                        ? "rounded-full bg-lime-300 px-3 py-1 text-xs font-medium text-lime-900 dark:bg-lime-400 dark:text-lime-950"
+                        : "rounded-full border border-border px-3 py-1 text-xs text-muted-foreground"
+                    }
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
+      {/* CTA                                                               */}
+      {/* ----------------------------------------------------------------- */}
+      <section className="border-t border-border bg-stone-50 py-16 dark:bg-stone-950">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-2xl font-bold tracking-tight">
+              {t("ctaHeading")}
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              {t("ctaDescription")}
+            </p>
+            <Button className="mt-6" asChild>
+              <Link href="/talk">
+                {t("ctaButton")}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </Container>
+      </section>
     </article>
   );
 }

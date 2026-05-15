@@ -1,0 +1,45 @@
+---
+title: "Rail Infrastructure Investment Showcase"
+description: "How we built a sophisticated web presence for a rail infrastructure company with interactive mapping of Western Canadian energy logistics corridors."
+date: "2026-05-01"
+author: "PickleLlama Team"
+tags: ["Next.js", "Interactive Maps", "Leaflet", "GeoJSON", "AWS Amplify", "Framer Motion"]
+client: "Buffalo Rail & Infrastructure Corp."
+result: "$80M+ investment platform with interactive rail corridor mapping"
+industry: "Rail Infrastructure"
+published: true
+metrics:
+  - value: "$80M+"
+    label: "Investment showcased"
+  - value: "550"
+    label: "Rail car capacity"
+  - value: "21,944"
+    label: "Operator grid cells"
+tags_highlight: ["Interactive Maps"]
+card_size: "mid"
+preview_url: "https://buffalorail.com"
+band_color: "dark"
+live_url: "https://buffalorail.com"
+---
+
+## The Challenge
+
+Buffalo Rail and Infrastructure Corp. was launching with a significant story to tell — over $80M in rail infrastructure investment across Western Canada, 550 rail car capacity, and strategic positioning within the energy logistics corridor. They needed a web presence that could communicate this scale to energy sector decision-makers, investors, and partners from day one.
+
+A conventional corporate website with stock imagery and text descriptions would fail to convey the geographic and operational scope of their infrastructure. The audience — executives in energy logistics — needed to immediately understand where Buffalo Rail sits within the broader network of rail corridors, pipelines, and energy operations.
+
+## The Solution
+
+Building on the interactive mapping approach we developed for Torq Energy Logistics, we created a site centered around sophisticated multi-layer GeoJSON visualizations. The map renders CN and CP rail networks, major pipeline routes, gas plant locations, and oil field boundaries — providing the geographic context that makes Buffalo Rail's terminal positions meaningful.
+
+The most technically demanding feature is the operator tenure visualization. We render 21,944 grid cells showing the density and longevity of energy operations across the region. The initial implementation created over 44,000 DOM nodes, which would have crippled browser performance. We solved this by switching to Canvas-based rendering, collapsing all those elements into a single composited layer. The result is smooth interaction even on modest hardware.
+
+The site is built with Next.js 15 and TypeScript, styled with Tailwind CSS, and animated with Framer Motion. Like Torq, it deploys as a fully static export on AWS Amplify — no server-side runtime, minimal hosting costs, and fast load times globally.
+
+## The Results
+
+The site launched at buffalorail.com and serves as the primary digital touchpoint for Buffalo Rail's stakeholder communications. The interactive map has proven effective at conveying the company's strategic positioning within Western Canada's energy infrastructure — something that would require a lengthy slide deck to communicate otherwise.
+
+The Canvas rendering optimization was a key technical win. Reducing 44,000+ DOM nodes to a single Canvas element made the difference between a sluggish experience and a responsive one, particularly important given that many users in the energy sector access sites from field offices with limited hardware.
+
+This project validated the data-driven mapping approach as a repeatable pattern for infrastructure and logistics companies — organizations whose value proposition is inherently geographic.

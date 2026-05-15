@@ -1,0 +1,55 @@
+---
+title: "Interactive Rail Logistics Platform"
+description: "How we replaced a legacy WordPress site with a high-performance Next.js platform featuring interactive GeoJSON mapping of 7 terminals across Western Canada."
+date: "2026-03-15"
+author: "PickleLlama Team"
+tags: ["Next.js", "Interactive Maps", "Leaflet", "GeoJSON", "AWS Amplify", "TypeScript"]
+client: "Torq Energy Logistics"
+result: "Legacy WordPress replaced with interactive operations platform"
+industry: "Energy & Logistics"
+published: true
+metrics:
+  - value: "7"
+    label: "Terminals mapped"
+  - value: "200+"
+    label: "Vehicle fleet"
+  - value: "600K+"
+    label: "GeoJSON features"
+tags_highlight: ["Interactive Maps", "GeoJSON"]
+card_size: "mid"
+preview_url: "https://torqlogistics.com"
+band_color: "warm"
+live_url: "https://torqlogistics.com"
+---
+
+## The Challenge
+
+Torq Energy Logistics operates a fleet of over 200 vehicles across 7 terminals in Western Canada, serving the energy sector with crude oil hauling, water management, and pipeline services. Their existing WordPress website was a static brochure that did nothing to convey the scale and geographic reach of their operations.
+
+The site couldn't visualize terminal locations in context, had no way to show the rail networks and pipeline infrastructure that define Torq's competitive advantage, and was slow, difficult to update, and increasingly out of step with the company's growth.
+
+Torq needed a web presence that matched the sophistication of their operations — one that could communicate their footprint to prospective clients and partners at a glance.
+
+## The Approach
+
+Rather than building another static marketing site, we took a data-driven approach. We sourced and processed GeoJSON datasets for CN and CP rail networks, major pipelines, oil fields, and gas plant locations across Alberta and Saskatchewan. The goal was to let the map tell the story — showing Torq's terminals positioned within the broader energy logistics infrastructure of Western Canada.
+
+We chose Leaflet for its lightweight footprint and deep control over rendering, combined with Next.js 15 for the application framework. The entire site was designed as a static export to maximize performance and minimize hosting costs.
+
+## The Solution
+
+The centerpiece is an interactive map that layers multiple GeoJSON datasets — over 600,000 features in total — into a coherent visualization. Users can explore Torq's 7 terminal locations alongside CN and CP rail corridors, pipeline routes, oil field boundaries, and gas plant positions.
+
+Each terminal has its own detail view with service descriptions, fleet information, and geographic context. The map includes an operator tenure visualization rendered across 21,944 grid cells, showing the density and longevity of energy operations in the region.
+
+We built the site with Next.js 15 and TypeScript, using static generation for every page. Tailwind CSS handles the design system, and Framer Motion provides smooth transitions between views. The entire application deploys to AWS Amplify as a static export — no server runtime required.
+
+## The Results
+
+The new site launched and immediately gave Torq a digital presence that reflects the scale of their physical operations. Load times dropped dramatically compared to the WordPress original, and the interactive map became a conversation starter with prospective clients.
+
+The client was sufficiently impressed with the approach that they engaged us to build a second site — Buffalo Rail and Infrastructure Corp — using the same mapping technology and data-driven architecture. That follow-on project is now live at buffalorail.com.
+
+## Key Takeaways
+
+Building a logistics company's website around real geographic data — rather than stock photos and bullet points — creates a fundamentally different impression. The interactive map communicates operational scale in a way that paragraphs of text never could. And by using static generation with Next.js, the site delivers that rich experience without sacrificing performance or inflating hosting costs.

@@ -602,19 +602,36 @@
     "backLink": "Volver a Recursos"
   },
   "Proof": {
-    "metaTitle": "Resultados",
-    "metaDescription": "Casos de éxito y resultados del trabajo de PickleLlama con empresas medianas.",
-    "heroHeading": "Resultados e historias de batalla",
-    "heroDescription": "Resultados reales de proyectos reales. Éxitos y fracasos: esto es lo que hemos construido, el impacto que ha tenido y lo que aprendimos en el camino.",
+    "metaTitle": "Resultados — Casos de Éxito",
+    "metaDescription": "Casos de éxito y resultados del trabajo de PickleLlama con empresas medianas. Proyectos reales, ROI real.",
+    "heroEyebrow": "Casos de Éxito",
+    "heroHeading": "<green>Resultados</green> reales para problemas reales.",
+    "heroDescription": "Creamos software que mueve números. Aquí están las pruebas.",
+    "statProjectsNum": "8+",
+    "statProjectsLabel": "Proyectos entregados",
+    "statCostNum": "~10x",
+    "statCostLabel": "Menos costo que desarrollo tradicional",
+    "statRoiNum": "0",
+    "statRoiLabel": "Proyectos sin ROI comprobado",
+    "sectionTitle": "Lo que hemos construido.",
+    "sectionNote": "Cada tarjeta es un proyecto real. Haz clic para la historia completa.",
+    "previewToggleOpen": "Ver proyecto en vivo",
+    "previewToggleClose": "Cerrar vista previa",
     "readCaseStudyButton": "Leer caso de éxito",
-    "ctaHeading": "¿Quieres resultados similares?",
-    "ctaDescription": "Platiquemos sobre tus retos y veamos qué es posible.",
+    "ctaHeading": "¿Tu problema está en esta lista?",
+    "ctaDescription": "Si no lo está, probablemente debería estarlo. Hablemos sobre lo que te frena.",
     "ctaButton": "Agenda tu diagnóstico"
   },
   "ProofSlug": {
     "metaNotFoundTitle": "Caso de éxito no encontrado",
     "metaTitleSuffix": "| Caso de éxito",
-    "backLink": "Volver a Resultados"
+    "backLink": "Volver al Portafolio",
+    "readingTime": "Tiempo de lectura",
+    "viewLiveSite": "Ver sitio en vivo",
+    "techLabel": "Tecnologías",
+    "ctaHeading": "¿Quieres resultados similares?",
+    "ctaDescription": "Hablemos de tus desafíos y exploremos lo que es posible para tu negocio.",
+    "ctaButton": "Agenda tu diagnóstico"
   },
   "WhoWeWorkWith": {
     "metaTitle": "Con quién trabajamos",

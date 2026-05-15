@@ -17,6 +17,14 @@ export interface ContentMeta {
   client?: string;
   result?: string;
   industry?: string;
+  // Portfolio card fields
+  metrics?: { value: string; label: string }[];
+  tags_highlight?: string[];
+  card_size?: "featured" | "side" | "mid" | "wide";
+  preview_url?: string;
+  band_color?: "green" | "acid" | "warm" | "dark" | "stripe";
+  live_url?: string;
+  unlisted?: boolean;
 }
 
 export interface ContentItem {
@@ -66,6 +74,7 @@ export function getAllContent(type: ContentType): ContentItem[] {
     .map((slug) => getContentBySlug(type, slug))
     .filter((item): item is ContentItem => item !== null)
     .filter((item) => item.meta.published !== false)
+    .filter((item) => item.meta.unlisted !== true)
     .sort(
       (a, b) =>
         new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime()

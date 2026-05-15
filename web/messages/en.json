@@ -602,19 +602,36 @@
     "backLink": "Back to Learn"
   },
   "Proof": {
-    "metaTitle": "Proof",
-    "metaDescription": "Case studies and results from PickleLlama's work with mid-market companies.",
-    "heroHeading": "Proof and Pain Stories",
-    "heroDescription": "Real results from real projects. Successes and failure; here's what we've built and the impact it's had, and what we learned on the way.",
+    "metaTitle": "Proof — Case Studies",
+    "metaDescription": "Case studies and results from PickleLlama's work with mid-market companies. Real projects, real ROI.",
+    "heroEyebrow": "Case Studies",
+    "heroHeading": "Real <green>results</green> for real problems.",
+    "heroDescription": "We ship software that moves numbers. Here's the proof.",
+    "statProjectsNum": "8+",
+    "statProjectsLabel": "Projects delivered",
+    "statCostNum": "~10x",
+    "statCostLabel": "Less cost than traditional dev",
+    "statRoiNum": "0",
+    "statRoiLabel": "Projects without proven ROI",
+    "sectionTitle": "What we've built.",
+    "sectionNote": "Each card is a real engagement. Click through for the full story.",
+    "previewToggleOpen": "View live project",
+    "previewToggleClose": "Close preview",
     "readCaseStudyButton": "Read case study",
-    "ctaHeading": "Want similar results?",
-    "ctaDescription": "Let's discuss your challenges and see what's possible.",
+    "ctaHeading": "Your problem on this list?",
+    "ctaDescription": "If it's not, it probably should be. Let's talk about what's slowing you down.",
     "ctaButton": "Book Your Diagnostic"
   },
   "ProofSlug": {
     "metaNotFoundTitle": "Case Study Not Found",
     "metaTitleSuffix": "| Case Study",
-    "backLink": "Back to Proof"
+    "backLink": "Back to Portfolio",
+    "readingTime": "Reading time",
+    "viewLiveSite": "View live site",
+    "techLabel": "Technologies",
+    "ctaHeading": "Want similar results?",
+    "ctaDescription": "Let's discuss your challenges and explore what's possible for your business.",
+    "ctaButton": "Book Your Diagnostic"
   },
   "WhoWeWorkWith": {
     "metaTitle": "Who We Work With",

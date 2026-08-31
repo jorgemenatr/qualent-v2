@@ -26,9 +26,25 @@ export interface ProspectProse {
   fitParagraphs: string[];
 }
 
+export interface ProspectLogo {
+  /** Path under /public — served locally, never hotlinked from the company's site */
+  src: string;
+  /** Intrinsic dimensions of the asset, for correct aspect ratio */
+  width: number;
+  height: number;
+  /**
+   * True when the asset is a light/white mark made for dark backgrounds — it is
+   * placed straight onto the hero instead of inside the white chip, which would
+   * render it invisible.
+   */
+  onDark?: boolean;
+}
+
 export interface Prospect {
   slug: string;
   name: string;
+  /** Company wordmark shown in the hero. Omitted until the asset is in place. */
+  logo?: ProspectLogo;
   /** Legal / operating name shown in the footnote, when it differs */
   legalName?: string;
   sector: string;
@@ -51,6 +67,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "crio",
     name: "Crío",
+    logo: { src: "/qualent-logos/crio.png", width: 406, height: 480 },
     legalName: "Productora Nacional de Huevo Crío",
     sector: "Agroindustria avícola",
     scale: [
@@ -168,6 +185,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "keken",
     name: "Kekén",
+    logo: { src: "/qualent-logos/keken.png", width: 240, height: 106 },
     sector: "Agroindustria porcícola",
     scale: [
       { value: "~9,000", label: "colaboradores" },
@@ -234,6 +252,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "tere-cazola",
     name: "Tere Cazola",
+    logo: { src: "/qualent-logos/tere-cazola.svg", width: 976, height: 769 },
     legalName: "SEPROINT, S.A. de C.V.",
     sector: "Alimentos y bebidas",
     scale: [
@@ -293,6 +312,12 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "grupo-aduanero-peninsular",
     name: "Grupo Aduanero Peninsular",
+    logo: {
+      src: "/qualent-logos/grupo-aduanero-peninsular.png",
+      width: 556,
+      height: 157,
+      onDark: true,
+    },
     sector: "Logística y aduanas",
     scale: [
       { value: "~10", label: "plazas de operación" },
@@ -404,6 +429,69 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       "Tres plantas más distribución nacional, con contrataciones simultáneas en Yucatán, Chiapas, Tabasco, Chihuahua y Nuevo León.",
     adjacentOpportunity:
       "Tras la adquisición de Zaaschila, un desarrollo a medida que unifique pedidos y facturación multimarca sobre su ERP evitaría mantener procesos paralelos por marca.",
+  },
+  {
+    slug: "botanas-la-lupita",
+    name: "Botanas La Lupita",
+    logo: { src: "/qualent-logos/botanas-la-lupita.png", width: 480, height: 209 },
+    legalName: "Botanas y Frituras del Sureste La Lupita, S.A. de C.V.",
+    sector: "Alimentos y bebidas",
+    scale: [
+      { value: "4", label: "estados de distribución" },
+      { value: "~95%", label: "de capacidad instalada" },
+      { value: "7", label: "marcas propias" },
+    ],
+    prose: {
+      hook: "Rutas de venta en cuatro estados, supervisores por plaza y un WhatsApp corporativo que todavía no recluta.",
+      opening:
+        "La Lupita ya atiende por WhatsApp: el número está publicado en su propio sitio. El canal está montado y el hábito existe dentro de la empresa — solo que hoy sirve para clientes, no para candidatos. Esta página propone extenderlo al lado donde la rotación duele: los vendedores y repartidores de ruta que sostienen la distribución en Yucatán, Campeche, Quintana Roo y Tabasco.",
+      fitParagraphs: [
+        "Sus vacantes recientes dibujan el patrón con claridad: supervisor de ventas a detalle en Mérida, supervisor de canal detalle y autoservicio en Tizimín, líder de canal detalle otra vez en Mérida — publicadas con días de diferencia. Cuando las mismas figuras de ruta se vuelven a abrir plaza tras plaza, el problema no es atraer candidatos: es el tiempo que consume filtrarlos y agendarlos uno por uno.",
+        "Para vendedores y repartidores de ruta el filtrado tiene requisitos verificables —licencia, INE, CURP, comprobante de domicilio, disponibilidad para viajar en la zona— y son justo los que hoy se persiguen por teléfono. Qualent los pide y los valida por OCR dentro de la misma conversación de WhatsApp, antes de que nadie invierta tiempo en una entrevista.",
+        "Con una sola planta pero rutas en cuatro estados, cada candidato tiene que terminar frente al supervisor de su plaza. Qualent identifica la ubicación y agenda contra el calendario real de esa plaza, con recordatorios automáticos — de modo que el supervisor de Tizimín no dependa de que alguien en Mérida haga de intermediario.",
+        "La planta opera cerca del 95% de su capacidad instalada. Cuando la producción está en ese punto, el crecimiento pasa por la red comercial, y la velocidad para cubrir una ruta vacante se vuelve un límite operativo, no un trámite de Recursos Humanos.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "3 ofertas activas bajo la razón social Botanas y Frituras del Sureste La Lupita, S.A. de C.V.",
+        source: "Computrabajo (página de empresa)",
+      },
+      {
+        observation:
+          "Vacantes recientes de supervisor de ventas a detalle en Mérida, supervisor de canal detalle y autoservicio en Tizimín, y líder de canal detalle en Mérida — publicadas con pocos días de diferencia",
+        source: "Agregadores de empleo",
+      },
+      {
+        observation: "Perfiles de empleador activos",
+        source: "Indeed México",
+      },
+      {
+        observation:
+          "WhatsApp corporativo publicado en su sitio para atención general — el canal ya opera, pero no recibe solicitudes de empleo",
+        source: "Sitio corporativo",
+      },
+      {
+        observation: "Página corporativa activa en Mérida",
+        source: "Facebook",
+      },
+    ],
+    highTurnoverRoles: [
+      "Vendedores y repartidores de ruta (canal detalle y autoservicio)",
+      "Supervisores de ventas por plaza",
+      "Operadores de producción y empaque",
+    ],
+    currentChannels: [
+      "Computrabajo (página de empresa)",
+      "Indeed México",
+      "Agregadores de empleo",
+      "Facebook (página corporativa)",
+    ],
+    footprint:
+      "Una planta automatizada en Mérida operando a ~95% de capacidad, con red de rutas de venta en Yucatán, Campeche, Quintana Roo y Tabasco, supervisores por plaza y un portafolio multimarca.",
+    adjacentOpportunity:
+      "Para una operación de rutas en cuatro estados con la planta cerca de su techo de capacidad, una aplicación a medida de preventa y liquidación de ruta conectada a producción ayudaría a priorizar qué marcas y presentaciones surtir en cada plaza.",
   },
 ];
 

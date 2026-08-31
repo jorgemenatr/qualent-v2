@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import {
   MessageCircle,
@@ -139,6 +140,30 @@ export default async function QualentProspectPage({ params }: Props) {
         <PageHeroBackground />
         <Container className="relative">
           <div className="max-w-3xl">
+            {prospect.logo && (
+              <div
+                className={
+                  prospect.logo.onDark
+                    ? "mb-8 flex w-fit items-center"
+                    : "mb-8 flex w-fit items-center rounded-xl bg-white/95 px-6 py-4 shadow-sm ring-1 ring-white/20"
+                }
+              >
+                <Image
+                  src={prospect.logo.src}
+                  alt={prospect.name}
+                  width={prospect.logo.width}
+                  height={prospect.logo.height}
+                  className={
+                    // Portrait/square marks need more height than wordmarks to
+                    // read at the same visual weight.
+                    prospect.logo.width / prospect.logo.height < 1.6
+                      ? "h-20 w-auto sm:h-24"
+                      : "h-12 w-auto sm:h-14"
+                  }
+                  priority
+                />
+              </div>
+            )}
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-200">
               Propuesta preparada para {prospect.name}
               <span className="text-emerald-400/60">·</span>

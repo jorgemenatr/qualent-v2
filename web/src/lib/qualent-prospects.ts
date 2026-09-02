@@ -18,7 +18,9 @@ export interface ProspectSignal {
 }
 
 export interface ProspectProse {
-  /** Sub-headline under the company name in the hero */
+  /** Hero headline. Set uppercase, so keep it short and hard-hitting. */
+  headline: string;
+  /** One-line deck under the headline */
   hook: string;
   /** Opening paragraph — why we are writing to them specifically */
   opening: string;
@@ -40,11 +42,67 @@ export interface ProspectLogo {
   onDark?: boolean;
 }
 
+/**
+ * How far along this company already is with WhatsApp. It decides the whole
+ * argument of the page, so it is data, not copy.
+ *   1 — already receives candidates on WhatsApp, handled manually
+ *   2 — WhatsApp is already their channel, but commercially, not for hiring
+ *   3 — no WhatsApp signal found
+ */
+export type WhatsAppTier = 1 | 2 | 3;
+
+export interface ProspectBrand {
+  /** Dark brand colour — bands, rules, headings in the "about you" section */
+  ink: string;
+  /** Bright brand colour — the band ground */
+  pop: string;
+  /** Optional third accent */
+  hot?: string;
+  /** True when ink/pop are our best guess rather than sampled from their mark */
+  provisional?: boolean;
+}
+
+/**
+ * Slots for the demo conversation. The script itself is shared — only these
+ * change per company, so a new page is data, not new copy.
+ */
+export interface ProspectThread {
+  candidateName: string;
+  /** Salary / shift line the assistant quotes back */
+  detail: string;
+  /** The one hard requirement the assistant screens for */
+  qualifier: string;
+  qualifierAnswer: string;
+  /** Documents requested, e.g. "su INE por los dos lados y la licencia" */
+  docs: string;
+  /** Short label for the verified-document bubble */
+  docLabel: string;
+  /** Where the interview lands */
+  location: string;
+  when: string;
+}
+
+export interface ProspectTryIt {
+  /** Position the prefilled WhatsApp message names */
+  positionTitle: string;
+  /** Campaign ref code — matches buildWhatsAppLink() in the Qualent codebase */
+  refCode: string;
+  /** Their real harvested postings, shown as chips */
+  jobs: string[];
+}
+
 export interface Prospect {
   slug: string;
   name: string;
   /** Company wordmark shown in the hero. Omitted until the asset is in place. */
   logo?: ProspectLogo;
+  /** Palette sampled from their own mark, used only in the "Sobre ustedes" band */
+  brand: ProspectBrand;
+  waTier: WhatsAppTier;
+  /** One sentence of evidence for the tier, shown in the hero chip */
+  waEvidence: string;
+  tryIt: ProspectTryIt;
+  thread: ProspectThread;
   /** Legal / operating name shown in the footnote, when it differs */
   legalName?: string;
   sector: string;
@@ -67,6 +125,29 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "crio",
     name: "Crío",
+    brand: { ink: "#003090", pop: "#F0C018", hot: "#C03030" },
+    waTier: 2,
+    waEvidence:
+      "WhatsApp corporativo publicado en su sitio (999-942-1340) — hoy atiende clientes, no candidatos.",
+    tryIt: {
+      positionTitle: "Supervisor de Captura de Aves",
+      refCode: "crio-captura-aves",
+      jobs: [
+        "Supervisor de captura de aves · turno rotativo",
+        "Electromecánico industrial · planta de alimentos",
+        "Ayudante general de mantenimiento",
+      ],
+    },
+    thread: {
+      candidateName: "Miguel Ángel Chan Pech",
+      detail: "turno rotativo en granja, base Tekax",
+      qualifier: "¿Puede trabajar en turno rotativo, incluyendo fines de semana?",
+      qualifierAnswer: "Sí, sin problema",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la granja de Tekax",
+      when: "el martes 2 de septiembre a las 9:00",
+    },
     logo: { src: "/qualent-logos/crio.png", width: 406, height: 480 },
     legalName: "Productora Nacional de Huevo Crío",
     sector: "Agroindustria avícola",
@@ -76,6 +157,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "4", label: "estados de operación" },
     ],
     prose: {
+      headline: "Decenas de vacantes abiertas. Cero conversaciones automáticas.",
       hook: "Contratación operativa continua en granjas, plantas y CEDIS — hoy resuelta a base de CV en PDF.",
       opening:
         "Crío mantiene decenas de vacantes abiertas al mismo tiempo: supervisores de captura de aves en turno rotativo, electromecánicos para la planta de alimentos, ayudantes generales de mantenimiento. Y con la nueva planta de alimento avícola en Mérida en construcción, esa demanda no va a bajar — va a multiplicarse. Esta página explica cómo Qualent absorbe ese volumen sin que el equipo de Recursos Humanos crezca al mismo ritmo.",
@@ -129,6 +211,29 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "galletas-donde",
     name: "Galletas Dondé",
+    brand: { ink: "#A81E22", pop: "#F2D680", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin señal de WhatsApp en reclutamiento — hoy es Computrabajo, Glassdoor e Indeed.",
+    tryIt: {
+      positionTitle: "Auxiliar de Almacén",
+      refCode: "donde-auxiliar-almacen",
+      jobs: [
+        "Auxiliar de almacén · Umán",
+        "Almacenista de materias primas · Mérida",
+        "Supervisor de venta en ruta · Coatzacoalcos",
+      ],
+    },
+    thread: {
+      candidateName: "Rosa Elena Poot Chi",
+      detail: "planta de Umán, turno matutino",
+      qualifier: "¿Ha trabajado antes en almacén o control de inventario?",
+      qualifierAnswer: "Sí, dos años en almacén",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Umán",
+      when: "el jueves 4 de septiembre a las 8:30",
+    },
     legalName: "Productos de Harina, S.A. de C.V.",
     sector: "Alimentos y bebidas",
     scale: [
@@ -137,6 +242,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "24", label: "estados de distribución" },
     ],
     prose: {
+      headline: "17 vacantes abiertas hoy. Una sola forma de contestarlas: a mano.",
       hook: "17+ vacantes operativas abiertas a la vez, desde almacén en Umán hasta supervisión de ruta en Coatzacoalcos.",
       opening:
         "Dondé ya decidió que la gestión de talento se digitaliza — la adopción de una plataforma de capital humano lo demuestra. Lo que esa plataforma no resuelve es la parte de arriba del embudo: conseguir, filtrar y agendar a los candidatos operativos que sostienen dos plantas y una red de venta en ruta en 24 estados. Esta página trata exactamente de ese tramo.",
@@ -185,6 +291,29 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "keken",
     name: "Kekén",
+    brand: { ink: "#601830", pop: "#F03030" },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — hoy es Computrabajo, ferias itinerantes y reclutadores de campo.",
+    tryIt: {
+      positionTitle: "Tablajero",
+      refCode: "keken-tablajero",
+      jobs: [
+        "Tablajero · Ticul",
+        "Operario de granja",
+        "Cajero Maxicarne",
+      ],
+    },
+    thread: {
+      candidateName: "Rosa María Uc Canul",
+      detail: "tienda Maxicarne de Ticul",
+      qualifier: "¿Ha trabajado antes cortando carne o en mostrador?",
+      qualifierAnswer: "Sí, dos años en una carnicería",
+      docs: "su INE y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la tienda de Ticul",
+      when: "el jueves 4 de septiembre a las 9:00",
+    },
     logo: { src: "/qualent-logos/keken.png", width: 240, height: 106 },
     sector: "Agroindustria porcícola",
     scale: [
@@ -193,6 +322,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "~300", label: "tiendas Maxicarne" },
     ],
     prose: {
+      headline: "La Ruta del Empleo llega a Ticul. El filtrado se queda en Mérida.",
       hook: "Reclutadores de campo, ferias itinerantes y ~26 vacantes activas — todo el embudo operado a mano.",
       opening:
         "Kekén contrata en tres formatos distintos al mismo tiempo: granjas repartidas por el interior del estado, plantas multi-turno en Umán, Sahé y Tizimín, y una red de ~300 tiendas Maxicarne en tres estados. Cada formato tiene su propio perfil de candidato y su propia geografía. Esta página propone un piloto acotado, no un reemplazo de todo lo que ya funciona.",
@@ -252,6 +382,29 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "tere-cazola",
     name: "Tere Cazola",
+    brand: { ink: "#510C76", pop: "#FFC600" },
+    waTier: 2,
+    waEvidence:
+      "~70 anuncios activos en Meta con llamado a WhatsApp — el canal ya opera del lado comercial.",
+    tryIt: {
+      positionTitle: "Vendedora de Sucursal",
+      refCode: "cazola-vendedora-sucursal",
+      jobs: [
+        "Vendedora de sucursal · CDMX",
+        "Técnico de mantenimiento · Mérida",
+        "Auxiliar de producción · planta",
+      ],
+    },
+    thread: {
+      candidateName: "Ana Lucía Balam Cauich",
+      detail: "sucursal Insurgentes, turno de tarde",
+      qualifier: "¿Tiene experiencia atendiendo mostrador o caja?",
+      qualifierAnswer: "Sí, un año en cafetería",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la sucursal de Insurgentes",
+      when: "el miércoles 3 de septiembre a las 11:00",
+    },
     logo: { src: "/qualent-logos/tere-cazola.svg", width: 976, height: 769 },
     legalName: "SEPROINT, S.A. de C.V.",
     sector: "Alimentos y bebidas",
@@ -261,6 +414,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "2", label: "plantas en Mérida" },
     ],
     prose: {
+      headline: "Su Facebook ya atrae candidatos. Después de eso, todo es manual.",
       hook: "Ya tienen una página de Facebook dedicada a Recursos Humanos. Falta el paso que la convierte en un embudo.",
       opening:
         "Tere Cazola ya hace la parte difícil: publicar, tener presencia y atraer candidatos desde Facebook con una página propia de Recursos Humanos en Mérida. Lo que ocurre después —contestar, filtrar, pedir documentos, cuadrar horarios con cada coordinadora de sucursal— sigue siendo manual. Esta página trata de ese tramo, que es donde se pierde la mayoría de los candidatos.",
@@ -312,6 +466,29 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "grupo-aduanero-peninsular",
     name: "Grupo Aduanero Peninsular",
+    brand: { ink: "#0043A8", pop: "#0060F0" },
+    waTier: 1,
+    waEvidence:
+      "Ya reclutan por WhatsApp, a mano: sus anuncios de chofer piden marcar un número directo.",
+    tryIt: {
+      positionTitle: "Chofer de Reparto",
+      refCode: "gap-chofer-reparto",
+      jobs: [
+        "Chofer de reparto · Mérida",
+        "Ayudante de almacén · Progreso",
+        "Tramitador aduanal",
+      ],
+    },
+    thread: {
+      candidateName: "Jorge Alberto Poot Ek",
+      detail: "base Mérida con ruta a Progreso",
+      qualifier: "¿Qué tipo de licencia tiene y cuánta experiencia en reparto?",
+      qualifierAnswer: "Licencia C, tres años en reparto",
+      docs: "su INE y su licencia",
+      docLabel: "INE.jpg · licencia_C.jpg",
+      location: "el corporativo de Mérida",
+      when: "el miércoles 3 de septiembre a las 8:30",
+    },
     logo: {
       src: "/qualent-logos/grupo-aduanero-peninsular.png",
       width: 556,
@@ -325,6 +502,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "6", label: "empresas del grupo" },
     ],
     prose: {
+      headline: "Publican «llama al…». Ese teléfono es el cuello de botella.",
       hook: "Publican vacantes de chofer con «llama al…». Ese teléfono es el cuello de botella.",
       opening:
         "Grupo Aduanero Peninsular ya reconoce el problema: además de las vacantes de ayudante de almacén y tramitador, publicaron una vacante de Reclutador en Mérida. Cuando una empresa contrata a alguien para resolver el reclutamiento, es porque el proceso actual ya no da. Esta página propone atacar el mismo problema desde el proceso, no solo desde la plantilla.",
@@ -376,6 +554,29 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "la-anita",
     name: "La Anita",
+    brand: { ink: "#C2371F", pop: "#F0B429", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — hoy es su página de Facebook y grupos de empleo.",
+    tryIt: {
+      positionTitle: "Chofer de Reparto",
+      refCode: "anita-chofer-reparto",
+      jobs: [
+        "Chofer de reparto · Mérida",
+        "Promotor de autoservicio · Cd. Juárez",
+        "Operador de producción",
+      ],
+    },
+    thread: {
+      candidateName: "Luis Fernando Canché May",
+      detail: "reparto en Mérida y zona conurbada",
+      qualifier: "¿Tiene licencia vigente y experiencia en reparto?",
+      qualifierAnswer: "Sí, licencia B y dos años",
+      docs: "su INE y su licencia",
+      docLabel: "INE.jpg · licencia_B.jpg",
+      location: "la planta de Ciudad Industrial",
+      when: "el martes 2 de septiembre a las 10:00",
+    },
     legalName: "La Anita Condimentos y Salsas",
     sector: "Alimentos y bebidas",
     scale: [
@@ -384,6 +585,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "100+", label: "años de operación" },
     ],
     prose: {
+      headline: "Reclutan en cinco estados desde una página de Facebook.",
       hook: "Reclutamiento nativo de Facebook, operado mensaje por mensaje.",
       opening:
         "La Anita ya entendió dónde están sus candidatos: tienen una página propia de bolsa de trabajo en Facebook y publican en grupos de empleo de Mérida. El canal es el correcto. Lo que falta es que ese canal deje de consumir el día de alguien en Recursos Humanos, contestando los mismos mensajes uno por uno. Esta página trata de ese salto.",
@@ -433,6 +635,28 @@ export const QUALENT_PROSPECTS: Prospect[] = [
   {
     slug: "botanas-la-lupita",
     name: "Botanas La Lupita",
+    brand: { ink: "#183078", pop: "#F0D800", hot: "#D81818" },
+    waTier: 2,
+    waEvidence:
+      "WhatsApp publicado en su sitio (999-301-3111) — hoy atiende clientes, no candidatos.",
+    tryIt: {
+      positionTitle: "Vendedor de Ruta",
+      refCode: "lupita-vendedor-ruta",
+      jobs: [
+        "Vendedor de ruta · Mérida",
+        "Supervisor canal detalle · Tizimín",
+      ],
+    },
+    thread: {
+      candidateName: "Miguel Ángel Chan Pech",
+      detail: "canal detalle, base Mérida, $12,500 más comisiones",
+      qualifier: "¿Tiene licencia de conducir vigente?",
+      qualifierAnswer: "Sí, tipo B",
+      docs: "su INE por los dos lados y su licencia",
+      docLabel: "INE_frente.jpg · licencia_B.jpg",
+      location: "la planta de Caucel",
+      when: "el martes 2 de septiembre a las 10:00",
+    },
     logo: { src: "/qualent-logos/botanas-la-lupita.png", width: 480, height: 209 },
     legalName: "Botanas y Frituras del Sureste La Lupita, S.A. de C.V.",
     sector: "Alimentos y bebidas",
@@ -442,6 +666,7 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       { value: "7", label: "marcas propias" },
     ],
     prose: {
+      headline: "Sus vacantes ya viven en WhatsApp. Su reclutamiento todavía no.",
       hook: "Rutas de venta en cuatro estados, supervisores por plaza y un WhatsApp corporativo que todavía no recluta.",
       opening:
         "La Lupita ya atiende por WhatsApp: el número está publicado en su propio sitio. El canal está montado y el hábito existe dentro de la empresa — solo que hoy sirve para clientes, no para candidatos. Esta página propone extenderlo al lado donde la rotación duele: los vendedores y repartidores de ruta que sostienen la distribución en Yucatán, Campeche, Quintana Roo y Tabasco.",
@@ -494,6 +719,19 @@ export const QUALENT_PROSPECTS: Prospect[] = [
       "Para una operación de rutas en cuatro estados con la planta cerca de su techo de capacidad, una aplicación a medida de preventa y liquidación de ruta conectada a producción ayudaría a priorizar qué marcas y presentaciones surtir en cada plaza.",
   },
 ];
+
+/**
+ * PLACEHOLDER Qualent demo line. No demo number is provisioned yet, so every
+ * link and QR below points at a number that does not answer. Swap this, then
+ * re-run the QR generation, BEFORE any link goes to a prospect.
+ */
+export const DEMO_PHONE = "529990000000";
+
+/** Mirrors buildWhatsAppLink() in the Qualent codebase so ref attribution works. */
+export function buildTryItLink(p: Prospect): string {
+  const msg = `Hola, vi su anuncio para ${p.tryIt.positionTitle} y me interesa saber más.`;
+  return `https://wa.me/${DEMO_PHONE}?text=${encodeURIComponent(msg)}&ref=${encodeURIComponent(p.tryIt.refCode)}`;
+}
 
 export function getProspect(slug: string): Prospect | undefined {
   return QUALENT_PROSPECTS.find((p) => p.slug === slug);

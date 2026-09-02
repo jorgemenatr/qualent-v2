@@ -718,6 +718,1508 @@ export const QUALENT_PROSPECTS: Prospect[] = [
     adjacentOpportunity:
       "Para una operación de rutas en cuatro estados con la planta cerca de su techo de capacidad, una aplicación a medida de preventa y liquidación de ruta conectada a producción ayudaría a priorizar qué marcas y presentaciones surtir en cada plaza.",
   },
+
+  {
+    slug: "casa-fernandez-del-sureste",
+    name: "Casa Fernández del Sureste",
+    logo: {
+      src: "/qualent-logos/casa-fernandez-del-sureste.svg",
+      width: 277,
+      height: 92,
+    },
+    brand: { ink: "#111111", pop: "#F2C300" },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — hoy es un formulario web con carga de CV y un correo de RH.",
+    tryIt: {
+      positionTitle: "Almacenista",
+      refCode: "fernandez-almacenista",
+      jobs: [
+        "Almacenista · Mérida",
+        "Auxiliar de logística",
+        "Chofer de reparto mayorista",
+      ],
+    },
+    thread: {
+      candidateName: "Luis Alberto Canul Dzib",
+      detail: "almacén de Mérida, turno matutino",
+      qualifier: "¿Ha trabajado antes en almacén o manejo de inventario?",
+      qualifierAnswer: "Sí, tres años en almacén",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "el almacén de Mérida",
+      when: "el martes 2 de septiembre a las 9:00",
+    },
+    legalName: "Compañía Fernández, S.A. de C.V.",
+    sector: "Distribución industrial",
+    scale: [
+      { value: "7", label: "estados de distribución" },
+      { value: "15,000+", label: "SKUs en catálogo" },
+      { value: "30+", label: "años operando" },
+    ],
+    prose: {
+      headline: "Su bolsa de trabajo pide un CV en Word. Sus almacenistas no tienen uno.",
+      hook: "Mayorista ferretero del sureste, siete estados de distribución y una postulación que empieza por adjuntar un archivo.",
+      opening:
+        "Casa Fernández recibe candidatos por formulario y por correo, en horario de 8:30 a 18:30. Para un almacenista o un chofer de reparto, ese es el punto donde la postulación se cae.",
+      fitParagraphs: [
+        "Su portal de bolsa de trabajo pide subir un CV en Word o PDF. El perfil que más rotan —almacenistas, auxiliares de logística, choferes de reparto— rara vez tiene uno a la mano, y casi nunca desde el teléfono. Qualent quita ese paso: el candidato manda un mensaje y la conversación arma el perfil por él.",
+        "El correo de recursos.humanos@fernandez.com.mx atiende de 8:30 a 18:30. Un candidato que busca trabajo a las nueve de la noche no recibe respuesta hasta el día siguiente, cuando ya escribió a otros tres empleadores.",
+        "Con cobertura de distribución en siete estados y varios puntos de venta y almacén, cada entrevista tiene que agendarse en la plaza correcta. Qualent identifica la ubicación del candidato y agenda contra el calendario de ese sitio.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Página de empresa con 3 a 5 ofertas activas según el corte, la mayoría en Mérida",
+        source: "Computrabajo (Compañía Fernández de Mérida)",
+      },
+      {
+        observation:
+          "Ofertas de almacén y logística de tiempo completo en Yucatán",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "Bolsa de trabajo propia con formulario de carga de CV en Word o PDF",
+        source: "fernandez.com.mx/bolsa-trabajo",
+      },
+      {
+        observation:
+          "Correo de Recursos Humanos con horario publicado, 8:30 a 18:30",
+        source: "Sitio corporativo",
+      },
+    ],
+    highTurnoverRoles: [
+      "Almacenistas y auxiliares de logística",
+      "Choferes de reparto mayorista",
+      "Vendedores de mostrador y telemarketing",
+      "Personal de sucursal en 7 estados",
+    ],
+    currentChannels: [
+      "Bolsa de trabajo propia con carga de CV",
+      "Correo directo de Recursos Humanos",
+      "Computrabajo (página de empresa)",
+      "Indeed México",
+    ],
+    footprint:
+      "Matriz en Mérida con distribución en siete estados del sureste y múltiples puntos de venta y almacén.",
+    adjacentOpportunity:
+      "Con más de 15,000 SKUs y venta mayorista multi-estado, un portal B2B de pedidos y resurtido con avisos de existencias por WhatsApp elevaría la recompra de sus clientes ferreteros.",
+  },
+
+  {
+    slug: "el-yucateco",
+    name: "El Yucateco",
+    logo: {
+      src: "/qualent-logos/el-yucateco.png",
+      width: 480,
+      height: 266,
+    },
+    brand: { ink: "#8C1017", pop: "#DC283C" },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — hoy es Computrabajo, Indeed y LinkedIn.",
+    tryIt: {
+      positionTitle: "Operador de Producción",
+      refCode: "yucateco-operador-produccion",
+      jobs: [
+        "Operador de producción · Noc-Ac",
+        "Trabajador agrícola eventual · campo",
+        "Auxiliar de almacén · Mérida",
+      ],
+    },
+    thread: {
+      candidateName: "María Fernanda Pech Uc",
+      detail: "planta de Noc-Ac, turno matutino",
+      qualifier: "¿Tiene disponibilidad para temporada completa de cosecha?",
+      qualifierAnswer: "Sí, toda la temporada",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Noc-Ac",
+      when: "el lunes 1 de septiembre a las 8:00",
+    },
+    legalName: "El Yucateco Salsas y Condimentos, S.A. de C.V.",
+    sector: "Alimentos y bebidas",
+    scale: [
+      { value: "~300", label: "empleados de planta" },
+      { value: "~500", label: "eventuales por temporada" },
+      { value: "3", label: "sitios en Yucatán" },
+    ],
+    prose: {
+      headline: "500 eventuales por temporada. Un solo embudo para contratarlos.",
+      hook: "Planta, campo de habanero y una contratación estacional que se dispara cada cosecha.",
+      opening:
+        "El Yucateco suma alrededor de 500 eventuales en temporada sobre una plantilla de unos 300. Ese pico no se resuelve publicando más vacantes: se resuelve procesando más candidatos con la misma gente.",
+      fitParagraphs: [
+        "La contratación estacional es el caso más duro de todos: cientos de personas en pocas semanas, con documentos que hay que recolectar y verificar uno por uno. Qualent absorbe ese volumen sin que el equipo de Recursos Humanos crezca al mismo ritmo que la cosecha.",
+        "El perfil que contratan en campo —trabajadores agrícolas eventuales— es exactamente el que no llega por un portal de empleo. Llega por recomendación, por anuncio local y por teléfono. Un código QR en la entrada de la planta o del campo abre la conversación en el teléfono que ya traen.",
+        "Con planta en Mérida y Noc-Ac, sitio en Teya y operación agrícola propia, cada entrevista tiene que caer en el lugar correcto. Qualent agenda contra el calendario real de cada sitio y manda recordatorios antes de la cita.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "7 ofertas activas en su página de empresa",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "Perfil de empleador activo con vacantes en Noc-Ac y Mérida — auxiliares de RH y supervisores de producción",
+        source: "Indeed México",
+      },
+      {
+        observation:
+          "Contratación estacional recurrente de alrededor de 500 eventuales por temporada de habanero",
+        source: "Perfiles de empleador y reseñas",
+      },
+      {
+        observation:
+          "Página de compañía activa",
+        source: "LinkedIn",
+      },
+    ],
+    highTurnoverRoles: [
+      "Operadores de producción y envasado",
+      "Trabajadores agrícolas eventuales",
+      "Auxiliares de almacén",
+    ],
+    currentChannels: [
+      "Computrabajo (página de empresa)",
+      "Indeed México",
+      "LinkedIn",
+    ],
+    footprint:
+      "Planta principal en Mérida y Noc-Ac, sitio en Teya y operación agrícola propia, con producción en horas extras reportada por su propio personal.",
+    adjacentOpportunity:
+      "Como exportador a decenas de países, un portal a medida de trazabilidad de lotes y pedidos para clientes internacionales reduciría llamadas y correos de seguimiento.",
+  },
+
+  {
+    slug: "marbol",
+    name: "Marbol Industria Mueblera",
+    brand: { ink: "#5A3A22", pop: "#C9A227", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — y sin vacantes publicadas: contratan directo en planta.",
+    tryIt: {
+      positionTitle: "Carpintero de Planta",
+      refCode: "marbol-carpintero",
+      jobs: [
+        "Carpintero de planta · Umán",
+        "Tapicero",
+        "Ayudante general",
+      ],
+    },
+    thread: {
+      candidateName: "José Manuel Chan Ek",
+      detail: "planta de Umán, turno matutino",
+      qualifier: "¿Tiene experiencia en carpintería o tapicería de muebles?",
+      qualifierAnswer: "Sí, cuatro años de carpintero",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Umán",
+      when: "el miércoles 3 de septiembre a las 8:00",
+    },
+    legalName: "Marbol Industria Mueblera, S.A. de C.V.",
+    sector: "Muebles",
+    scale: [
+      { value: "600+", label: "empleados" },
+      { value: "22,000 m²", label: "planta en Umán" },
+      { value: "1,000+", label: "muebles por semana" },
+    ],
+    prose: {
+      headline: "600 personas en planta. Cero vacantes publicadas.",
+      hook: "Una fábrica que produce mil muebles por semana y recluta sin dejar rastro en los portales.",
+      opening:
+        "Marbol tiene perfil de empresa en Computrabajo e Indeed, pero cero ofertas publicadas. Con más de 600 empleados en una planta de 22,000 m², eso no significa que no contraten: significa que la contratación pasa por la puerta.",
+      fitParagraphs: [
+        "Reclutar en la puerta funciona hasta que necesita a veinte personas la misma semana. No deja registro, no se puede medir y depende de quién esté disponible ese día. Qualent le da la misma cercanía —una conversación, no un portal— con historial, etapas y documentos verificados.",
+        "Los perfiles que más rotan en su planta —carpinteros, tapiceros, acabadores, ayudantes generales— no buscan trabajo en bolsas de empleo. Un código QR en la barda de la planta de Umán o en el anuncio local abre la conversación en su propio teléfono.",
+        "Sus cuadrillas de instalación viajan a hoteles de toda la península. Contratar y agendar para equipos móviles, desde Umán, es precisamente donde un proceso que corre solo hace la diferencia.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Perfil de empresa activo con página de evaluaciones de empleados",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "Perfil de empleador con reseñas",
+        source: "Indeed México",
+      },
+      {
+        observation:
+          "Cero ofertas publicadas al momento de la búsqueda, agosto 2026 — la contratación no pasa por portales",
+        source: "Computrabajo (Umán)",
+      },
+      {
+        observation:
+          "Página corporativa activa",
+        source: "Facebook (Marbol Casa)",
+      },
+    ],
+    highTurnoverRoles: [
+      "Operadores de producción y carpinteros de planta",
+      "Tapiceros y acabadores",
+      "Ayudantes generales",
+      "Choferes e instaladores en sitio",
+    ],
+    currentChannels: [
+      "Reclutamiento directo y presencial en planta",
+      "Computrabajo (perfil, sin ofertas activas)",
+      "Indeed (perfil de empleador)",
+      "Facebook corporativo",
+    ],
+    footprint:
+      "Planta única de 22,000 m² en Umán más showroom y oficinas en Mérida, con cuadrillas de instalación en hoteles de la Riviera Maya y otros destinos.",
+    adjacentOpportunity:
+      "Para una fábrica que instala mobiliario en hoteles de toda la península, un sistema a medida de seguimiento de proyectos —avance por obra, cuadrillas, evidencia fotográfica— daría visibilidad de algo que hoy viaja en fotos sueltas.",
+  },
+
+  {
+    slug: "grupo-avicola-quinones",
+    name: "Grupo Avícola Quiñones",
+    brand: { ink: "#4A3626", pop: "#C08A3E", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — hoy es Computrabajo, OCC e Indeed.",
+    tryIt: {
+      positionTitle: "Operario de Granja",
+      refCode: "quinones-operario-granja",
+      jobs: [
+        "Operario de granja",
+        "Operador de planta de alimentos",
+        "Chofer de flotilla",
+      ],
+    },
+    thread: {
+      candidateName: "Ricardo Balam Cauich",
+      detail: "turno rotativo en granja",
+      qualifier: "¿Puede trabajar en turno rotativo, incluyendo fines de semana?",
+      qualifierAnswer: "Sí, sin problema",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la granja",
+      when: "el martes 2 de septiembre a las 8:00",
+    },
+    sector: "Agroindustria avícola",
+    scale: [
+      { value: "4", label: "ofertas activas" },
+      { value: "Multi-zona", label: "granjas y plantas" },
+      { value: "Flotilla", label: "propia" },
+    ],
+    prose: {
+      headline: "Granjas, planta de alimentos y flotilla propia. Todo con turnos que rotar.",
+      hook: "Operación avícola y porcícola integrada, con contratación continua en varias zonas.",
+      opening:
+        "Cuatro ofertas activas en su bolsa de Computrabajo y vacantes recurrentes en OCC. Para operarios de granja y choferes de flotilla especializada, el filtrado manual es el cuello de botella.",
+      fitParagraphs: [
+        "Los perfiles que más rotan —operarios de granja, operadores de planta de alimentos, choferes de transporte de animal vivo— rara vez llegan con CV. Qualent los recibe por WhatsApp, los califica en la conversación y verifica INE, CURP y licencia por OCR.",
+        "Una operación multi-zona con granjas, planta de alimentos, reproductora e incubadora significa que cada candidato debe terminar agendado en el sitio correcto. Qualent agenda contra el calendario real de cada zona.",
+        "El transporte de pollo vivo y cerdo en pie exige licencia vigente del tipo correcto. Ese requisito se valida dentro de la conversación, antes de que alguien invierta tiempo en una entrevista.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "4 ofertas de trabajo en su perfil de bolsa de empresa",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "Vacantes recurrentes listadas",
+        source: "OCC Mundial",
+      },
+      {
+        observation:
+          "Perfiles de empleador con información laboral activa",
+        source: "Indeed y Computrabajo",
+      },
+    ],
+    highTurnoverRoles: [
+      "Operarios de granja (pollo y cerdo)",
+      "Operadores de planta de alimentos",
+      "Choferes de flotilla de animal vivo",
+      "Personal de incubadora y reproductora",
+    ],
+    currentChannels: [
+      "Computrabajo (bolsa de empresa)",
+      "OCC Mundial",
+      "Indeed (perfil de empleador)",
+    ],
+    footprint:
+      "Operación multi-zona con granjas, planta de alimentos, reproductora, incubadora y flotilla propia.",
+    adjacentOpportunity:
+      "Para una operación B2B de pollo vivo y cerdo en pie con flotilla propia, un sistema a medida de pedidos y logística de entrega —peso, mermas, rutas, liquidación por cliente— digitalizaría un proceso que hoy vive en papel.",
+  },
+
+  {
+    slug: "isc-constructora",
+    name: "ISC Constructora",
+    logo: {
+      src: "/qualent-logos/isc-constructora.png",
+      width: 480,
+      height: 480,
+    },
+    brand: { ink: "#0F2050", pop: "#2E5CB8" },
+    waTier: 2,
+    waEvidence:
+      "WhatsApp comercial ya publicado en su sitio (wa.link) — el canal existe, pero no del lado de las cuadrillas.",
+    tryIt: {
+      positionTitle: "Oficial de Obra",
+      refCode: "isc-oficial-obra",
+      jobs: [
+        "Oficial de obra · Mérida",
+        "Ayudante general",
+        "Cantero / especialista en restauración",
+      ],
+    },
+    thread: {
+      candidateName: "Pedro Antonio Uc May",
+      detail: "frente de obra en Mérida, pago semanal",
+      qualifier: "¿Qué oficio maneja y cuántos años de experiencia tiene?",
+      qualifierAnswer: "Albañil, ocho años",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la oficina de Mérida",
+      when: "el lunes 1 de septiembre a las 7:30",
+    },
+    legalName: "ISC Constructora, S.A. de C.V.",
+    sector: "Construcción",
+    scale: [
+      { value: "~800", label: "obras ejecutadas" },
+      { value: "100+", label: "localidades" },
+      { value: "3", label: "estados" },
+    ],
+    prose: {
+      headline: "800 obras en 100 localidades. Las cuadrillas se arman por teléfono.",
+      hook: "Obra civil y restauración patrimonial en tres estados, con contratación informal por proyecto.",
+      opening:
+        "ISC ya atiende por WhatsApp del lado comercial. Lo que sigue pasando por llamadas y contactos del gremio es armar cuadrilla cada vez que abre un frente de obra.",
+      fitParagraphs: [
+        "Contratar por obra significa volver a empezar en cada proyecto: los mismos oficios, las mismas preguntas, la misma prisa. Qualent guarda a cada candidato con su oficio, su experiencia y sus documentos, de modo que la siguiente cuadrilla se arma desde una base y no desde cero.",
+        "Su especialidad de restauración necesita oficios que no abundan —canteros, yeseros, especialistas de patrimonio. Poder buscar entre candidatos anteriores por oficio vale más aquí que en obra convencional.",
+        "Con obras simultáneas en Yucatán, Campeche y Quintana Roo, cada candidato tiene que quedar agendado en el frente correcto. La conversación identifica la ubicación y agenda ahí.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes visibles en portales de empleo bajo su nombre, agosto 2026 — la contratación es informal por obra",
+        source: "Computrabajo, Indeed y OCC",
+      },
+      {
+        observation:
+          "Página de empresa que ha publicado empleos en algún momento",
+        source: "LinkedIn",
+      },
+      {
+        observation:
+          "WhatsApp comercial publicado en su sitio — el canal ya opera hacia clientes",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "Sin sección de bolsa de trabajo en su sitio web",
+        source: "Sitio corporativo",
+      },
+    ],
+    highTurnoverRoles: [
+      "Albañiles y oficiales de obra",
+      "Especialistas en restauración (canteros, yeseros)",
+      "Ayudantes generales de construcción",
+      "Residentes y supervisores por proyecto",
+    ],
+    currentChannels: [
+      "Contratación informal de cuadrillas por obra",
+      "LinkedIn (uso esporádico)",
+      "Sin bolsa de trabajo en su sitio",
+    ],
+    footprint:
+      "Obras simultáneas en Yucatán, Campeche y Quintana Roo, en más de cien localidades, con oficina central en Mérida.",
+    adjacentOpportunity:
+      "Un sistema a medida de expedientes digitales de cuadrilla —altas al IMSS, contratos por obra, DC-3— conectado al mismo WhatsApp reduciría el papeleo que hoy viaja de la obra a la oficina.",
+  },
+
+  {
+    slug: "maxisa",
+    name: "Maxisa",
+    logo: {
+      src: "/qualent-logos/maxisa.png",
+      width: 480,
+      height: 160,
+    },
+    brand: { ink: "#1A1A1A", pop: "#D8A11E", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin señal de WhatsApp ni de portales — contratan obra por obra, por la red del gremio.",
+    tryIt: {
+      positionTitle: "Operador de Maquinaria",
+      refCode: "maxisa-operador-maquinaria",
+      jobs: [
+        "Operador de maquinaria pesada",
+        "Chofer de volteo",
+        "Ayudante general de obra",
+      ],
+    },
+    thread: {
+      candidateName: "Gabriel Poot Canché",
+      detail: "frente de obra vial, pago semanal",
+      qualifier: "¿Qué máquinas opera y tiene licencia vigente?",
+      qualifierAnswer: "Motoconformadora y retro, licencia E",
+      docs: "su INE y su licencia",
+      docLabel: "INE.jpg · licencia_E.jpg",
+      location: "la oficina de Itzimná",
+      when: "el miércoles 3 de septiembre a las 7:30",
+    },
+    legalName: "Maxi Constructora Hidráulica y Mantenimiento Integral, S.A. de C.V.",
+    sector: "Construcción",
+    scale: [
+      { value: "Obra vial", label: "e hidráulica" },
+      { value: "Urbanic", label: "desarrollo propio" },
+      { value: "Mérida", label: "base de operación" },
+    ],
+    prose: {
+      headline: "Maquinaria pesada parada es dinero. También lo es un operador que no llega.",
+      hook: "Obra vial e hidráulica más desarrollo inmobiliario propio, con frentes que abren y cierran.",
+      opening:
+        "No encontramos vacantes de Maxisa en ningún portal. En obra vial eso es normal: se contrata por frente, por recomendación y con prisa. El costo no se ve en un presupuesto, se ve en una máquina esperando operador.",
+      fitParagraphs: [
+        "Un operador de motoconformadora o pavimentadora no se consigue publicando en una bolsa de trabajo: se consigue por contactos, y cuando urge. Qualent mantiene ese grupo localizable —con su especialidad de máquina y su licencia verificada— para el siguiente frente.",
+        "Las licencias y certificaciones de maquinaria pesada son requisitos duros y verificables. El OCR los lee y valida dentro de la conversación, antes de que alguien suba a una máquina.",
+        "Con frentes de obra vial e hidráulica en paralelo a sus desarrollos inmobiliarios, saber a quién puede llamar mañana vale más que un anuncio publicado hoy.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes encontradas en portales bajo su nombre, agosto 2026",
+        source: "Computrabajo, Indeed y OCC",
+      },
+      {
+        observation:
+          "Sin bolsa de trabajo en su sitio — el sitio bloquea el acceso automatizado",
+        source: "maxisa.com",
+      },
+      {
+        observation:
+          "Contratación implícita obra por obra: pavimentación y obra hidráulica en frentes simultáneos",
+        source: "Perfil de actividad",
+      },
+      {
+        observation:
+          "Instagram y YouTube activos, de uso comercial",
+        source: "Redes corporativas",
+      },
+    ],
+    highTurnoverRoles: [
+      "Operadores de maquinaria pesada",
+      "Choferes de volteo",
+      "Cuadrillas de obra civil y pavimentación",
+      "Ayudantes generales por frente",
+    ],
+    currentChannels: [
+      "Contratación directa por obra y redes del gremio",
+      "Instagram y YouTube (uso comercial)",
+      "Sin presencia en portales de empleo",
+    ],
+    footprint:
+      "Frentes de obra vial e hidráulica en Yucatán más desarrollos inmobiliarios propios, con base en Itzimná, Mérida.",
+    adjacentOpportunity:
+      "Una bitácora digital de maquinaria —horas-máquina, diésel, mantenimientos por unidad, reportada por los operadores vía WhatsApp— atacaría el costo oculto de su flota pesada.",
+  },
+
+  {
+    slug: "pimsa",
+    name: "PIMSA",
+    logo: {
+      src: "/qualent-logos/pimsa.webp",
+      width: 282,
+      height: 138,
+    },
+    brand: { ink: "#0B3C7A", pop: "#1B72C4" },
+    waTier: 1,
+    waEvidence:
+      "Su bolsa de trabajo oficial ES un WhatsApp (81-2320-7196), con un reclutador contestando a mano.",
+    tryIt: {
+      positionTitle: "Chofer Repartidor",
+      refCode: "pimsa-chofer-repartidor",
+      jobs: [
+        "Chofer repartidor",
+        "Almacenista de CEDIS",
+        "Agente de telemarketing",
+      ],
+    },
+    thread: {
+      candidateName: "Óscar Iván Ramírez Treviño",
+      detail: "reparto local, base CEDIS",
+      qualifier: "¿Qué tipo de licencia tiene y cuánta experiencia en reparto?",
+      qualifierAnswer: "Licencia C, cinco años",
+      docs: "su INE y su licencia",
+      docLabel: "INE.jpg · licencia_C.jpg",
+      location: "el CEDIS",
+      when: "el martes 2 de septiembre a las 9:00",
+    },
+    legalName: "Proveedora Industrial Monterrey, S.A. de C.V.",
+    sector: "Distribución industrial",
+    scale: [
+      { value: "~490", label: "empleados" },
+      { value: "80+", label: "camiones de reparto" },
+      { value: "4+", label: "CEDIS" },
+    ],
+    prose: {
+      headline: "Su bolsa de trabajo ya es un WhatsApp. Lo atiende una persona.",
+      hook: "490 empleados, más de 80 camiones de reparto y un número de reclutamiento que alguien contesta uno por uno.",
+      opening:
+        "De toda la lista, PIMSA es el caso más claro: no hay que convencerlos del canal, ya lo eligieron. Publican un WhatsApp de reclutamiento en su propio sitio. Lo que proponemos es que deje de consumir el día de una persona.",
+      fitParagraphs: [
+        "Un número de reclutamiento atendido a mano hace exactamente lo que Qualent automatiza: contestar, repetir las mismas preguntas, anotar los datos, pedir documentos y volver a escribir para agendar. El canal ya es el correcto; lo que falta es que corra solo.",
+        "Con más de 80 camiones de reparto, los choferes son su rotación permanente, y el filtrado tiene requisitos duros y verificables: licencia del tipo correcto, vigencia, INE. El OCR los valida dentro de la misma conversación.",
+        "Su CEDIS principal y los de Tampico, San Luis Potosí y Pachuca contratan en paralelo. Un solo número atendido por una persona no escala a cuatro plazas; una conversación automática sí, y agenda en la plaza correcta.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sección de Bolsa de Trabajo permanente con un WhatsApp dedicado a reclutamiento — atendido manualmente",
+        source: "pimsaferreteros.com.mx",
+      },
+      {
+        observation:
+          "6 ofertas activas en su perfil de empresa",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "2 ofertas activas: supervisor y agente de telemarketing",
+        source: "Indeed México",
+      },
+      {
+        observation:
+          "Cada CEDIS opera además su propia línea de WhatsApp comercial",
+        source: "Sitio corporativo",
+      },
+    ],
+    highTurnoverRoles: [
+      "Choferes repartidores (flota de 80+ unidades)",
+      "Almacenistas de CEDIS",
+      "Vendedores y ejecutivos de ventas",
+      "Agentes de telemarketing",
+    ],
+    currentChannels: [
+      "WhatsApp de reclutamiento propio, atendido a mano",
+      "Bolsa de trabajo en su sitio",
+      "Computrabajo (perfil de empresa)",
+      "Indeed México",
+    ],
+    footprint:
+      "Centro de distribución principal más CEDIS en Tampico, San Luis Potosí y Pachuca, con contratación simultánea en varias plazas.",
+    adjacentOpportunity:
+      "Con más de 80 unidades de reparto, un tablero a medida de rutas y liquidación por chofer, alimentado desde el mismo WhatsApp, cerraría el ciclo entre entrega y cobranza.",
+  },
+
+  {
+    slug: "red-aduanera-peninsular",
+    name: "Red Aduanera Peninsular",
+    brand: { ink: "#0A3A5C", pop: "#1E7BB8", provisional: true },
+    waTier: 2,
+    waEvidence:
+      "WhatsApp corporativo publicado en su sitio — cultura del canal ya instalada, pero no del lado de candidatos.",
+    tryIt: {
+      positionTitle: "Auxiliar de Certificación",
+      refCode: "redaduanera-auxiliar-certificacion",
+      jobs: [
+        "Auxiliar de certificación · Progreso",
+        "Clasificador · Quintana Roo",
+        "Analista de pedimentos · Manzanillo",
+      ],
+    },
+    thread: {
+      candidateName: "Diana Laura Cen Novelo",
+      detail: "oficina de Progreso, tiempo completo",
+      qualifier: "¿Tiene experiencia en despacho aduanal o comercio exterior?",
+      qualifierAnswer: "Sí, dos años en confronta",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la oficina de Progreso",
+      when: "el jueves 4 de septiembre a las 9:00",
+    },
+    sector: "Logística y aduanas",
+    scale: [
+      { value: "30+", label: "años operando" },
+      { value: "4", label: "plazas contratando" },
+      { value: "5", label: "vacantes activas" },
+    ],
+    prose: {
+      headline: "Cinco vacantes abiertas en cuatro plazas. Ninguna conversación automática.",
+      hook: "Despacho aduanal en Progreso, Cancún, Ciudad de México y Manzanillo, contratando en paralelo.",
+      opening:
+        "Red Aduanera ya publica un WhatsApp corporativo para clientes. Del lado de reclutamiento sigue todo en Indeed y en llamadas, con cinco vacantes abiertas repartidas en cuatro plazas al mismo tiempo.",
+      fitParagraphs: [
+        "Contratar en Progreso, Cancún, Ciudad de México y Manzanillo a la vez, desde una sola coordinación, es donde el filtrado manual se rompe. Qualent recibe a todos por el mismo canal y agenda cada uno en su plaza.",
+        "Sus perfiles operativos —tramitadores de patio, auxiliares de confronta y certificación, personal de almacén fiscal— rotan y se contratan con urgencia. Una de sus vacantes está marcada como contratación urgente.",
+        "El canal ya les resulta natural: atienden clientes por WhatsApp. Extenderlo a candidatos no cambia el hábito de nadie dentro de la empresa.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "5 vacantes activas: auxiliar de certificación en Progreso, auxiliar de confronta en CDMX, clasificador en Quintana Roo, ejecutivo de ventas con contratación urgente y analista de pedimentos en Manzanillo",
+        source: "Indeed, agosto 2026",
+      },
+      {
+        observation:
+          "WhatsApp corporativo publicado como canal de contacto",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "Página corporativa activa",
+        source: "Facebook (AduaneraRed)",
+      },
+      {
+        observation:
+          "Perfiles en agregadores de empleo",
+        source: "Glassdoor y BeBee",
+      },
+    ],
+    highTurnoverRoles: [
+      "Tramitadores aduanales de patio en Progreso",
+      "Auxiliares de confronta y certificación",
+      "Clasificadores",
+      "Personal de almacén fiscal y distribución",
+    ],
+    currentChannels: [
+      "Indeed (ofertas activas multi-plaza)",
+      "Agregadores de empleo",
+      "Facebook corporativo",
+      "Contacto directo a oficinas",
+    ],
+    footprint:
+      "Oficinas en Progreso, Cancún, Ciudad de México y Manzanillo, con aliados en Houston y Miami y contratación simultánea en cuatro plazas.",
+    adjacentOpportunity:
+      "Un portal de seguimiento de despachos con avisos por WhatsApp a sus clientes reduciría las llamadas de estatus que hoy absorben a su personal de operación.",
+  },
+
+  {
+    slug: "constructora-corporativa",
+    name: "Constructora Corporativa",
+    logo: {
+      src: "/qualent-logos/constructora-corporativa.png",
+      width: 480,
+      height: 144,
+    },
+    brand: { ink: "#1C1C1C", pop: "#9AA3AB", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin señal de WhatsApp ni vacantes públicas — contratación directa por obra.",
+    tryIt: {
+      positionTitle: "Electricista Industrial",
+      refCode: "ccorp-electricista-industrial",
+      jobs: [
+        "Electricista industrial",
+        "Soldador",
+        "Ayudante general de obra",
+      ],
+    },
+    thread: {
+      candidateName: "Iván de Jesús Koh Pat",
+      detail: "frente de obra industrial, pago semanal",
+      qualifier: "¿Es electricista industrial certificado y cuántos años tiene de experiencia?",
+      qualifierAnswer: "Sí, seis años",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la oficina de Mérida",
+      when: "el lunes 1 de septiembre a las 8:00",
+    },
+    sector: "Construcción",
+    scale: [
+      { value: "1983", label: "año de fundación" },
+      { value: "2", label: "oficinas" },
+      { value: "3", label: "disciplinas de obra" },
+    ],
+    prose: {
+      headline: "Obra electromecánica en sitios de clientes. Personal distinto en cada frente.",
+      hook: "Civil, electromecánica e hidráulica, con frentes abiertos en instalaciones de terceros.",
+      opening:
+        "No encontramos vacantes publicadas ni bolsa de trabajo. Para obra electromecánica en sitios de clientes, la contratación pasa por contactos del gremio y se rehace en cada proyecto.",
+      fitParagraphs: [
+        "Los oficios que necesitan —electricistas industriales, soldadores, tuberos— son escasos y se contratan por proyecto. Qualent conserva a cada candidato con su especialidad y sus documentos, de modo que el siguiente frente no empiece de cero.",
+        "Trabajar dentro de instalaciones de clientes exige documentación en regla antes de pisar el sitio. Recolectar y verificar INE y CURP dentro de la conversación adelanta ese trámite.",
+        "Con oficinas en Mérida y Cancún y frentes en toda la península, agendar a cada candidato en el sitio correcto deja de depender de quién conteste el teléfono.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes encontradas en portales bajo su nombre, agosto 2026",
+        source: "Computrabajo, Indeed y OCC",
+      },
+      {
+        observation:
+          "Sin sección de carreras o bolsa de trabajo en su sitio web",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "Volumen implícito de obra electromecánica en frentes de clientes industriales",
+        source: "Perfil de actividad",
+      },
+      {
+        observation:
+          "Facebook e Instagram corporativos, de uso comercial",
+        source: "Redes corporativas",
+      },
+    ],
+    highTurnoverRoles: [
+      "Electricistas y soldadores industriales",
+      "Fontaneros y tuberos de obra hidráulica",
+      "Albañiles y ayudantes generales",
+      "Operadores y personal de obra por proyecto",
+    ],
+    currentChannels: [
+      "Contratación directa e informal por obra",
+      "Redes corporativas de uso comercial",
+      "Sin presencia en portales de empleo",
+    ],
+    footprint:
+      "Oficinas en Mérida y Cancún, con frentes de obra en instalaciones de clientes industriales de toda la península.",
+    adjacentOpportunity:
+      "Un expediente digital por cuadrilla —altas, contratos por obra y constancias— conectado al mismo WhatsApp quitaría papeleo entre el frente y la oficina.",
+  },
+
+  {
+    slug: "turitransmerida",
+    name: "Turitransmerida",
+    logo: {
+      src: "/qualent-logos/turitransmerida.png",
+      width: 480,
+      height: 273,
+    },
+    brand: { ink: "#0E4C7A", pop: "#1E88C7" },
+    waTier: 2,
+    waEvidence:
+      "WhatsApp comercial ya central en su operación (999 947 9384) — pero no para contratar.",
+    tryIt: {
+      positionTitle: "Chofer-Operador Turístico",
+      refCode: "turitrans-chofer-operador",
+      jobs: [
+        "Chofer-operador de unidad turística",
+        "Guía de turistas certificado",
+        "Staff de eventos por congreso",
+      ],
+    },
+    thread: {
+      candidateName: "Manuel Alejandro Sosa Interián",
+      detail: "servicios en la península, por temporada",
+      qualifier: "¿Tiene licencia vigente y experiencia en transporte turístico?",
+      qualifierAnswer: "Sí, licencia C y cuatro años",
+      docs: "su INE y su licencia",
+      docLabel: "INE.jpg · licencia_C.jpg",
+      location: "la base de Mérida",
+      when: "el martes 2 de septiembre a las 10:00",
+    },
+    legalName: "Turitransmerida Tour Operator & DMC",
+    sector: "Turismo B2B",
+    scale: [
+      { value: "30+", label: "años en receptivo" },
+      { value: "24", label: "años en congresos" },
+      { value: "Flota", label: "propia" },
+    ],
+    prose: {
+      headline: "Temporada alta significa choferes y guías. Conseguirlos sigue siendo a mano.",
+      hook: "Flota propia y operación de congresos, con refuerzos estacionales que aparecen y desaparecen.",
+      opening:
+        "Turitransmerida ya opera por WhatsApp con sus clientes. El personal eventual —choferes, guías, staff de evento— se sigue consiguiendo por la red del gremio, justo cuando más prisa hay.",
+      fitParagraphs: [
+        "Su contratación es por picos: un congreso, una temporada, un grupo grande. Qualent mantiene un grupo de choferes y guías ya calificados y con documentos verificados, listos para convocar cuando entra el evento.",
+        "Guías certificados por SECTUR y choferes con licencia vigente son requisitos verificables. El OCR los valida en la conversación, no el día del servicio.",
+        "El canal ya les es natural: atienden clientes por WhatsApp. Extenderlo al personal eventual no cambia hábitos internos, solo quita llamadas.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes encontradas en portales de empleo, agosto 2026",
+        source: "Computrabajo, Indeed, OCC y agregadores",
+      },
+      {
+        observation:
+          "Sin sección de bolsa de trabajo en su sitio",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "WhatsApp comercial publicado como canal central de operación",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "Página activa de uso comercial",
+        source: "Facebook",
+      },
+    ],
+    highTurnoverRoles: [
+      "Choferes-operadores de unidades turísticas",
+      "Guías de turistas certificados",
+      "Coordinadores y staff de eventos por congreso",
+      "Personal de logística en piso",
+    ],
+    currentChannels: [
+      "Red del gremio turístico",
+      "Facebook (uso comercial)",
+      "Sin presencia en portales de empleo",
+    ],
+    footprint:
+      "Operación desde Mérida con servicios en toda la península — zonas arqueológicas, cenotes y puertos — y flota propia.",
+    adjacentOpportunity:
+      "Un tablero de asignación de unidades y choferes por servicio, confirmado desde el mismo WhatsApp, quitaría la coordinación por llamada en día de operación.",
+  },
+
+  {
+    slug: "grupo-ferretero-surte",
+    name: "Grupo Ferretero Surte",
+    logo: {
+      src: "/qualent-logos/grupo-ferretero-surte.png",
+      width: 480,
+      height: 173,
+    },
+    brand: { ink: "#1E2A5E", pop: "#B01F2E" },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — hoy reciben CV espontáneos por un correo genérico.",
+    tryIt: {
+      positionTitle: "Almacenista de Sucursal",
+      refCode: "surte-almacenista",
+      jobs: [
+        "Almacenista de sucursal",
+        "Vendedor de mostrador",
+        "Chofer de reparto",
+      ],
+    },
+    thread: {
+      candidateName: "Jorge Luis Medina Salas",
+      detail: "sucursal con almacén, turno completo",
+      qualifier: "¿Ha trabajado en almacén o mostrador de ferretería?",
+      qualifierAnswer: "Sí, dos años en mostrador",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la sucursal",
+      when: "el miércoles 3 de septiembre a las 9:00",
+    },
+    legalName: "Grupo Ferretero Surte, S.A. de C.V.",
+    sector: "Distribución industrial",
+    scale: [
+      { value: "5", label: "sucursales" },
+      { value: "15,000+", label: "productos" },
+      { value: "35+", label: "años operando" },
+    ],
+    prose: {
+      headline: "Cinco sucursales contratando. Un correo genérico recibiéndolo todo.",
+      hook: "Mayorista ferretero con almacén propio en cada plaza y reclutamiento pasivo.",
+      opening:
+        "Su reclutamiento es de recepción: un correo genérico donde llegan CV espontáneos. Con cinco sucursales operativas, eso significa que cuando falta un almacenista se empieza a buscar desde cero.",
+      fitParagraphs: [
+        "Recibir CV en un correo genérico funciona mientras nadie renuncie. Qualent convierte esa recepción pasiva en un grupo de candidatos ya calificados por plaza, disponible el día que se abre la vacante.",
+        "Los perfiles que rotan —almacenistas, vendedores de mostrador y ruta, choferes de reparto— son de decisión rápida: el candidato acepta con quien le conteste primero. Responder en segundos en lugar de días cambia el resultado.",
+        "Cinco sucursales con almacén propio significan cinco calendarios distintos. Qualent identifica la plaza del candidato y agenda ahí, sin intermediarios.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Página de empresa con solo 3 reseñas y sin listado claro de vacantes vigentes",
+        source: "Indeed",
+      },
+      {
+        observation:
+          "Reseña de empleado que describe la operación como totalmente operativa, de ritmo alto en venta y almacén",
+        source: "Indeed",
+      },
+      {
+        observation:
+          "Reclutamiento pasivo por correo genérico para CV espontáneos",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "Facebook corporativo sin evidencia de uso para reclutamiento",
+        source: "Facebook",
+      },
+    ],
+    highTurnoverRoles: [
+      "Almacenistas de sucursal",
+      "Vendedores de mostrador y ruta",
+      "Choferes de reparto",
+    ],
+    currentChannels: [
+      "Correo genérico para CV espontáneos",
+      "Indeed (página de empresa, actividad baja)",
+      "Facebook corporativo",
+    ],
+    footprint:
+      "Cinco sucursales con almacén propio de unos 400 m² cada una, en Monterrey, Querétaro, Cancún, Chetumal y San Luis Potosí.",
+    adjacentOpportunity:
+      "Un portal de pedidos y resurtido para sus clientes ferreteros, con avisos de existencias por WhatsApp, elevaría la recompra frente a mayoristas más grandes.",
+  },
+
+  {
+    slug: "imprex",
+    name: "Imprex",
+    brand: { ink: "#16325C", pop: "#2F7FBF", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp en reclutamiento — publican de forma esporádica en Computrabajo.",
+    tryIt: {
+      positionTitle: "Operador de Prensa",
+      refCode: "imprex-operador-prensa",
+      jobs: [
+        "Operador de prensa offset",
+        "Auxiliar de acabado",
+        "Personal de reparto",
+      ],
+    },
+    thread: {
+      candidateName: "Carlos Eduardo Herrera Pool",
+      detail: "planta de Mérida, turno matutino",
+      qualifier: "¿Tiene experiencia operando prensa offset o digital?",
+      qualifierAnswer: "Sí, tres años en offset",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Mérida",
+      when: "el jueves 4 de septiembre a las 8:30",
+    },
+    legalName: "Imprex, S.A. de C.V.",
+    sector: "Imprenta",
+    scale: [
+      { value: "1974", label: "año de fundación" },
+      { value: "500+", label: "toneladas de papel al año" },
+      { value: "Mérida", label: "planta principal" },
+    ],
+    prose: {
+      headline: "Cincuenta años de estabilidad. Y un relevo que nadie está preparando.",
+      hook: "Imprenta líder del sureste, con plantilla estable y contratación esporádica.",
+      opening:
+        "Imprex tiene fama de estabilidad —sus propias reseñas de exempleados lo dicen— y una sola oferta registrada en dos años. Eso es una ventaja hasta que se jubila un prensista.",
+      fitParagraphs: [
+        "Cuando se contrata poco, cada contratación importa más y el proceso está más oxidado. Qualent deja montado un canal que no cuesta nada mantener abierto y que responde el día que sí hace falta.",
+        "Los oficios de imprenta —prensistas offset y digital, auxiliares de acabado— son específicos y escasos. Conservar a los candidatos que ya se acercaron, con su experiencia registrada, vale más aquí que en perfiles genéricos.",
+        "El canal es el que su gente ya usa. No hay portal que aprender ni CV que armar: un mensaje y la conversación hace el resto.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "1 oferta registrada en su perfil de empresa en dos años",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "Perfil de empleador con reseñas de exempleados",
+        source: "Indeed México",
+      },
+      {
+        observation:
+          "Reseñas que destacan muy buena estabilidad laboral",
+        source: "Indeed",
+      },
+      {
+        observation:
+          "Página corporativa activa",
+        source: "Facebook (contactoimprex)",
+      },
+    ],
+    highTurnoverRoles: [
+      "Operadores de prensa offset y digital",
+      "Auxiliares de acabado y colectora",
+      "Personal de cobranza y reparto",
+    ],
+    currentChannels: [
+      "Computrabajo (actividad esporádica)",
+      "Indeed (perfil)",
+      "Facebook corporativo",
+    ],
+    footprint:
+      "Planta principal en Mérida, sin evidencia de multi-sede.",
+    adjacentOpportunity:
+      "Un portal de cotización y seguimiento de tiraje para sus clientes corporativos reduciría el ida y vuelta por correo en cada trabajo.",
+  },
+
+  {
+    slug: "industrias-gori",
+    name: "Industrias Gori",
+    logo: {
+      src: "/qualent-logos/industrias-gori.png",
+      width: 480,
+      height: 207,
+    },
+    brand: { ink: "#0F2B8C", pop: "#E8B71D" },
+    waTier: 3,
+    waEvidence:
+      "Sin WhatsApp ni bolsa de trabajo — el contacto es solo por teléfono y correo.",
+    tryIt: {
+      positionTitle: "Impresor Flexográfico",
+      refCode: "gori-impresor-flexografico",
+      jobs: [
+        "Impresor flexográfico",
+        "Ayudante de máquina",
+        "Operador de rebobinado",
+      ],
+    },
+    thread: {
+      candidateName: "Fernando Javier Ake Chi",
+      detail: "planta de Mérida, turno matutino",
+      qualifier: "¿Ha operado prensa flexográfica antes?",
+      qualifierAnswer: "Sí, dos años como ayudante",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Mérida",
+      when: "el martes 2 de septiembre a las 8:30",
+    },
+    legalName: "Industrias Gori, S.A. de C.V.",
+    sector: "Imprenta y flexografía",
+    scale: [
+      { value: "1989", label: "año de fundación" },
+      { value: "Mérida", label: "planta única" },
+      { value: "Etiquetas", label: "y empaque flexible" },
+    ],
+    prose: {
+      headline: "Contacto solo por teléfono y correo. Los impresores no escriben correos.",
+      hook: "Flexográfica de etiquetas y empaque, con reclutamiento directo y sin rastro público.",
+      opening:
+        "Su sitio no tiene bolsa de trabajo y su perfil de Computrabajo no muestra ofertas. El contacto publicado es un teléfono y un correo administrativo — dos canales que un impresor flexográfico no usa para buscar trabajo.",
+      fitParagraphs: [
+        "Pedir a un operador de máquina que escriba a un correo administrativo es pedirle el paso que no va a dar. Qualent recibe por el canal que sí usa y arma el perfil dentro de la conversación.",
+        "Los oficios de flexografía son específicos —impresores, ayudantes de máquina, operadores de rebobinado— y escasos en Mérida. Conservar a cada candidato que se acerca, con su experiencia registrada, importa más cuando el mercado es chico.",
+        "No hace falta montar un portal ni cambiar procesos: un número, un código QR en la planta, y la conversación corre sola.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Perfil de empresa sin ofertas activas visibles",
+        source: "Computrabajo",
+      },
+      {
+        observation:
+          "Sitio web sin sección de bolsa de trabajo; contacto solo por teléfono y correo administrativo",
+        source: "industriasgori.com.mx",
+      },
+      {
+        observation:
+          "Giro de etiquetas autoadheribles, mangas termoencogibles y empaque flexible",
+        source: "Perfil de actividad",
+      },
+    ],
+    highTurnoverRoles: [
+      "Impresores flexográficos y ayudantes de máquina",
+      "Operadores de acabado y rebobinado",
+    ],
+    currentChannels: [
+      "Computrabajo (perfil, sin ofertas visibles)",
+      "Reclutamiento directo por teléfono y correo",
+    ],
+    footprint:
+      "Sede única en el centro de Mérida, sin evidencia de multi-planta.",
+    adjacentOpportunity:
+      "Un portal de aprobación de artes y seguimiento de tiraje para sus clientes de etiqueta quitaría ciclos de correo en cada pedido.",
+  },
+
+  {
+    slug: "casa-daristi",
+    name: "Casa D'Aristi",
+    logo: {
+      src: "/qualent-logos/casa-daristi.png",
+      width: 480,
+      height: 160,
+    },
+    brand: { ink: "#1A1A1A", pop: "#C9A227", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin señal de reclutamiento en ningún portal — plantilla pequeña y estable.",
+    tryIt: {
+      positionTitle: "Operador de Envasado",
+      refCode: "daristi-operador-envasado",
+      jobs: [
+        "Operador de envasado",
+        "Personal de almacén",
+      ],
+    },
+    thread: {
+      candidateName: "Ana Karina Chim Balam",
+      detail: "planta de Mérida, turno matutino",
+      qualifier: "¿Tiene experiencia en producción o envasado de alimentos o bebidas?",
+      qualifierAnswer: "Sí, dos años en envasado",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Mérida",
+      when: "el miércoles 3 de septiembre a las 9:00",
+    },
+    legalName: "Casa D'Aristi",
+    sector: "Licores",
+    scale: [
+      { value: "1935", label: "año de fundación" },
+      { value: "10-50", label: "empleados" },
+      { value: "Exportación", label: "premium" },
+    ],
+    prose: {
+      headline: "Una destilería pequeña no contrata seguido. Cuando lo hace, no puede fallar.",
+      hook: "Microdestilería de Xtabentún y Kalani, con exportación premium y equipo reducido.",
+      opening:
+        "No encontramos vacantes activas de Casa D'Aristi en ningún portal. Con entre 10 y 50 personas, cada contratación pesa mucho más que en una operación de cientos — y el proceso rara vez está listo cuando hace falta.",
+      fitParagraphs: [
+        "A este tamaño no se justifica un equipo de reclutamiento ni una suscripción a portales. Qualent deja abierto un canal que no cuesta atención mientras no se usa y que responde bien el día que sí.",
+        "Una producción artesanal orientada a exportación depende de gente con oficio y permanencia. Poder conservar y volver a contactar a buenos candidatos anteriores vale más aquí que el volumen.",
+        "Es el caso donde la honestidad importa: si el volumen de contratación no lo justifica, se los decimos en la primera conversación.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes activas encontradas en portales de empleo",
+        source: "Computrabajo, Indeed y OCC",
+      },
+      {
+        observation:
+          "Marca presente en importadores de Estados Unidos, sin señales de contratación operativa en México",
+        source: "Directorios de importadores",
+      },
+      {
+        observation:
+          "Página de compañía sin bolsa de trabajo pública",
+        source: "LinkedIn",
+      },
+    ],
+    highTurnoverRoles: [
+      "Personal de producción y envasado",
+      "Personal de almacén y expedición",
+    ],
+    currentChannels: [
+      "LinkedIn (página de compañía)",
+      "Sin bolsa de trabajo pública visible",
+    ],
+    footprint:
+      "Microdestilería en Mérida con producción de escala pequeña y enfoque en exportación.",
+    adjacentOpportunity:
+      "Un portal de pedidos y trazabilidad de lote para sus importadores reduciría el seguimiento por correo en cada embarque.",
+  },
+
+  {
+    slug: "gora",
+    name: "GORA",
+    logo: {
+      src: "/qualent-logos/gora.png",
+      width: 480,
+      height: 82,
+    },
+    brand: { ink: "#0B4A63", pop: "#12A0C8" },
+    waTier: 3,
+    waEvidence:
+      "Sin señal de reclutamiento — su presencia digital está orientada a ventas, no a contratar.",
+    tryIt: {
+      positionTitle: "Operario de Producción",
+      refCode: "gora-operario-produccion",
+      jobs: [
+        "Operario de fabricación metálica",
+        "Carpintero de planta",
+        "Chofer de reparto",
+      ],
+    },
+    thread: {
+      candidateName: "Miguel Ángel Tuz Canché",
+      detail: "planta de Mérida, turno matutino",
+      qualifier: "¿Tiene experiencia en carpintería o fabricación metálica?",
+      qualifierAnswer: "Sí, tres años en carpintería",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la planta de Mérida",
+      when: "el jueves 4 de septiembre a las 8:00",
+    },
+    legalName: "Muebles GORA",
+    sector: "Muebles",
+    scale: [
+      { value: "35+", label: "años operando" },
+      { value: "Planta", label: "propia en Mérida" },
+      { value: "100%", label: "yucateca" },
+    ],
+    prose: {
+      headline: "Su presencia digital vende muebles. Ninguna parte de ella contrata.",
+      hook: "Planta propia de mobiliario de oficina y escuela, con reclutamiento local y directo.",
+      opening:
+        "Blog, Instagram y Facebook activos, todos de venta. Cero ofertas en portales. Para una planta propia con 35 años de operación, eso quiere decir que el personal se consigue de boca en boca.",
+      fitParagraphs: [
+        "Boca a boca funciona, pero no se puede convocar cuando hace falta. Qualent convierte esa red informal en algo localizable: candidatos con su oficio, su experiencia y sus documentos ya registrados.",
+        "Los perfiles de planta —fabricación metálica, carpintería, acabado— son de oficio y locales. Un código QR en la planta o en el punto de venta abre la conversación sin pedirle a nadie que arme un CV.",
+        "Ya publican en redes para vender. El mismo tipo de anuncio, apuntado a reclutamiento y conectado a WhatsApp, aprovecha algo que ya saben hacer.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin ofertas activas encontradas a nombre de Muebles GORA o Grupo Gora",
+        source: "Computrabajo, OCC e Indeed",
+      },
+      {
+        observation:
+          "Presencia digital orientada a ventas — blog, Instagram y Facebook — no a reclutamiento",
+        source: "Redes corporativas",
+      },
+      {
+        observation:
+          "Planta propia de muebles de oficina, escolares y de comercio",
+        source: "Sitio corporativo",
+      },
+    ],
+    highTurnoverRoles: [
+      "Operarios de fabricación metálica y carpintería",
+      "Vendedores de piso",
+      "Choferes de reparto",
+    ],
+    currentChannels: [
+      "Reclutamiento directo y local",
+      "Redes corporativas de uso comercial",
+      "Sin presencia en portales de empleo",
+    ],
+    footprint:
+      "Planta propia y punto de venta en Mérida, sin evidencia de multi-sede.",
+    adjacentOpportunity:
+      "Un configurador de mobiliario por proyecto para escuelas y oficinas, con cotización automática, acortaría su ciclo de venta institucional.",
+  },
+
+  {
+    slug: "grupo-tony",
+    name: "Grupo Tony",
+    logo: {
+      src: "/qualent-logos/grupo-tony.png",
+      width: 480,
+      height: 312,
+      onDark: true,
+    },
+    brand: { ink: "#0E3B2E", pop: "#C8A24A", provisional: true },
+    waTier: 2,
+    waEvidence:
+      "WhatsApp comercial ya publicado (999 572 0142) — el canal opera para ventas, no para contratar.",
+    tryIt: {
+      positionTitle: "Costurera de Taller",
+      refCode: "tony-costurera-taller",
+      jobs: [
+        "Costurera de taller · Mérida",
+        "Vendedor de mostrador · Centro",
+      ],
+    },
+    thread: {
+      candidateName: "Lucía Margarita Canul Poot",
+      detail: "taller de Mérida, turno matutino",
+      qualifier: "¿Tiene experiencia en máquina de coser industrial?",
+      qualifierAnswer: "Sí, cinco años",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "el taller del Centro",
+      when: "el lunes 1 de septiembre a las 9:00",
+    },
+    legalName: "Novedades Tony, S.A. de C.V.",
+    sector: "Manufactura textil",
+    scale: [
+      { value: "67", label: "años de historia" },
+      { value: "3", label: "sucursales en Mérida" },
+      { value: "Taller", label: "de confección propio" },
+    ],
+    prose: {
+      headline: "Sesenta y siete años cosiendo guayaberas. Las costureras llegan por recomendación.",
+      hook: "Taller de confección propio y tres sucursales, con contratación de boca en boca.",
+      opening:
+        "Novedades Tony ya atiende por WhatsApp del lado comercial. El taller de confección se abastece por recomendación — un canal que funciona hasta que se necesitan cinco costureras a la vez.",
+      fitParagraphs: [
+        "El oficio de confección se transmite por red personal, y esa red es difícil de convocar en un pico de producción. Qualent conserva a cada candidata que se acercó, con su experiencia registrada, para el momento en que sí hace falta.",
+        "El canal ya es el correcto dentro de la empresa: usan WhatsApp para vender. Extenderlo al taller no obliga a nadie a aprender un sistema nuevo.",
+        "Con tres sucursales más el taller, cada candidata debe quedar agendada donde corresponde. La conversación identifica el punto y agenda ahí.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes propias encontradas en portales bajo Novedades Tony",
+        source: "Computrabajo, Indeed y OCC",
+      },
+      {
+        observation:
+          "WhatsApp comercial publicado en su sitio, ya operativo para ventas",
+        source: "Sitio corporativo",
+      },
+      {
+        observation:
+          "Contratación directa en sucursal y taller, de boca en boca",
+        source: "Perfil de actividad",
+      },
+      {
+        observation:
+          "Ojo: las ofertas de «Grupo Tony» en portales corresponden a TONY Superpapelerías, otra empresa",
+        source: "Verificación de identidad",
+      },
+    ],
+    highTurnoverRoles: [
+      "Costureras y personal de taller de confección",
+      "Vendedores de mostrador en 3 sucursales",
+    ],
+    currentChannels: [
+      "Contratación directa en sucursal y taller",
+      "Boca a boca",
+      "WhatsApp comercial (ventas)",
+    ],
+    footprint:
+      "Tres sucursales en Mérida — Centro, Itzaes y Macro — más taller de manufactura propio.",
+    adjacentOpportunity:
+      "Una tienda en línea con inventario unificado entre taller y sucursales abriría venta nacional de guayabera sin abrir otro punto físico.",
+  },
+
+  {
+    slug: "agencia-maritima-maya",
+    name: "Agencia Marítima Maya",
+    brand: { ink: "#0B3550", pop: "#2E7FA8", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin presencia digital de reclutamiento — ni portales, ni redes, ni bolsa de trabajo.",
+    tryIt: {
+      positionTitle: "Auxiliar Operativo",
+      refCode: "maritima-maya-auxiliar",
+      jobs: [
+        "Auxiliar operativo · Progreso",
+        "Apoyo documental",
+      ],
+    },
+    thread: {
+      candidateName: "Rodrigo Alberto Cauich Ek",
+      detail: "oficina de Progreso, tiempo completo",
+      qualifier: "¿Tiene experiencia en operación portuaria o comercio exterior?",
+      qualifierAnswer: "Sí, un año en patio",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la oficina de Progreso",
+      when: "el martes 2 de septiembre a las 10:00",
+    },
+    sector: "Logística portuaria",
+    scale: [
+      { value: "Progreso", label: "única oficina" },
+      { value: "Consignataria", label: "de buques" },
+      { value: "Por escala", label: "operación" },
+    ],
+    prose: {
+      headline: "Una oficina en Progreso y ningún rastro público de contratación.",
+      hook: "Agencia consignataria de buques, con operación por escala y personal difícil de rastrear.",
+      opening:
+        "No encontramos vacantes, página de Facebook ni perfil de empresa. Para una consignataria de buques en Progreso, el personal se consigue dentro del gremio portuario — un círculo cerrado y pequeño.",
+      fitParagraphs: [
+        "El agenciamiento marítimo trabaja por escala: llega un buque y hace falta gente esa misma semana. Un canal abierto que ya tenga candidatos calificados evita empezar cada llamada desde cero.",
+        "Es la operación más pequeña de la lista y la que menos señal pública tiene. Si el volumen de contratación no lo justifica, conviene decirlo en la primera conversación en vez de montar un proceso que nadie va a usar.",
+        "Lo que sí aplica en cualquier caso: documentos verificados y un registro de a quién se contactó, en una operación donde hoy todo vive en llamadas.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Sin vacantes encontradas en portales de empleo ni en LinkedIn",
+        source: "Computrabajo, Indeed, OCC y LinkedIn Jobs",
+      },
+      {
+        observation:
+          "Sin página de Facebook ni publicaciones de bolsa de trabajo localizadas",
+        source: "Búsqueda en redes",
+      },
+      {
+        observation:
+          "Única presencia web es un micrositio de directorio",
+        source: "Directorio empresarial",
+      },
+    ],
+    highTurnoverRoles: [
+      "Personal operativo de agenciamiento por escala",
+      "Apoyo administrativo y documental",
+    ],
+    currentChannels: [
+      "Red del gremio portuario",
+      "Sin presencia digital de reclutamiento",
+    ],
+    footprint:
+      "Una sola oficina identificada, en el centro de Progreso.",
+    adjacentOpportunity:
+      "Un tablero de escalas y documentación por buque, con avisos por WhatsApp a sus clientes, ordenaría un flujo que hoy vive en correo y llamadas.",
+  },
+
+  {
+    slug: "business-travel-and-events",
+    name: "Business Travel & Events",
+    brand: { ink: "#123A5C", pop: "#3E8FBF", provisional: true },
+    waTier: 3,
+    waEvidence:
+      "Sin señal de reclutamiento — el staff de evento se subcontrata, no se contrata.",
+    tryIt: {
+      positionTitle: "Staff de Evento",
+      refCode: "bte-staff-evento",
+      jobs: [
+        "Staff de evento · Mérida",
+        "Coordinación de piso",
+      ],
+    },
+    thread: {
+      candidateName: "Paulina Estrella Novelo Chan",
+      detail: "staff por congreso, pago por evento",
+      qualifier: "¿Tiene experiencia en atención a congresos o eventos?",
+      qualifierAnswer: "Sí, en varios congresos",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
+      location: "la oficina de Mérida",
+      when: "el jueves 4 de septiembre a las 11:00",
+    },
+    sector: "Turismo B2B",
+    scale: [
+      { value: "2010", label: "inicio de operaciones" },
+      { value: "30+", label: "años de experiencia de sus fundadores" },
+      { value: "Por evento", label: "modelo de staff" },
+    ],
+    prose: {
+      headline: "El staff llega por evento. Subcontratado, y distinto cada vez.",
+      hook: "Agencia familiar de congresos y viajes corporativos, sin plantilla operativa propia.",
+      opening:
+        "Cero vacantes en portales y sin empleados visibles en LinkedIn. Su modelo no es de plantilla: el personal de piso entra por evento y se subcontrata.",
+      fitParagraphs: [
+        "Cuando el staff se subcontrata por evento, el problema no es contratar sino volver a encontrar a los mismos que funcionaron. Qualent guarda ese grupo con su rol, su experiencia y sus documentos, listo para convocar en el siguiente congreso.",
+        "Convocar a veinte personas para un evento con dos semanas de aviso es exactamente el pico que un canal automático absorbe sin ocupar a nadie.",
+        "Es el caso más pequeño de la lista. Si el volumen no lo justifica, se los decimos en la primera conversación — es más útil que venderles una plataforma que no van a usar.",
+      ],
+    },
+    signals: [
+      {
+        observation:
+          "Cero vacantes encontradas en portales de empleo o LinkedIn, agosto 2026",
+        source: "Búsqueda en portales",
+      },
+      {
+        observation:
+          "Sin página de empresa con empleados visibles",
+        source: "LinkedIn",
+      },
+      {
+        observation:
+          "Perfil en el directorio oficial de turismo de la ciudad",
+        source: "visitmerida.mx",
+      },
+    ],
+    highTurnoverRoles: [
+      "Staff eventual por congreso o evento",
+      "Coordinación de piso por evento",
+    ],
+    currentChannels: [
+      "Red del gremio turístico",
+      "Sin presencia en portales de empleo",
+    ],
+    footprint:
+      "Agencia familiar con base en Mérida y operación de congresos, viajes corporativos y boletaje.",
+    adjacentOpportunity:
+      "Un portal de registro e inscripción para los congresos que operan quitaría trabajo manual de listas y acreditaciones en cada evento.",
+  },
 ];
 
 /**
@@ -725,6 +2227,32 @@ export const QUALENT_PROSPECTS: Prospect[] = [
  * link and QR below points at a number that does not answer. Swap this, then
  * re-run the QR generation, BEFORE any link goes to a prospect.
  */
+/* ------------------------------------------------------------------
+   Contrast helpers.
+
+   The band treatment assumes nothing about a company's palette: some
+   have a light "pop" (La Lupita's yellow), others a saturated mid-tone
+   (GAP's blue) where dark-on-brand text collapses. Rather than hand-pick
+   per company across 25 pages, derive the readable colour.
+   ------------------------------------------------------------------ */
+
+function luminance(hex: string): number {
+  const h = hex.replace("#", "");
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+  const lin = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+}
+
+export function isLight(hex: string): boolean {
+  return luminance(hex) > 0.42;
+}
+
+/** Text colour that stays readable on the given background. */
+export function readableOn(bg: string, preferred?: string): string {
+  if (preferred && Math.abs(luminance(bg) - luminance(preferred)) > 0.28) return preferred;
+  return isLight(bg) ? "#12160C" : "#FFFFFF";
+}
+
 export const DEMO_PHONE = "529990000000";
 
 /** Mirrors buildWhatsAppLink() in the Qualent codebase so ref attribution works. */

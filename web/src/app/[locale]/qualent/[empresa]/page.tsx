@@ -5,6 +5,8 @@ import { Container } from "@/components/layout";
 import {
   getProspect,
   buildTryItLink,
+  readableOn,
+  isLight,
   QUALENT_PROSPECTS,
   type Prospect,
 } from "@/lib/qualent-prospects";
@@ -98,9 +100,19 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 /** Their logo, or their name set in type when we do not have the asset yet. */
 function AddresseeCard({ prospect }: { prospect: Prospect }) {
+  // A white-on-transparent mark would disappear on the default white card.
+  const onDark = prospect.logo?.onDark ?? false;
   return (
-    <div className="flex w-fit items-center gap-3.5 rounded-xl border border-black/15 bg-white px-4 py-2.5 shadow-sm">
-      <span className="w-[104px] shrink-0 border-r border-black/10 pr-3 font-mono text-[9.5px] uppercase leading-snug tracking-wider text-neutral-500">
+    <div
+      className={`flex w-fit items-center gap-3.5 rounded-xl border px-4 py-2.5 ${
+        onDark ? "border-white/25 bg-[#111A21]" : "border-black/15 bg-white shadow-sm"
+      }`}
+    >
+      <span
+        className={`w-[104px] shrink-0 border-r pr-3 font-mono text-[9.5px] uppercase leading-snug tracking-wider ${
+          onDark ? "border-white/20 text-white/65" : "border-black/10 text-neutral-500"
+        }`}
+      >
         Propuesta preparada para
       </span>
       {prospect.logo ? (
@@ -116,7 +128,11 @@ function AddresseeCard({ prospect }: { prospect: Prospect }) {
           }
         />
       ) : (
-        <span className="pr-2 text-[15px] font-bold tracking-tight text-neutral-900">
+        <span
+          className={`pr-2 text-[15px] font-bold tracking-tight ${
+            onDark ? "text-white" : "text-neutral-900"
+          }`}
+        >
           {prospect.name}
         </span>
       )}
@@ -135,6 +151,12 @@ export default async function QualentProspectPage({ params }: Props) {
   const { brand } = prospect;
   const waLink = buildTryItLink(prospect);
   const autoIntro = AUTOMATION_INTRO[prospect.waTier];
+  // Some palettes have a light pop (yellow), others a saturated mid-tone (blue).
+  // Derive text colours so neither collapses into its own background.
+  const onPop = readableOn(brand.pop, brand.ink);
+  const onInk = readableOn(brand.ink);
+  const ctaText = readableOn(brand.pop);
+  const cardTint = isLight(brand.pop) ? "rgba(255,255,255,.85)" : "rgba(255,255,255,.14)";
 
   return (
     <div className="flex flex-col">
@@ -212,8 +234,8 @@ export default async function QualentProspectPage({ params }: Props) {
 
               <a
                 href="#conversacion"
-                className="mt-7 inline-block px-6 py-3.5 text-[15px] font-bold text-[#2E3D13] shadow-[5px_5px_0_rgba(0,0,0,.28)]"
-                style={{ background: brand.pop }}
+                className="mt-7 inline-block px-6 py-3.5 text-[15px] font-bold shadow-[5px_5px_0_rgba(0,0,0,.28)]"
+                style={{ background: brand.pop, color: ctaText }}
               >
                 Agendar 30 minutos →
               </a>
@@ -296,7 +318,7 @@ export default async function QualentProspectPage({ params }: Props) {
           <div className="mb-7 flex flex-wrap items-center gap-x-5 gap-y-4">
             <span
               className="whitespace-nowrap rounded px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[.17em]"
-              style={{ background: brand.ink, color: brand.pop }}
+              style={{ background: brand.ink, color: onInk }}
             >
               Sobre ustedes
             </span>
@@ -305,13 +327,13 @@ export default async function QualentProspectPage({ params }: Props) {
 
           <h2
             className="text-2xl font-extrabold tracking-tight sm:text-[25px]"
-            style={{ color: brand.ink }}
+            style={{ color: onPop }}
           >
             Lo que vimos públicamente
           </h2>
           <p
-            className="mb-6 mt-1.5 max-w-[58ch] text-[14.5px]"
-            style={{ color: brand.ink }}
+            className="mb-6 mt-1.5 max-w-[58ch] text-[14.5px] opacity-90"
+            style={{ color: onPop }}
           >
             Antes de escribirles revisamos sus vacantes activas y sus canales de
             reclutamiento.
@@ -338,8 +360,12 @@ export default async function QualentProspectPage({ params }: Props) {
             {prospect.highTurnoverRoles.map((r) => (
               <span
                 key={r}
-                className="rounded-full border bg-white/85 px-3 py-1.5 text-[12.5px]"
-                style={{ borderColor: `${brand.ink}44`, color: brand.ink }}
+                className="rounded-full border px-3 py-1.5 text-[12.5px]"
+                style={{
+                  background: cardTint,
+                  borderColor: isLight(brand.pop) ? `${brand.ink}44` : "rgba(255,255,255,.34)",
+                  color: isLight(brand.pop) ? brand.ink : "#FFFFFF",
+                }}
               >
                 {r}
               </span>

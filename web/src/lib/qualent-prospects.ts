@@ -83,12 +83,20 @@ export interface ProspectThread {
 }
 
 export interface ProspectTryIt {
-  /** Position the prefilled WhatsApp message names */
+  /** Role name as shown on the page (clean, without the company suffix) */
   positionTitle: string;
-  /** Campaign ref code — matches buildWhatsAppLink() in the Qualent codebase */
+  /** Campaign ref code, carried in the message body as [REF:code] */
   refCode: string;
   /** Their real harvested postings, shown as chips */
   jobs: string[];
+  /**
+   * The live link for a posting that is actually loaded in Qualent, supplied
+   * from the campaign tooling and verified against its QR. When present it is
+   * used verbatim — the exact position string matters for attribution, so it
+   * is never reconstructed. When absent the page falls back to the placeholder
+   * demo line, which does not answer.
+   */
+  waLink?: string;
 }
 
 export interface Prospect {
@@ -130,23 +138,25 @@ export const QUALENT_PROSPECTS: Prospect[] = [
     waEvidence:
       "WhatsApp corporativo publicado en su sitio (999-942-1340) — hoy atiende clientes, no candidatos.",
     tryIt: {
-      positionTitle: "Supervisor de Captura de Aves",
-      refCode: "crio-captura-aves",
+      positionTitle: "Electromecánico Industrial",
+      refCode: "electromec-nico-crio",
       jobs: [
-        "Supervisor de captura de aves · turno rotativo",
         "Electromecánico industrial · planta de alimentos",
+        "Supervisor de captura de aves · turno rotativo",
         "Ayudante general de mantenimiento",
       ],
+      waLink:
+        "https://wa.me/12314420980?text=Hola%2C%20vi%20su%20anuncio%20para%20Electromec%C3%A1nico%20Industrial%20(Planta%20de%20Alimentos)%20-%20CRIO%20y%20me%20interesa%20saber%20m%C3%A1s.%20%5BREF%3Aelectromec-nico-crio%5D",
     },
     thread: {
       candidateName: "Miguel Ángel Chan Pech",
-      detail: "turno rotativo en granja, base Tekax",
-      qualifier: "¿Puede trabajar en turno rotativo, incluyendo fines de semana?",
-      qualifierAnswer: "Sí, sin problema",
+      detail: "planta de alimentos, turno rotativo",
+      qualifier: "¿Tiene experiencia en mantenimiento electromecánico industrial?",
+      qualifierAnswer: "Sí, cuatro años en planta",
       docs: "su INE por los dos lados y su CURP",
       docLabel: "INE_frente.jpg · CURP.pdf",
-      location: "la granja de Tekax",
-      when: "el martes 2 de septiembre a las 9:00",
+      location: "la planta de alimentos en Mérida",
+      when: "el jueves 11 de septiembre a las 9:00",
     },
     logo: { src: "/qualent-logos/crio.png", width: 406, height: 480 },
     legalName: "Productora Nacional de Huevo Crío",
@@ -471,23 +481,25 @@ export const QUALENT_PROSPECTS: Prospect[] = [
     waEvidence:
       "Ya reclutan por WhatsApp, a mano: sus anuncios de chofer piden marcar un número directo.",
     tryIt: {
-      positionTitle: "Chofer de Reparto",
-      refCode: "gap-chofer-reparto",
+      positionTitle: "Analista de Facturación",
+      refCode: "facturaci-n-gap",
       jobs: [
+        "Analista de facturación · Agencia Aduanal",
         "Chofer de reparto · Mérida",
         "Ayudante de almacén · Progreso",
-        "Tramitador aduanal",
       ],
+      waLink:
+        "https://wa.me/12314420980?text=Hola%2C%20vi%20su%20anuncio%20para%20Analista%20de%20Facturaci%C3%B3n%20-%20Agencia%20Aduanal%20-%20GAP%20y%20me%20interesa%20saber%20m%C3%A1s.%20%5BREF%3Afacturaci-n-gap%5D",
     },
     thread: {
-      candidateName: "Jorge Alberto Poot Ek",
-      detail: "base Mérida con ruta a Progreso",
-      qualifier: "¿Qué tipo de licencia tiene y cuánta experiencia en reparto?",
-      qualifierAnswer: "Licencia C, tres años en reparto",
-      docs: "su INE y su licencia",
-      docLabel: "INE.jpg · licencia_C.jpg",
+      candidateName: "Diana Laura Cen Novelo",
+      detail: "agencia aduanal, base Mérida, tiempo completo",
+      qualifier: "¿Tiene experiencia en facturación o comercio exterior?",
+      qualifierAnswer: "Sí, dos años facturando",
+      docs: "su INE por los dos lados y su CURP",
+      docLabel: "INE_frente.jpg · CURP.pdf",
       location: "el corporativo de Mérida",
-      when: "el miércoles 3 de septiembre a las 8:30",
+      when: "el miércoles 10 de septiembre a las 9:00",
     },
     logo: {
       src: "/qualent-logos/grupo-aduanero-peninsular.png",
@@ -640,22 +652,24 @@ export const QUALENT_PROSPECTS: Prospect[] = [
     waEvidence:
       "WhatsApp publicado en su sitio (999-301-3111) — hoy atiende clientes, no candidatos.",
     tryIt: {
-      positionTitle: "Vendedor de Ruta",
-      refCode: "lupita-vendedor-ruta",
+      positionTitle: "Supervisor de Ventas Canal Detalle",
+      refCode: "ventas-la-lupita",
       jobs: [
-        "Vendedor de ruta · Mérida",
+        "Supervisor de ventas canal detalle · Mérida",
         "Supervisor canal detalle · Tizimín",
       ],
+      waLink:
+        "https://wa.me/12314420980?text=Hola%2C%20vi%20su%20anuncio%20para%20Supervisor%20de%20Ventas%20Canal%20Detalle%20-%20La%20Lupita%20y%20me%20interesa%20saber%20m%C3%A1s.%20%5BREF%3Aventas-la-lupita%5D",
     },
     thread: {
       candidateName: "Miguel Ángel Chan Pech",
-      detail: "canal detalle, base Mérida, $12,500 más comisiones",
-      qualifier: "¿Tiene licencia de conducir vigente?",
-      qualifierAnswer: "Sí, tipo B",
+      detail: "canal detalle, base Mérida, con equipo de ruta a cargo",
+      qualifier: "¿Ha supervisado equipos de venta en ruta antes?",
+      qualifierAnswer: "Sí, tres años con seis vendedores",
       docs: "su INE por los dos lados y su licencia",
       docLabel: "INE_frente.jpg · licencia_B.jpg",
       location: "la planta de Caucel",
-      when: "el martes 2 de septiembre a las 10:00",
+      when: "el martes 9 de septiembre a las 10:00",
     },
     logo: { src: "/qualent-logos/botanas-la-lupita.png", width: 480, height: 209 },
     legalName: "Botanas y Frituras del Sureste La Lupita, S.A. de C.V.",
@@ -2255,10 +2269,20 @@ export function readableOn(bg: string, preferred?: string): string {
 
 export const DEMO_PHONE = "529990000000";
 
-/** Mirrors buildWhatsAppLink() in the Qualent codebase so ref attribution works. */
+/**
+ * The campaign tooling carries the ref inside the message body as [REF:code]
+ * rather than as an &ref= parameter, because WhatsApp drops query params for
+ * non-CTWA entry points. Generated fallbacks follow the same convention.
+ */
 export function buildTryItLink(p: Prospect): string {
-  const msg = `Hola, vi su anuncio para ${p.tryIt.positionTitle} y me interesa saber más.`;
-  return `https://wa.me/${DEMO_PHONE}?text=${encodeURIComponent(msg)}&ref=${encodeURIComponent(p.tryIt.refCode)}`;
+  if (p.tryIt.waLink) return p.tryIt.waLink;
+  const msg = `Hola, vi su anuncio para ${p.tryIt.positionTitle} y me interesa saber más. [REF:${p.tryIt.refCode}]`;
+  return `https://wa.me/${DEMO_PHONE}?text=${encodeURIComponent(msg)}`;
+}
+
+/** True when this page points at a posting that is really loaded in Qualent. */
+export function hasLiveDemo(p: Prospect): boolean {
+  return Boolean(p.tryIt.waLink);
 }
 
 export function getProspect(slug: string): Prospect | undefined {

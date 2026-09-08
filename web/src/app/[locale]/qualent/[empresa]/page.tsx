@@ -5,6 +5,7 @@ import { Container } from "@/components/layout";
 import {
   getProspect,
   buildTryItLink,
+  hasLiveDemo,
   readableOn,
   isLight,
   QUALENT_PROSPECTS,
@@ -150,6 +151,9 @@ export default async function QualentProspectPage({ params }: Props) {
 
   const { brand } = prospect;
   const waLink = buildTryItLink(prospect);
+  // Only three companies have postings actually loaded in Qualent so far. The
+  // rest must not claim otherwise, so the band states the offer, not the fact.
+  const live = hasLiveDemo(prospect);
   const autoIntro = AUTOMATION_INTRO[prospect.waTier];
   // Some palettes have a light pop (yellow), others a saturated mid-tone (blue).
   // Derive text colours so neither collapses into its own background.
@@ -261,15 +265,28 @@ export default async function QualentProspectPage({ params }: Props) {
             <div>
               <span className="mb-3 flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[.17em] text-[#4A5F1C]">
                 <span className="size-2 rounded-full bg-[#709030]" />
-                En vivo · sus vacantes reales
+                {live ? "En vivo · sus vacantes reales" : "Demostración · con sus vacantes"}
               </span>
               <h2 className="text-2xl font-extrabold tracking-tight text-[#2E3D13] sm:text-[27px]">
-                Pruébelo ahora, con sus propias vacantes
+                {live
+                  ? "Pruébelo ahora, con sus propias vacantes"
+                  : "Pruébelo con sus propias vacantes"}
               </h2>
               <p className="mt-3 max-w-[50ch] text-[15.5px] leading-relaxed text-[#3F5218]">
-                Tomamos las vacantes que ustedes ya publicaron y las cargamos en
-                Qualent. Abra la conversación y verá exactamente lo que vería un
-                candidato suyo — preguntas, documentos y agenda incluidos.
+                {live ? (
+                  <>
+                    Tomamos una vacante que ustedes ya publicaron y la cargamos en
+                    Qualent. Abra la conversación y verá exactamente lo que vería un
+                    candidato suyo — preguntas, documentos y agenda incluidos.
+                  </>
+                ) : (
+                  <>
+                    Cargamos las vacantes que ustedes ya publicaron y les abrimos una
+                    conversación de prueba, para que vean exactamente lo que vería un
+                    candidato suyo — preguntas, documentos y agenda incluidos.
+                    Escríbannos y la dejamos lista.
+                  </>
+                )}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {prospect.tryIt.jobs.map((j) => (
@@ -281,30 +298,42 @@ export default async function QualentProspectPage({ params }: Props) {
                   </span>
                 ))}
               </div>
-              <a
-                href={waLink}
-                className="mt-5 inline-flex items-center gap-2.5 rounded-lg bg-[#2E3D13] px-6 py-3.5 text-[15.5px] font-bold text-white"
-              >
-                <WhatsAppIcon className="size-5" />
-                Abrir en WhatsApp
-              </a>
+              {live ? (
+                <a
+                  href={waLink}
+                  className="mt-5 inline-flex items-center gap-2.5 rounded-lg bg-[#2E3D13] px-6 py-3.5 text-[15.5px] font-bold text-white"
+                >
+                  <WhatsAppIcon className="size-5" />
+                  Abrir en WhatsApp
+                </a>
+              ) : (
+                <a
+                  href="mailto:john@picklellama.studio?subject=Qualent%20—%20demo%20con%20nuestras%20vacantes"
+                  className="mt-5 inline-flex items-center gap-2.5 rounded-lg bg-[#2E3D13] px-6 py-3.5 text-[15.5px] font-bold text-white"
+                >
+                  <WhatsAppIcon className="size-5" />
+                  Pedir la demostración
+                </a>
+              )}
               <p className="mt-3 font-mono text-[11.5px] text-[#5A7226]">
                 Sin instalar nada. La conversación corre en el WhatsApp que ya usan.
               </p>
             </div>
 
-            <div className="rounded-xl border border-[#2E3D13]/20 bg-white p-3.5 text-center">
-              <Image
-                src={`/qualent/qr/${prospect.slug}.png`}
-                alt="Código QR para abrir la conversación de prueba"
-                width={330}
-                height={330}
-                className="size-[132px]"
-              />
-              <span className="mt-2.5 block max-w-[132px] font-mono text-[9.5px] uppercase leading-snug tracking-wider text-[#5A7226]">
-                Escanee para probar desde su teléfono
-              </span>
-            </div>
+            {live && (
+              <div className="rounded-xl border border-[#2E3D13]/20 bg-white p-3.5 text-center">
+                <Image
+                  src={`/qualent/qr/${prospect.slug}.png`}
+                  alt="Código QR para abrir la conversación de prueba"
+                  width={330}
+                  height={330}
+                  className="size-[132px]"
+                />
+                <span className="mt-2.5 block max-w-[132px] font-mono text-[9.5px] uppercase leading-snug tracking-wider text-[#5A7226]">
+                  Escanee para probar desde su teléfono
+                </span>
+              </div>
+            )}
           </div>
         </Container>
       </section>

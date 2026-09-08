@@ -1,0 +1,78 @@
+<meta charset="utf-8">
+<title>PickleLlama — Design Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F4F6F2;--ink:#171B16;--ink-2:#5B6357;--rule:#D7DCD3;--green:#146B39}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 "Archivo",system-ui,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:clamp(32px,5vw,72px) clamp(20px,4vw,44px)}
+h1{font-size:clamp(2rem,1.3rem + 2.6vw,3.2rem);letter-spacing:-.03em;line-height:1.04;margin:0;max-width:20ch}
+.lede{margin-top:16px;color:var(--ink-2);font-size:1.08rem;max-width:60ch}
+.grid{display:grid;gap:clamp(18px,2.4vw,28px);margin-top:clamp(30px,4vw,50px)}
+@media(min-width:840px){.grid{grid-template-columns:1fr 1fr}}
+.card{
+  background:#fff;border:1px solid var(--rule);border-radius:5px;overflow:hidden;
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  transition:border-color .15s,transform .15s;
+}
+.card:hover{border-color:var(--ink);transform:translateY(-2px)}
+.swatch{height:120px;display:flex}
+.swatch i{flex:1}
+.card-in{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h2{margin:0;font-size:1.35rem;letter-spacing:-.02em}
+.card p{margin:0;color:var(--ink-2);font-size:.96rem}
+.card ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:.9rem;color:var(--ink-2)}
+.card li::before{content:"—  ";color:var(--green)}
+.go{
+  margin-top:auto;padding-top:14px;font-weight:600;color:var(--green);font-size:.95rem;
+}
+.note{margin-top:clamp(30px,4vw,48px);padding-top:20px;border-top:1px solid var(--rule);color:var(--ink-2);font-size:.92rem;max-width:70ch}
+.note b{color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <h1>Two directions for picklellama.studio</h1>
+  <p class="lede">Each file is a working prototype, not a picture: real copy, real case-study numbers, a live English/Spanish switch, and a Home&nbsp;/&nbsp;Proof page toggle in the bottom-right corner. Open both on a phone as well as a desktop.</p>
+
+  <div class="grid">
+    <a class="card" href="direction-a-worksheet.html">
+      <span class="swatch">
+        <i style="background:#F4F6F2"></i><i style="background:#FFFFFF"></i>
+        <i style="background:#146B39"></i><i style="background:#0D4A28"></i>
+        <i style="background:#8C2F1E"></i><i style="background:#171B16"></i>
+      </span>
+      <span class="card-in">
+        <h2>A — Worksheet</h2>
+        <p>Quiet, precise, document-like. The hero is a live cost worksheet: three numbers you already know, and it computes what the problem costs you and what we would charge.</p>
+        <ul>
+          <li>Archivo, tabular figures, left-aligned throughout</li>
+          <li>Green marks a computed figure; oxblood marks a loss</li>
+          <li>Proof is a ledger whose rows open in place</li>
+        </ul>
+        <span class="go">Open direction A</span>
+      </span>
+    </a>
+
+    <a class="card" href="direction-b-yard.html">
+      <span class="swatch">
+        <i style="background:#EFB918"></i><i style="background:#E4E3DC"></i>
+        <i style="background:#1D5034"></i><i style="background:#11241A"></i>
+        <i style="background:#A6371A"></i><i style="background:#F6F5F0"></i>
+      </span>
+      <span class="card-in">
+        <h2>B — Yard</h2>
+        <p>Loud, physical, built from industrial wayfinding — the visual language of the plants and warehouses your clients actually run. Full-bleed colour bands instead of cards.</p>
+        <ul>
+          <li>Barlow Condensed signage type at poster scale</li>
+          <li>The guarantee set as one enormous painted 50%</li>
+          <li>Proof is a walk past bay doors, one band each</li>
+        </ul>
+        <span class="go">Open direction B</span>
+      </span>
+    </a>
+  </div>
+
+  <p class="note"><b>Both mockups use placeholder wordmarks for the client logos.</b> On the live site those become the real SVGs — worth a pass either way, since the current row mixes a white-on-black block, a washed-out PNG and several very different lockup widths, so they read as seven unrelated objects rather than one row.</p>
+</div>

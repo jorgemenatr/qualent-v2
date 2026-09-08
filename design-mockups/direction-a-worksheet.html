@@ -1,0 +1,878 @@
+<meta charset="utf-8">
+<title>Worksheet — PickleLlama Direction A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --paper:#F4F6F2;
+  --sheet:#FFFFFF;
+  --rule:#D7DCD3;
+  --rule-soft:#E7EBE4;
+  --ink:#171B16;
+  --ink-2:#5B6357;
+  --ink-3:#8C9387;
+  --green:#146B39;
+  --green-deep:#0D4A28;
+  --green-wash:#E3EFE5;
+  --cost:#8C2F1E;
+  --cost-wash:#F7EAE6;
+
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+
+  --gut:clamp(20px,4vw,44px);
+  --maxw:1180px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;
+}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2.5px solid var(--green);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut)}
+
+/* ---------- type scale ---------- */
+.display{
+  font-size:clamp(2.1rem,1.15rem + 4.1vw,4.25rem);
+  line-height:1.02;letter-spacing:-.03em;font-weight:700;
+  text-wrap:balance;
+}
+.h2{
+  font-size:clamp(1.5rem,1.1rem + 1.7vw,2.35rem);
+  line-height:1.1;letter-spacing:-.022em;font-weight:700;
+}
+.h3{font-size:1.1rem;line-height:1.3;letter-spacing:-.012em;font-weight:600}
+.lede{
+  font-size:clamp(1.02rem,.95rem + .4vw,1.2rem);
+  line-height:1.6;color:var(--ink-2);max-width:46ch;
+}
+.small{font-size:.86rem;line-height:1.5;color:var(--ink-2)}
+.num{font-family:var(--f-num);font-feature-settings:"tnum" 1;letter-spacing:-.02em}
+
+/* ---------- chrome ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;background:rgba(244,246,242,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);
+}
+.topbar-in{
+  display:flex;align-items:center;gap:18px;min-height:62px;
+  max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut);
+}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em;font-size:1.02rem}
+.brand svg{display:block;flex:none}
+.brand .dotstudio{color:var(--ink-3);font-weight:500}
+.nav{display:none;gap:22px;margin-left:auto;font-size:.9rem;color:var(--ink-2)}
+@media(min-width:1000px){.nav{display:flex}}
+.nav a{text-decoration:none;padding-block:6px;border-bottom:1.5px solid transparent}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--green)}
+.topbar-tools{display:flex;align-items:center;gap:8px;margin-left:auto;flex:none}
+@media(min-width:1000px){.topbar-tools{margin-left:0}}
+.topbar-tools .btn{display:none;white-space:nowrap}
+@media(min-width:560px){.topbar-tools .btn{display:inline-flex}}
+.menu{
+  display:flex;align-items:center;justify-content:center;width:38px;height:34px;
+  border:1px solid var(--rule);border-radius:999px;background:var(--sheet);cursor:pointer;
+}
+@media(min-width:1000px){.menu{display:none}}
+
+.seg{display:flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden;background:var(--sheet)}
+.seg button{
+  border:0;background:transparent;padding:6px 11px;font-size:.78rem;font-weight:600;
+  letter-spacing:.01em;cursor:pointer;color:var(--ink-3);
+}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 20px;border-radius:3px;border:1.5px solid var(--green-deep);
+  background:var(--green-deep);color:#fff;font-weight:600;font-size:.95rem;
+  text-decoration:none;cursor:pointer;transition:background .16s,transform .16s;
+}
+.btn:hover{background:#0a3a1f}
+.btn:active{transform:translateY(1px)}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn--ghost:hover{background:var(--sheet);border-color:var(--ink-3)}
+.btn--sm{padding:9px 15px;font-size:.86rem}
+
+/* ---------- hero / worksheet ---------- */
+.hero{padding-block:clamp(38px,6vw,76px) clamp(30px,4vw,52px)}
+.hero-grid{display:grid;gap:clamp(30px,4vw,54px)}
+@media(min-width:960px){
+  .hero-grid{grid-template-columns:1.02fr .98fr;align-items:start;gap:clamp(40px,4.5vw,68px)}
+}
+.hero-copy .lede{margin-top:20px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}
+.hero-note{
+  margin-top:24px;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:.88rem;color:var(--ink-2);max-width:40ch;
+}
+
+/* the sheet */
+.sheet{
+  background:var(--sheet);border:1px solid var(--rule);border-radius:4px;
+  box-shadow:0 1px 0 var(--rule-soft);overflow:hidden;
+}
+.sheet-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding:14px 18px;border-bottom:1px solid var(--rule);background:#FBFCFA;
+}
+.sheet-title{font-weight:700;font-size:.95rem;letter-spacing:-.012em}
+.sheet-ref{font-family:var(--f-num);font-size:.74rem;color:var(--ink-3)}
+.sheet-body{padding:6px 0}
+
+.row{
+  display:grid;grid-template-columns:1fr 106px;align-items:center;gap:12px;
+  padding:11px 16px;border-bottom:1px solid var(--rule-soft);
+}
+@media(min-width:420px){.row{grid-template-columns:1fr 128px;padding-inline:18px}}
+.row:last-child{border-bottom:0}
+.row label{font-size:.93rem;line-height:1.3}
+.row .hint{display:block;font-size:.76rem;color:var(--ink-3);margin-top:2px}
+.cell{
+  display:flex;align-items:center;gap:2px;
+  border:1.5px solid var(--rule);border-radius:3px;background:#fff;
+  padding:0 9px;height:42px;transition:border-color .15s,box-shadow .15s;
+}
+.cell:focus-within{border-color:var(--green);box-shadow:0 0 0 3px var(--green-wash)}
+.cell .pre{color:var(--ink-3);font-family:var(--f-num);font-size:.9rem}
+.cell input{
+  width:100%;min-width:0;border:0;outline:0;background:transparent;
+  font-family:var(--f-num);font-size:1rem;text-align:right;color:var(--ink);
+  padding:0;-moz-appearance:textfield;
+}
+.cell input::-webkit-outer-spin-button,.cell input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.row--calc{background:#FBFCFA}
+.row--calc .val{
+  font-size:1.02rem;font-weight:600;text-align:right;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+.formula{font-family:var(--f-num);font-size:.72rem;color:var(--ink-3);display:block;margin-top:3px;white-space:nowrap}
+
+.row--out{
+  grid-template-columns:1fr auto;padding-block:15px;
+  border-top:1px solid var(--rule);border-bottom:0;background:var(--cost-wash);
+}
+.row--out .k{font-weight:600;font-size:.95rem}
+.row--out .v{font-size:clamp(1.45rem,1.05rem + 1.5vw,2.05rem);font-weight:700;letter-spacing:-.035em;color:var(--cost);font-variant-numeric:tabular-nums}
+
+.row--price{
+  grid-template-columns:1fr auto;padding-block:15px;border-bottom:0;
+  background:var(--green-wash);border-top:1px solid var(--rule);
+}
+.row--price .k{font-weight:600;font-size:.95rem}
+.row--price .v{
+  font-size:clamp(1.45rem,1.05rem + 1.5vw,2.05rem);font-weight:700;
+  letter-spacing:-.035em;color:var(--green-deep);font-variant-numeric:tabular-nums;
+}
+.row--price .k .hint{color:var(--green)}
+
+.sheet-foot{
+  padding:13px 18px;border-top:1px solid var(--rule);background:#FBFCFA;
+  font-size:.82rem;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px 14px;
+  align-items:center;justify-content:space-between;
+}
+.payback{font-family:var(--f-num);color:var(--ink)}
+
+/* ---------- logos ---------- */
+.logos{border-block:1px solid var(--rule);padding-block:26px;background:#FBFCFA}
+.logos-in{display:flex;flex-wrap:wrap;align-items:center;gap:14px clamp(20px,3.4vw,40px)}
+.logos-label{font-size:.82rem;color:var(--ink-3);flex:none;width:100%}
+@media(min-width:760px){.logos-label{width:auto;max-width:9rem;line-height:1.3}}
+.logo-mark{
+  font-weight:700;font-size:.95rem;letter-spacing:.01em;color:var(--ink-3);
+  white-space:nowrap;
+}
+
+/* ---------- sections ---------- */
+.sec{padding-block:clamp(46px,5.5vw,80px);border-bottom:1px solid var(--rule)}
+.sec-head{max-width:52ch;margin-bottom:clamp(26px,3vw,40px)}
+.sec-head .h2 + p{margin-top:12px;color:var(--ink-2);font-size:1.02rem}
+
+.guarantee{background:var(--green-deep);color:#fff;border-bottom:0}
+.guarantee .g-grid{display:grid;gap:22px}
+@media(min-width:860px){.guarantee .g-grid{grid-template-columns:auto 1fr;gap:clamp(34px,5vw,66px);align-items:center}}
+.g-num{
+  font-family:var(--f-num);font-weight:500;letter-spacing:-.05em;line-height:.86;
+  font-size:clamp(4.6rem,2.4rem + 9.5vw,9.5rem);color:#fff;
+}
+.g-copy p{color:rgba(255,255,255,.82);max-width:46ch}
+.g-copy .h2{color:#fff}
+.g-copy .g-lines{margin-top:16px;display:grid;gap:7px}
+.g-lines span{display:block;color:rgba(255,255,255,.9);font-size:1rem}
+
+/* line-item rows (services) */
+.items{border-top:1px solid var(--rule)}
+.item{
+  display:grid;gap:6px 26px;padding-block:22px;border-bottom:1px solid var(--rule);
+  align-items:baseline;
+}
+@media(min-width:820px){
+  .item{grid-template-columns:15rem 1fr 11rem}
+}
+.item-k{font-weight:700;font-size:1.05rem;letter-spacing:-.015em}
+.item-d{color:var(--ink-2);max-width:58ch}
+.item-c{font-family:var(--f-num);font-size:.88rem;color:var(--ink);white-space:nowrap}
+@media(min-width:820px){.item-c{text-align:right}}
+
+/* proof strip */
+.stats{display:grid;gap:0;border-top:1px solid var(--rule)}
+@media(min-width:720px){.stats{grid-template-columns:repeat(3,1fr)}}
+.stat{padding:24px 0;border-bottom:1px solid var(--rule)}
+@media(min-width:720px){
+  .stat{padding:26px clamp(16px,2vw,28px);border-bottom:0;border-left:1px solid var(--rule)}
+  .stat:first-child{padding-left:0;border-left:0}
+}
+.stat-v{font-size:clamp(1.9rem,1.3rem + 2vw,2.7rem);font-weight:700;letter-spacing:-.045em;color:var(--green-deep);line-height:1;font-variant-numeric:tabular-nums}
+.stat-k{margin-top:9px;font-weight:600;font-size:.95rem}
+.stat-w{margin-top:3px;font-size:.85rem;color:var(--ink-3)}
+
+/* don't-do checklist */
+.two{display:grid;gap:clamp(28px,4vw,56px)}
+@media(min-width:900px){.two{grid-template-columns:1fr 1fr;align-items:start}}
+.checks{display:grid;gap:0;border-top:1px solid var(--rule)}
+.check{display:grid;grid-template-columns:22px 1fr;gap:13px;padding-block:14px;border-bottom:1px solid var(--rule-soft);align-items:start}
+.check svg{margin-top:3px;flex:none;color:var(--cost)}
+.promise{
+  background:var(--sheet);border:1px solid var(--rule);border-radius:4px;padding:clamp(22px,3vw,32px);
+}
+.promise .h3{margin-bottom:12px}
+.promise p{color:var(--ink-2);margin-bottom:8px}
+.promise .price{
+  font-family:var(--f-num);font-size:1.25rem;color:var(--green-deep);
+  margin:16px 0 20px;letter-spacing:-.02em;
+}
+
+/* ---------- proof page ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{
+  border:1.5px solid var(--rule);background:var(--sheet);border-radius:999px;
+  padding:7px 14px;font-size:.85rem;font-weight:500;cursor:pointer;transition:.15s;
+}
+.chip:hover{border-color:var(--ink-3)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.ledger{border-top:1.5px solid var(--ink)}
+.led-head{
+  display:none;gap:20px;padding-block:9px;border-bottom:1px solid var(--rule);
+  font-size:.78rem;color:var(--ink-3);font-weight:600;
+}
+@media(min-width:900px){
+  .led-head{display:grid;grid-template-columns:1.5fr 1fr 1.35fr 8.5rem 26px}
+  .led-head .r{text-align:right}
+}
+.led-row{border-bottom:1px solid var(--rule)}
+.led-btn{
+  display:grid;gap:4px 20px;width:100%;text-align:left;background:transparent;border:0;
+  padding-block:17px;cursor:pointer;align-items:baseline;transition:background .15s;
+}
+@media(min-width:900px){
+  .led-btn{grid-template-columns:1.5fr 1fr 1.35fr 8.5rem 26px;align-items:center;gap:20px}
+}
+.led-btn:hover{background:#FBFCFA}
+.led-client{font-weight:700;letter-spacing:-.015em;font-size:1.02rem;padding-right:26px}
+@media(min-width:900px){.led-client{padding-right:0}}
+.led-sector{font-size:.88rem;color:var(--ink-2)}
+.led-what{font-size:.92rem;color:var(--ink-2)}
+.led-v{
+  font-size:1.3rem;font-weight:700;letter-spacing:-.035em;color:var(--green-deep);
+  font-variant-numeric:tabular-nums;
+}
+@media(min-width:900px){.led-v{text-align:right;font-size:1.35rem}}
+.led-v small{display:block;font-family:var(--f-body);font-size:.74rem;color:var(--ink-3);letter-spacing:0;margin-top:1px}
+@media(min-width:900px){.led-v small{text-align:right}}
+.led-btn{position:relative}
+.caret{
+  position:absolute;top:19px;right:2px;color:var(--ink-3);transition:transform .2s;
+}
+@media(min-width:900px){.caret{position:static;justify-self:end}}
+.led-btn[aria-expanded="true"] .caret{transform:rotate(90deg)}
+.led-panel{display:none;padding:0 0 26px}
+.led-panel.open{display:block}
+.led-panel-in{display:grid;gap:22px}
+@media(min-width:900px){.led-panel-in{grid-template-columns:1.5fr 1fr;gap:clamp(30px,4vw,56px)}}
+.led-panel p{color:var(--ink-2);max-width:62ch}
+.led-panel p + p{margin-top:11px}
+.metrics{display:grid;gap:0;border-top:1px solid var(--rule)}
+.metric{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding-block:10px;border-bottom:1px solid var(--rule-soft)}
+.metric .mk{font-size:.88rem;color:var(--ink-2)}
+.metric .mv{font-family:var(--f-num);font-size:1.02rem;color:var(--ink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.tag{border:1px solid var(--rule);border-radius:3px;padding:3px 8px;font-size:.76rem;color:var(--ink-2);background:var(--sheet)}
+
+/* ---------- cta ---------- */
+.cta{background:var(--ink);color:#fff;padding-block:clamp(48px,6vw,84px);border:0}
+.cta .h2{color:#fff;max-width:18ch}
+.cta p{color:rgba(255,255,255,.72);max-width:48ch;margin-top:14px}
+.cta .btn{background:#fff;color:var(--ink);border-color:#fff;margin-top:26px}
+.cta .btn:hover{background:#E9EDE6}
+.cta-split{display:grid;gap:26px}
+@media(min-width:880px){.cta-split{grid-template-columns:1fr auto;align-items:end;gap:48px}}
+.clock{display:grid;gap:8px;font-family:var(--f-num);font-size:.9rem;color:rgba(255,255,255,.7)}
+.clock div{display:flex;gap:12px;justify-content:space-between;min-width:15rem;border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:7px}
+
+/* ---------- sticky mobile result ---------- */
+.tally{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:var(--ink);color:#fff;padding:11px var(--gut);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  transform:translateY(110%);transition:transform .25s ease;
+}
+.tally.show{transform:none}
+@media(min-width:960px){.tally{display:none}}
+.tally .tk{font-size:.78rem;color:rgba(255,255,255,.7)}
+.tally .tv{font-size:1.15rem;font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+
+/* ---------- footer / harness ---------- */
+.foot{padding-block:34px;font-size:.85rem;color:var(--ink-3)}
+.foot-in{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between}
+
+.harness{
+  position:fixed;z-index:60;right:16px;bottom:16px;
+  display:flex;gap:6px;align-items:center;background:var(--ink);color:#fff;
+  padding:6px;border-radius:999px;box-shadow:0 6px 26px rgba(0,0,0,.22);
+}
+@media(max-width:959px){.harness{bottom:70px;right:12px;transform:scale(.92);transform-origin:bottom right}}
+.harness button{
+  border:0;background:transparent;color:rgba(255,255,255,.6);
+  padding:7px 14px;border-radius:999px;font-size:.8rem;font-weight:600;cursor:pointer;
+}
+.harness button[aria-pressed="true"]{background:#fff;color:var(--ink)}
+
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="1" y="1" width="22" height="22" rx="3" fill="#146B39"/>
+        <path d="M7 16.5c0-4.2.9-7 2.6-8.4.9-.7 1.9-.9 2.9-.6l1.7-2.1 1 1.9 2.1.3-1.3 1.6c.6 1.5.7 3.4.4 5.6-.2 1.6-.6 3-1 3.9" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14.6" cy="8.4" r=".85" fill="#fff"/>
+      </svg>
+      PickleLlama<span class="dotstudio">.Studio</span>
+    </span>
+    <nav class="nav" data-i18n-nav>
+      <a href="#" data-k="navProcess">Process</a>
+      <a href="#" data-k="navWho">Who we work with</a>
+      <a href="#" data-k="navProof">Proof</a>
+      <a href="#" data-k="navPricing">Pricing</a>
+      <a href="#" data-k="navLearn">Learn</a>
+    </nav>
+    <div class="topbar-tools">
+      <button class="menu" type="button" aria-label="Open menu">
+        <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M0 1h16M0 6h16M0 11h16" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <div class="seg" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <a class="btn btn--sm" href="#" data-k="navCta">Book a call</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== HOME ===================== -->
+<main id="page-home">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="display" data-k="h1">The problems you work around cost more than the fix.</h1>
+        <p class="lede" data-k="heroLede">We build the software your team keeps doing by hand. Put in three numbers you already know and see what one of those problems costs you a year — and what we'd charge to end it.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#" data-k="ctaPrimary">Book the 17-minute diagnostic</a>
+          <a class="btn btn--ghost" href="#" data-k="ctaSecondary">Read the guarantee</a>
+        </div>
+        <p class="hero-note" data-k="heroNote">If the arithmetic doesn't work, we say so and stop. That has cost us projects and it is still the rule.</p>
+      </div>
+
+      <div class="sheet" id="worksheet">
+        <div class="sheet-head">
+          <span class="sheet-title" data-k="wsTitle">One problem, priced</span>
+          <span class="sheet-ref">PL-01</span>
+        </div>
+        <div class="sheet-body">
+          <div class="row">
+            <label for="ppl" data-k="wsPeople">People doing it<span class="hint" data-k="wsPeopleHint">Everyone who touches the workaround</span></label>
+            <span class="cell"><input id="ppl" type="number" min="0" step="1" value="4" inputmode="numeric"></span>
+          </div>
+          <div class="row">
+            <label for="hrs" data-k="wsHours">Hours each, per week<span class="hint" data-k="wsHoursHint">Rekeying, chasing, checking</span></label>
+            <span class="cell"><input id="hrs" type="number" min="0" step="0.5" value="9" inputmode="decimal"></span>
+          </div>
+          <div class="row">
+            <label for="rate" data-k="wsRate">Loaded cost per hour<span class="hint" data-k="wsRateHint">Salary, benefits, overhead</span></label>
+            <span class="cell"><span class="pre">$</span><input id="rate" type="number" min="0" step="1" value="52" inputmode="numeric"></span>
+          </div>
+          <div class="row row--calc">
+            <span data-k="wsWeekly">Every week<span class="formula">people × hours × rate</span></span>
+            <span class="val" id="weekly">$1,872</span>
+          </div>
+          <div class="row row--out">
+            <span class="k" data-k="wsAnnual">What it costs you a year</span>
+            <span class="v" id="annual">$97,344</span>
+          </div>
+          <div class="row row--price">
+            <span class="k" data-k="wsPrice">Our price to fix it<span class="hint" data-k="wsPriceHint">Half the annual cost. Always.</span></span>
+            <span class="v" id="price">$48,672</span>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <span data-k="wsPayback">Pays for itself in</span>
+          <span class="payback" id="payback">24 months</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="logos">
+    <div class="wrap logos-in">
+      <p class="logos-label" data-k="logosLabel">Teams we have built for</p>
+      <span class="logo-mark">Kroger</span>
+      <span class="logo-mark">ANACONDA</span>
+      <span class="logo-mark">cbts</span>
+      <span class="logo-mark">Stacking&nbsp;Projects</span>
+      <span class="logo-mark">REPS&nbsp;&amp;&nbsp;Co.</span>
+      <span class="logo-mark">Torq&nbsp;Logistics</span>
+      <span class="logo-mark">Buffalo&nbsp;Rail</span>
+    </div>
+  </section>
+
+  <section class="sec guarantee">
+    <div class="wrap g-grid">
+      <div class="g-num">50%</div>
+      <div class="g-copy">
+        <h2 class="h2" data-k="gTitle">of the annual cost of the problem. That is the whole price list.</h2>
+        <div class="g-lines">
+          <span data-k="gLine1">No hourly billing, no change orders, no discovery phase you pay for twice.</span>
+          <span data-k="gLine2">If we can't deliver it, you don't pay for it.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2" data-k="doTitle">What you are actually buying</h2>
+        <p data-k="doSub">Three stages, each with its own price. You can stop after any of them.</p>
+      </div>
+      <div class="items">
+        <div class="item">
+          <span class="item-k" data-k="i1k">First meeting</span>
+          <span class="item-d" data-k="i1d">Seventeen minutes. We listen, then send you a written account of what we heard so you can correct us before anyone spends money.</span>
+          <span class="item-c" data-k="i1c">Free</span>
+        </div>
+        <div class="item">
+          <span class="item-k" data-k="i2k">Research report</span>
+          <span class="item-d" data-k="i2d">We look for a way to solve it without hiring us — every off-the-shelf tool, every integration, costed over one, three and five years. Often the answer is a $200/month subscription.</span>
+          <span class="item-c" data-k="i2c">$5,000, credited</span>
+        </div>
+        <div class="item">
+          <span class="item-k" data-k="i3k">Build</span>
+          <span class="item-d" data-k="i3d">A working prototype in days, tested by the people who will use it, before a line of production code gets written. Then we build it properly.</span>
+          <span class="item-c" data-k="i3c">50% of annual cost</span>
+        </div>
+        <div class="item">
+          <span class="item-k" data-k="i4k">Partnership</span>
+          <span class="item-d" data-k="i4d">We stay. Software that nobody maintains quietly becomes the next problem on this list.</span>
+          <span class="item-c" data-k="i4c">Monthly, 30 days notice</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2" data-k="resTitle">What that has looked like</h2>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-v">0</div>
+          <div class="stat-k" data-k="s1k">quarterly shutdowns</div>
+          <div class="stat-w" data-k="s1w">Nine fulfilment centres used to close for two days every quarter to count stock by hand.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v">−45%</div>
+          <div class="stat-k" data-k="s2k">cost per hire</div>
+          <div class="stat-w" data-k="s2w">A WhatsApp assistant screens, verifies documents and books interviews in Mexican Spanish.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v">$5</div>
+          <div class="stat-k" data-k="s3k">a month to run</div>
+          <div class="stat-w" data-k="s3w">What replaced a 25-sheet, 24,000-row workbook at a sports retailer in Mérida.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <div class="sec-head" style="margin-bottom:20px">
+          <h2 class="h2" data-k="dontTitle">Things we will not do</h2>
+          <p data-k="dontSub">We are not for everyone, and that is on purpose.</p>
+        </div>
+        <ul class="checks">
+          <li class="check"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-k="d1">Build anything without talking to the people who will use it</span></li>
+          <li class="check"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-k="d2">Carry on when the arithmetic stops working</span></li>
+          <li class="check"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-k="d3">Invoice for a project that did not deliver</span></li>
+          <li class="check"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-k="d4">Talk to you in buzzwords</span></li>
+          <li class="check"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-k="d5">Promise to be the cheapest quote you get</span></li>
+        </ul>
+      </div>
+      <div class="promise">
+        <h3 class="h3" data-k="pTitle">And the one thing we will</h3>
+        <p data-k="pLine1">If the numbers don't support the work, we tell you before you spend anything.</p>
+        <p data-k="pLine2">If we take it on and can't finish it, we keep going at our own cost until it is done.</p>
+        <div class="price" data-k="pPrice">50% of annual cost — or free.</div>
+        <a class="btn btn--ghost" href="#" data-k="pCta">See how we work</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-split">
+      <div>
+        <h2 class="h2" data-k="cTitle">Seventeen minutes to find out if this is worth doing</h2>
+        <p data-k="cBody">You leave with your top problems named, a number against each one, and a straight answer on whether the arithmetic works — whether or not you hire us.</p>
+        <a class="btn" href="#" data-k="ctaPrimary2">Book the 17-minute diagnostic</a>
+      </div>
+      <div class="clock">
+        <div><span data-k="cl1">You talk</span><span>15:00</span></div>
+        <div><span data-k="cl2">We agree next steps</span><span>02:00</span></div>
+        <div><span data-k="cl3">Written summary</span><span>48 h</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== PROOF ===================== -->
+<main id="page-proof" hidden>
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="display" style="max-width:16ch" data-k="pfH1">Every engagement, and the number it moved.</h1>
+      <p class="lede" style="margin-top:20px" data-k="pfLede">Open a row for the whole story: what was broken, what we built, what changed. Nothing here is a projection.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0;border-bottom:0">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filter by sector">
+        <button class="chip" data-filter="all" aria-pressed="true" data-k="fAll">All work</button>
+        <button class="chip" data-filter="grocery" aria-pressed="false" data-k="fGrocery">Grocery &amp; retail</button>
+        <button class="chip" data-filter="logistics" aria-pressed="false" data-k="fLogistics">Logistics &amp; rail</button>
+        <button class="chip" data-filter="mfg" aria-pressed="false" data-k="fMfg">Manufacturing &amp; HR</button>
+      </div>
+
+      <div class="ledger" id="ledger">
+        <div class="led-head">
+          <span data-k="thClient">Client</span><span data-k="thSector">Sector</span><span data-k="thWhat">What changed</span><span class="r" data-k="thResult">Result</span><span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-split">
+      <div>
+        <h2 class="h2" data-k="pfCtaTitle">Your problem isn't on this list yet</h2>
+        <p data-k="pfCtaBody">Tell us what your team keeps doing by hand. Seventeen minutes is usually enough to know whether it is worth fixing.</p>
+        <a class="btn" href="#" data-k="ctaPrimary3">Book the 17-minute diagnostic</a>
+      </div>
+      <div class="clock">
+        <div><span data-k="pf1">Projects delivered</span><span>8</span></div>
+        <div><span data-k="pf2">Without proven ROI</span><span>0</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>© 2026 PickleLlama Studio</span>
+    <span>hello@picklellama.studio</span>
+  </div>
+</footer>
+
+<div class="tally" id="tally" aria-live="polite">
+  <span class="tk" data-k="tallyK">This problem, per year</span>
+  <span class="tv" id="tallyV">$97,344</span>
+</div>
+
+<div class="harness" role="group" aria-label="Mockup pages">
+  <button type="button" data-page="home" aria-pressed="true">Home</button>
+  <button type="button" data-page="proof" aria-pressed="false">Proof</button>
+</div>
+
+<script>
+/* ---------------- content ---------------- */
+const CASES = [
+  { id:"grocery-recon", cat:"grocery",
+    client:{en:"National grocery retailer",es:"Cadena nacional de supermercados"},
+    sector:{en:"Grocery fulfilment",es:"Cumplimiento de pedidos"},
+    what:{en:"Two inventory systems that never agreed",es:"Dos sistemas de inventario que nunca cuadraban"},
+    v:"0", vl:{en:"shutdowns a year",es:"paros al año"},
+    body:{en:["Nine multi-million-square-foot fulfilment centres closed for 24 to 48 hours every quarter so staff could count stock by hand and reconcile two systems that refused to agree. Each site was running about 5,000 orders a day.","We built a reconciliation dashboard that pulls from both inventory systems and the purchase order system on a 24-hour cycle, excludes stock in transit, and lets a facility clear its discrepancies in one action. The unplanned win was forensics: teams could finally see which SKUs were <em>always</em> out of balance, and fix the process behind them."],
+      es:["Nueve centros de distribución cerraban de 24 a 48 horas cada trimestre para contar inventario a mano y reconciliar dos sistemas que nunca coincidían. Cada sitio procesaba unos 5,000 pedidos al día.","Construimos un tablero de reconciliación que cruza ambos sistemas de inventario y el de órdenes de compra cada 24 horas, excluye la mercancía en tránsito y permite resolver las diferencias de un centro en una sola acción. El beneficio inesperado fue forense: por fin se veía qué SKUs estaban <em>siempre</em> descuadrados, y se pudo arreglar el proceso detrás."]},
+    metrics:[["Facilities","Centros","9"],["Manual count days removed","Días de conteo eliminados","4/yr"],["Daily reconciliation","Reconciliación diaria","1 click"]],
+    tags:["Data reconciliation","Azure AD","Supply chain"] },
+
+  { id:"grocery-sched", cat:"grocery",
+    client:{en:"National grocery retailer",es:"Cadena nacional de supermercados"},
+    sector:{en:"Supply chain",es:"Cadena de suministro"},
+    what:{en:"Delivery scheduling older than its users",es:"Programación de entregas más vieja que quien la usa"},
+    v:"2,500", vl:{en:"stores rescheduled",es:"tiendas reprogramadas"},
+    body:{en:["The system deciding what moved from which warehouse to which store was decades old, out of support, and went down for days at a time. Schedulers could only see two weeks ahead, so the real planning happened in Excel and was retyped in by hand.","We replaced it with a pattern-based scheduler: recurring delivery patterns per store and catalogue, alternating weeks, holiday and closure planning months ahead, and store grouping by division. Holiday planning went from full days per product catalogue to hours for an entire division."],
+      es:["El sistema que decidía qué se movía de cada almacén a cada tienda tenía décadas, estaba fuera de soporte y se caía por días. Los programadores solo veían dos semanas hacia adelante, así que la planeación real vivía en Excel y se recapturaba a mano.","Lo reemplazamos con un programador por patrones: patrones de entrega recurrentes por tienda y catálogo, semanas alternadas, planeación de días festivos y cierres con meses de anticipación, y agrupación de tiendas por división. La planeación de festivos pasó de días completos por catálogo a horas para toda una división."]},
+    metrics:[["Warehouses","Almacenes","28"],["Stores","Tiendas","2,500"],["Planning horizon","Horizonte de planeación","2 wk → months"]],
+    tags:["Legacy replacement","Scheduling","Risk reduction"] },
+
+  { id:"qualent", cat:"mfg",
+    client:{en:"Manufacturing sector",es:"Sector manufactura"},
+    sector:{en:"High-volume hiring",es:"Contratación de alto volumen"},
+    what:{en:"Recruiters living inside WhatsApp threads",es:"Reclutadores atrapados en hilos de WhatsApp"},
+    v:"−45%", vl:{en:"cost per hire",es:"costo por contratación"},
+    body:{en:["Monthly turnover in Mexico's maquiladora sector runs near 9.4%. A 1,000-person plant hires about 94 replacements a month, at $450–$1,290 each, and a quarter of booked interviews never show up. Recruiters spent their days copying WhatsApp messages into spreadsheets and chasing identity documents.","We built the whole funnel inside WhatsApp, in conversational Mexican Spanish: screening questions matched to the role, INE and CURP read and validated by OCR in the same thread, interview slots offered against real recruiter calendars, and reminders at 24 and 2 hours. Candidates never download anything."],
+      es:["La rotación mensual en el sector maquilador ronda el 9.4%. Una planta de 1,000 personas contrata unos 94 reemplazos al mes, a $450–$1,290 cada uno, y una cuarta parte de las entrevistas agendadas no se presenta. Los reclutadores pasaban el día copiando mensajes de WhatsApp a hojas de cálculo y persiguiendo documentos.","Construimos todo el embudo dentro de WhatsApp, en español mexicano conversacional: preguntas de filtrado según el puesto, INE y CURP leídos y validados por OCR en el mismo hilo, horarios de entrevista contra el calendario real del reclutador, y recordatorios a 24 y 2 horas. El candidato no descarga nada."]},
+    metrics:[["Recruiter capacity","Capacidad por reclutador","28 → 70–100/mo"],["Time to hire","Tiempo de contratación","55 → 25–35 days"],["No-show rate","Ausentismo","25% → <15%"]],
+    tags:["WhatsApp API","OCR","Conversational AI"] },
+
+  { id:"hr-bot", cat:"mfg",
+    client:{en:"Enterprise software company",es:"Empresa de software empresarial"},
+    sector:{en:"Internal HR",es:"Recursos humanos internos"},
+    what:{en:"An HR team on permanent Slack duty",es:"Un equipo de RH de guardia permanente en Slack"},
+    v:"96%", vl:{en:"answer accuracy",es:"precisión de respuestas"},
+    body:{en:["An HR team ran an on-call rotation just to watch one Slack channel. Most questions were answerable from documentation scattered across Confluence, Google Docs and PDFs — much of it out of date.","We built the test set before the bot: standard questions, edge cases to escalate, adversarial attempts, and messages it should ignore entirely. That last category mattered most. IT had deployed a bot that replied to everything and made their channel unusable; knowing when to stay quiet was consistently named the best feature of ours. It also flagged every answer it got wrong because the source document was stale, which handed the team a free documentation audit."],
+      es:["Un equipo de RH mantenía una rotación de guardia solo para vigilar un canal de Slack. La mayoría de las preguntas se podían responder desde documentación dispersa en Confluence, Google Docs y PDFs — buena parte desactualizada.","Construimos el conjunto de pruebas antes que el bot: preguntas estándar, casos que debían escalar a una persona, intentos adversariales y mensajes que debía ignorar por completo. Esa última categoría fue la más importante. TI había desplegado un bot que respondía a todo y volvió su canal inservible; saber cuándo callarse fue señalado una y otra vez como la mejor función del nuestro. Además marcaba cada respuesta equivocada por documentación vieja, lo que le dio al equipo una auditoría documental gratis."]},
+    metrics:[["Questions handled without a human","Preguntas resueltas sin persona","70%"],["Routed to a person","Enviadas a una persona","30%"],["On-call rotation","Rotación de guardia","Retired"]],
+    tags:["RAG","Slack","Knowledge management"] },
+
+  { id:"locker55", cat:"grocery",
+    client:{en:"Locker55",es:"Locker55"},
+    sector:{en:"Specialty retail, Mérida",es:"Retail especializado, Mérida"},
+    what:{en:"A business run from one 25-sheet workbook",es:"Un negocio operado desde un libro de 25 hojas"},
+    v:"$5", vl:{en:"a month to run",es:"al mes de operación"},
+    body:{en:["One Excel file, 25 sheets, 24,000 rows: US purchase orders, customs through a broker in Monterrey, in-store stock, customers, shipping labels, monthly P&amp;L. Every transaction was typed in three times — once from the vendor's confirmation email, once from the importer's WhatsApp messages, once at receiving.","The spreadsheet was not the problem; the typing was. Vendor emails are now parsed automatically, importer costs arrive straight off WhatsApp, and receiving is a phone camera reading barcodes. The landed-cost chain — USD, exchange rate from Banxico, 14% import fee, freight — computes itself. Month-end reporting went from three hours to a dashboard."],
+      es:["Un archivo de Excel, 25 hojas, 24,000 filas: órdenes de compra en EE. UU., importación vía un agente en Monterrey, inventario en tienda, clientes, etiquetas de envío y el estado de resultados mensual. Cada transacción se capturaba tres veces: del correo del proveedor, de los mensajes de WhatsApp del importador y otra vez al recibir.","La hoja de cálculo no era el problema; la captura sí. Ahora los correos de proveedor se leen solos, los costos del importador entran directo desde WhatsApp y la recepción es la cámara del teléfono leyendo códigos de barras. La cadena de costo puesto en tienda — dólares, tipo de cambio de Banxico, 14% de importación, flete — se calcula sola. El cierre mensual pasó de tres horas a un tablero."]},
+    metrics:[["SKUs migrated on day one","SKUs migrados el primer día","1,989"],["Saved per purchase order","Ahorro por orden de compra","10–15 min"],["Month-end reporting","Cierre mensual","3 h → instant"]],
+    tags:["Inventory","AI email parsing","Barcode scanning"] },
+
+  { id:"torq", cat:"logistics",
+    client:{en:"Torq Energy Logistics",es:"Torq Energy Logistics"},
+    sector:{en:"Energy logistics",es:"Logística energética"},
+    what:{en:"A brochure site for a 200-vehicle operation",es:"Un sitio folleto para una operación de 200 unidades"},
+    v:"600K+", vl:{en:"mapped features",es:"elementos mapeados"},
+    body:{en:["Torq hauls crude, water and pipeline services from seven terminals across Western Canada with a fleet of over 200. Their WordPress site was a static brochure that conveyed none of it.","We let the map tell the story instead: CN and CP rail networks, pipelines, oil fields and gas plants layered around Torq's terminals, so a prospect sees the position rather than reads about it. It ships as a static export — no server runtime, and it loads fast from a field office."],
+      es:["Torq transporta crudo, agua y servicios de ducto desde siete terminales en el oeste de Canadá con más de 200 unidades. Su sitio en WordPress era un folleto estático que no comunicaba nada de eso.","Dejamos que el mapa contara la historia: redes ferroviarias CN y CP, ductos, campos petroleros y plantas de gas superpuestos alrededor de las terminales de Torq, de modo que un prospecto ve la posición en vez de leerla. Se publica como exportación estática — sin servidor, y carga rápido desde una oficina de campo."]},
+    metrics:[["Terminals mapped","Terminales mapeadas","7"],["Fleet shown","Flota representada","200+"],["Server runtime","Servidor","None"]],
+    tags:["Next.js","Leaflet","GeoJSON"] },
+
+  { id:"buffalo", cat:"logistics",
+    client:{en:"Buffalo Rail &amp; Infrastructure",es:"Buffalo Rail &amp; Infrastructure"},
+    sector:{en:"Rail infrastructure",es:"Infraestructura ferroviaria"},
+    what:{en:"$80M of track that needed explaining fast",es:"$80M de vía que había que explicar rápido"},
+    v:"21,944", vl:{en:"grid cells, one layer",es:"celdas, una sola capa"},
+    body:{en:["Buffalo Rail launched with $80M of rail infrastructure and 550 rail car capacity to explain to energy executives who would not sit through a slide deck.","The operator tenure layer is the hard part: 21,944 grid cells showing how long energy operations have run across the region. The first build produced over 44,000 DOM nodes and crawled. Moving it to Canvas collapsed the whole thing into one composited layer, which matters because a lot of this audience opens the site on field-office hardware."],
+      es:["Buffalo Rail salió al mercado con $80M en infraestructura ferroviaria y capacidad para 550 vagones que explicar a directivos del sector energético que no iban a aguantar una presentación.","La capa de permanencia de operadores es la parte difícil: 21,944 celdas que muestran cuánto tiempo llevan operando en la región. La primera versión generaba más de 44,000 nodos DOM y se arrastraba. Pasarla a Canvas la colapsó en una sola capa compuesta, lo cual importa porque buena parte de este público abre el sitio desde equipo de oficina de campo."]},
+    metrics:[["Investment shown","Inversión representada","$80M+"],["Rail car capacity","Capacidad de vagones","550"],["DOM nodes removed","Nodos DOM eliminados","44,000+"]],
+    tags:["Canvas rendering","GeoJSON","Static export"] }
+];
+
+const I18N = {
+  en:{},
+  es:{
+    navProcess:"Proceso", navWho:"Con quién trabajamos", navProof:"Resultados",
+    navPricing:"Precios", navLearn:"Recursos", navCta:"Agenda una llamada",
+
+    h1:"Lo que tu equipo resuelve a mano cuesta más que arreglarlo.",
+    heroLede:"Construimos el software que tu equipo sigue haciendo a mano. Pon tres números que ya conoces y mira cuánto te cuesta al año uno de esos problemas — y cuánto cobraríamos por terminarlo.",
+    ctaPrimary:"Agenda el diagnóstico de 17 minutos",
+    ctaPrimary2:"Agenda el diagnóstico de 17 minutos",
+    ctaPrimary3:"Agenda el diagnóstico de 17 minutos",
+    ctaSecondary:"Lee la garantía",
+    heroNote:"Si los números no dan, lo decimos y paramos. Nos ha costado proyectos y sigue siendo la regla.",
+
+    wsTitle:"Un problema, con precio",
+    wsPeople:'Personas que lo hacen<span class="hint">Todas las que tocan el proceso manual</span>',
+    wsHours:'Horas de cada una, por semana<span class="hint">Recapturar, perseguir, revisar</span>',
+    wsRate:'Costo por hora, ya cargado<span class="hint">Sueldo, prestaciones, gastos</span>',
+    wsWeekly:'Cada semana<span class="formula">personas × horas × costo</span>',
+    wsAnnual:"Lo que te cuesta al año",
+    wsPrice:'Nuestro precio por resolverlo<span class="hint">La mitad del costo anual. Siempre.</span>',
+    wsPayback:"Se paga solo en",
+
+    logosLabel:"Equipos para los que hemos construido",
+    gTitle:"del costo anual del problema. Esa es toda la lista de precios.",
+    gLine1:"Sin cobro por hora, sin órdenes de cambio, sin una fase de descubrimiento que pagas dos veces.",
+    gLine2:"Si no podemos entregarlo, no lo pagas.",
+
+    doTitle:"Qué estás comprando en realidad",
+    doSub:"Tres etapas, cada una con su precio. Puedes parar después de cualquiera.",
+    i1k:"Primera reunión",
+    i1d:"Diecisiete minutos. Escuchamos y te mandamos por escrito lo que entendimos, para que nos corrijas antes de que nadie gaste dinero.",
+    i1c:"Gratis",
+    i2k:"Reporte de investigación",
+    i2d:"Buscamos cómo resolverlo sin contratarnos — cada herramienta comercial, cada integración, costeada a uno, tres y cinco años. Muchas veces la respuesta es una suscripción de $200 al mes.",
+    i2c:"$5,000, acreditables",
+    i3k:"Construcción",
+    i3d:"Un prototipo funcional en días, probado por quienes lo van a usar, antes de escribir una línea de código de producción. Después lo construimos en serio.",
+    i3c:"50% del costo anual",
+    i4k:"Alianza",
+    i4d:"Nos quedamos. El software que nadie mantiene se convierte, calladito, en el siguiente problema de esta lista.",
+    i4c:"Mensual, 30 días de aviso",
+
+    resTitle:"Cómo se ha visto eso",
+    s1k:"paros trimestrales", s1w:"Nueve centros de distribución cerraban dos días cada trimestre para contar inventario a mano.",
+    s2k:"costo por contratación", s2w:"Un asistente de WhatsApp filtra, verifica documentos y agenda entrevistas en español mexicano.",
+    s3k:"al mes de operación", s3w:"Lo que reemplazó un libro de 25 hojas y 24,000 filas en una tienda deportiva de Mérida.",
+
+    dontTitle:"Cosas que no hacemos", dontSub:"No somos para todos, y es a propósito.",
+    d1:"Construir sin hablar con quienes lo van a usar",
+    d2:"Seguir adelante cuando los números dejan de dar",
+    d3:"Facturar un proyecto que no entregó",
+    d4:"Hablarte en jerga corporativa",
+    d5:"Prometer ser la cotización más barata que recibas",
+    pTitle:"Y lo único que sí prometemos",
+    pLine1:"Si los números no sostienen el trabajo, te lo decimos antes de que gastes nada.",
+    pLine2:"Si lo aceptamos y no podemos terminarlo, seguimos por nuestra cuenta hasta que quede.",
+    pPrice:"50% del costo anual — o gratis.",
+    pCta:"Cómo trabajamos",
+
+    cTitle:"Diecisiete minutos para saber si vale la pena",
+    cBody:"Te vas con tus problemas principales nombrados, un número frente a cada uno y una respuesta directa sobre si los números dan — nos contrates o no.",
+    cl1:"Hablas tú", cl2:"Acordamos siguientes pasos", cl3:"Resumen por escrito",
+
+    pfH1:"Cada proyecto, y el número que movió.",
+    pfLede:"Abre una fila para la historia completa: qué estaba roto, qué construimos, qué cambió. Nada aquí es una proyección.",
+    fAll:"Todo el trabajo", fGrocery:"Retail y supermercados", fLogistics:"Logística y ferrocarril", fMfg:"Manufactura y RH",
+    thClient:"Cliente", thSector:"Sector", thWhat:"Qué cambió", thResult:"Resultado",
+    pfCtaTitle:"Tu problema todavía no está en esta lista",
+    pfCtaBody:"Cuéntanos qué sigue haciendo tu equipo a mano. Diecisiete minutos suelen bastar para saber si vale la pena resolverlo.",
+    pf1:"Proyectos entregados", pf2:"Sin ROI comprobado",
+    tallyK:"Este problema, al año",
+    readMore:"Ver detalle", readLess:"Cerrar"
+  }
+};
+
+/* ---------------- language ---------------- */
+let lang = "en";
+const enSnapshot = new Map();
+document.querySelectorAll("[data-k]").forEach(el=>enSnapshot.set(el,el.innerHTML));
+
+function applyLang(next){
+  lang = next;
+  document.documentElement.lang = next;
+  document.querySelectorAll("[data-k]").forEach(el=>{
+    const k = el.dataset.k;
+    el.innerHTML = next==="en" ? enSnapshot.get(el)
+      : (I18N.es[k] ?? enSnapshot.get(el));
+  });
+  document.querySelectorAll("[data-lang]").forEach(b=>
+    b.setAttribute("aria-pressed", String(b.dataset.lang===next)));
+  renderLedger();
+  compute();
+}
+document.querySelectorAll("[data-lang]").forEach(b=>
+  b.addEventListener("click",()=>applyLang(b.dataset.lang)));
+
+/* ---------------- worksheet ---------------- */
+const money = n => (lang==="es"?"$":"$") + Math.round(n).toLocaleString(lang==="es"?"es-MX":"en-US");
+const $ = id => document.getElementById(id);
+
+function compute(){
+  const p = Math.max(0, +$("ppl").value || 0);
+  const h = Math.max(0, +$("hrs").value || 0);
+  const r = Math.max(0, +$("rate").value || 0);
+  const weekly = p*h*r, annual = weekly*52, price = annual/2;
+  $("weekly").textContent  = money(weekly);
+  $("annual").textContent  = money(annual);
+  $("price").textContent   = money(price);
+  $("tallyV").textContent  = money(annual);
+  $("payback").textContent = annual > 0
+    ? (lang==="es" ? "24 meses" : "24 months")
+    : (lang==="es" ? "—" : "—");
+}
+["ppl","hrs","rate"].forEach(id=>$(id).addEventListener("input",compute));
+compute();
+
+/* sticky tally: show once the worksheet has scrolled past, on small screens */
+const tally = $("tally");
+if ("IntersectionObserver" in window){
+  new IntersectionObserver(([e])=>{
+    tally.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.top < 0
+      && document.getElementById("page-home").hidden === false);
+  },{threshold:0}).observe($("worksheet"));
+}
+
+/* ---------------- ledger ---------------- */
+let filter = "all";
+function renderLedger(){
+  const L = document.getElementById("ledger");
+  L.querySelectorAll(".led-row").forEach(n=>n.remove());
+  const t = I18N.es;
+  CASES.filter(c=>filter==="all"||c.cat===filter).forEach(c=>{
+    const row = document.createElement("div");
+    row.className = "led-row";
+    const label = lang==="es" ? (t.readMore) : "Open";
+    row.innerHTML = `
+      <button class="led-btn" type="button" aria-expanded="false" aria-controls="p-${c.id}" aria-label="${label}: ${c.client[lang]}">
+        <span class="led-client">${c.client[lang]}</span>
+        <span class="led-sector">${c.sector[lang]}</span>
+        <span class="led-what">${c.what[lang]}</span>
+        <span class="led-v">${c.v}<small>${c.vl[lang]}</small></span>
+        <svg class="caret" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="led-panel" id="p-${c.id}">
+        <div class="led-panel-in">
+          <div>${c.body[lang].map(p=>`<p>${p}</p>`).join("")}
+            <div class="tags">${c.tags.map(x=>`<span class="tag">${x}</span>`).join("")}</div>
+          </div>
+          <div class="metrics">
+            ${c.metrics.map(m=>`<div class="metric"><span class="mk">${lang==="es"?m[1]:m[0]}</span><span class="mv">${m[2]}</span></div>`).join("")}
+          </div>
+        </div>
+      </div>`;
+    const btn = row.querySelector(".led-btn"), panel = row.querySelector(".led-panel");
+    btn.addEventListener("click",()=>{
+      const open = btn.getAttribute("aria-expanded")==="true";
+      btn.setAttribute("aria-expanded", String(!open));
+      panel.classList.toggle("open", !open);
+    });
+    L.appendChild(row);
+  });
+}
+document.querySelectorAll("[data-filter]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x=>
+      x.setAttribute("aria-pressed", String(x===b)));
+    renderLedger();
+  });
+});
+renderLedger();
+
+/* ---------------- page switch ---------------- */
+document.querySelectorAll("[data-page]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const p = b.dataset.page;
+    document.getElementById("page-home").hidden  = p!=="home";
+    document.getElementById("page-proof").hidden = p!=="proof";
+    document.querySelectorAll("[data-page]").forEach(x=>
+      x.setAttribute("aria-pressed", String(x===b)));
+    if (p!=="home") tally.classList.remove("show");
+    window.scrollTo({top:0,behavior:"instant"});
+  });
+});
+</script>

@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Eyebrow, Figure, Stamp } from "@/components/brand";
+import { Figure, Stamp } from "@/components/brand";
 
 function Row({
   label,

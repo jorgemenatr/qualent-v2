@@ -181,7 +181,10 @@
     "howWeWorkCard4Text": "We build the simplest thing that could possibly work. Complexity is a liability, not an asset.",
     "ctaTitle": "Want to work with us?",
     "ctaSubtitle": "17 minutes to see if the math works for your challenges.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "About",
+    "storyEyebrow": "Our story",
+    "howWeWorkEyebrow": "How we work"
   },
   "Pricing": {
     "metaTitle": "Pricing",
@@ -536,7 +539,9 @@
     "heroLine3": "Whether we work together or not, you'll have what you need to act.",
     "calendarIframeTitle": "Book your 17-minute diagnostic with PickleLlama",
     "alternativeContactText": "Prefer email? Reach out at",
-    "alternativeContactEmail": "hello@picklellama.studio"
+    "alternativeContactEmail": "hello@picklellama.studio",
+    "heroEyebrow": "Book a diagnostic",
+    "emailLabel": "Prefer email?"
   },
   "Learn": {
     "metaTitle": "Learn",
@@ -549,7 +554,8 @@
     "readMoreButton": "Read more",
     "ctaHeading": "Have questions about what you've read?",
     "ctaDescription": "17 minutes to discuss how these frameworks apply to your situation.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Learn"
   },
   "LearnTools": {
     "metaTitle": "Interactive Tools",
@@ -724,7 +730,8 @@
     "ctaHeading": "Sound like you?",
     "ctaDescription": "We'd love to have a conversation. No pitch deck, no hard sell — just an honest discussion about your business and whether we can help.",
     "ctaButton": "Start a Conversation",
-    "ctaFootnote": "Typically responds within one business day"
+    "ctaFootnote": "Typically responds within one business day",
+    "quoteEyebrow": "What we believe"
   },
   "Careers": {
     "metaTitle": "Careers",
@@ -751,7 +758,8 @@
     "openPositionsEmpty": "No open positions right now — but we're always interested in hearing from exceptional people. If you think you'd be a great fit, reach out anyway.",
     "ctaHeading": "Interested?",
     "ctaDescription": "Drop us a line. Tell us what you're good at and what you'd want to work on.",
-    "ctaButton": "Get in Touch"
+    "ctaButton": "Get in Touch",
+    "heroEyebrow": "Careers"
   },
   "ControversialOpinions": {
     "metaTitle": "Controversial Opinions",
@@ -783,7 +791,9 @@
     "opinion6Paragraph2": "We think from first principles. Sometimes that means following conventions. Sometimes it means ignoring them entirely. The goal is solving your problem, not checking boxes.",
     "ctaHeading": "Agree? Disagree?",
     "ctaDescription": "We'd love to hear your take. Let's have a conversation.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Opinions",
+    "opinionLabel": "Opinion {n}"
   },
   "Privacy": {
     "metaTitle": "Privacy Policy",

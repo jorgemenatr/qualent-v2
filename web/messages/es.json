@@ -181,7 +181,10 @@
     "howWeWorkCard4Text": "Construimos lo más simple que pueda funcionar. La complejidad es un pasivo, no un activo.",
     "ctaTitle": "¿Quieres trabajar con nosotros?",
     "ctaSubtitle": "17 minutos para ver si los números dan para tus retos.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Nosotros",
+    "storyEyebrow": "Nuestra historia",
+    "howWeWorkEyebrow": "Cómo trabajamos"
   },
   "Pricing": {
     "metaTitle": "Precios",
@@ -536,7 +539,9 @@
     "heroLine3": "Trabajemos juntos o no, te llevas lo que necesitas para actuar.",
     "calendarIframeTitle": "Agenda tu diagnóstico de 17 minutos con PickleLlama",
     "alternativeContactText": "¿Prefieres correo? Escríbenos a",
-    "alternativeContactEmail": "hello@picklellama.studio"
+    "alternativeContactEmail": "hello@picklellama.studio",
+    "heroEyebrow": "Agenda un diagnóstico",
+    "emailLabel": "¿Prefieres correo?"
   },
   "Learn": {
     "metaTitle": "Recursos",
@@ -549,7 +554,8 @@
     "readMoreButton": "Leer más",
     "ctaHeading": "¿Tienes preguntas sobre lo que leíste?",
     "ctaDescription": "17 minutos para hablar de cómo estos marcos aplican a tu situación.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Recursos"
   },
   "LearnTools": {
     "metaTitle": "Herramientas interactivas",
@@ -724,7 +730,8 @@
     "ctaHeading": "¿Te identificas?",
     "ctaDescription": "Nos encantaría platicar. Sin presentaciones formales, sin presión de venta — solo una conversación honesta sobre tu negocio y si podemos ayudar.",
     "ctaButton": "Inicia una conversación",
-    "ctaFootnote": "Normalmente respondemos en un día hábil"
+    "ctaFootnote": "Normalmente respondemos en un día hábil",
+    "quoteEyebrow": "Lo que creemos"
   },
   "Careers": {
     "metaTitle": "Trabaja con nosotros",
@@ -751,7 +758,8 @@
     "openPositionsEmpty": "No hay posiciones abiertas ahora — pero siempre nos interesa conocer gente excepcional. Si crees que encajas, escríbenos de todas formas.",
     "ctaHeading": "¿Te interesa?",
     "ctaDescription": "Mándanos un mensaje. Cuéntanos en qué eres bueno y en qué te gustaría trabajar.",
-    "ctaButton": "Contáctanos"
+    "ctaButton": "Contáctanos",
+    "heroEyebrow": "Trabaja con nosotros"
   },
   "ControversialOpinions": {
     "metaTitle": "Opiniones polémicas",
@@ -783,7 +791,9 @@
     "opinion6Paragraph2": "Nosotros pensamos desde los primeros principios. A veces eso significa seguir convenciones. A veces significa ignorarlas por completo. El objetivo es resolver tu problema, no llenar casillas.",
     "ctaHeading": "¿De acuerdo? ¿En desacuerdo?",
     "ctaDescription": "Nos encantaría escuchar tu opinión. Platiquemos.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Opiniones",
+    "opinionLabel": "Opinión {n}"
   },
   "Privacy": {
     "metaTitle": "Política de Privacidad",

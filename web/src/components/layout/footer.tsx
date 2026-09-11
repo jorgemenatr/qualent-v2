@@ -1,7 +1,6 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Container } from "./container";
 import { getTranslations } from "next-intl/server";
+import { Mascot } from "@/components/brand";
 
 export async function Footer() {
   const t = await getTranslations("Footer");
@@ -17,6 +16,8 @@ export async function Footer() {
     resources: [
       { name: t("resourcesLearn"), href: "/learn" },
       { name: t("resourcesPricing"), href: "/pricing" },
+      { name: t("resourcesOpinions"), href: "/controversial-opinions" },
+      { name: t("resourcesProof"), href: "/proof" },
       { name: t("resourcesThunkBox"), href: "/thunkbox" },
     ],
     company: [
@@ -29,82 +30,48 @@ export async function Footer() {
     ],
   };
 
+  const columns = [
+    { title: t("processSectionTitle"), links: footerLinks.process },
+    { title: t("resourcesSectionTitle"), links: footerLinks.resources },
+    { title: t("companySectionTitle"), links: footerLinks.company },
+  ];
+
   return (
-    <footer className="border-t border-border bg-muted/30">
-      <Container className="py-12 md:py-16">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1 flex items-center justify-center md:justify-start">
-            <Link href="/" className="inline-block">
-              <Image
-                src="/logo.png"
-                alt={t("logoAlt")}
-                width={200}
-                height={200}
-                className="h-40 w-auto"
-              />
-            </Link>
-          </div>
-
-          {/* Process */}
-          <div>
-            <h3 className="text-sm font-semibold">{t("processSectionTitle")}</h3>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.process.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h3 className="text-sm font-semibold">{t("resourcesSectionTitle")}</h3>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.resources.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-sm font-semibold">{t("companySectionTitle")}</h3>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <footer className="border-t border-border bg-paper-deep">
+      <div className="pl-container grid gap-10 pb-8 pt-14 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
+        <div>
+          <Link href="/" className="inline-block" aria-label={t("logoAlt")}>
+            <Mascot variant="full" size={150} />
+          </Link>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-12 border-t border-border pt-8">
-          <p className="text-center text-sm text-muted-foreground">
+        {columns.map((col) => (
+          <div key={col.title}>
+            <h3 className="mb-3.5 text-sm font-bold text-ink">{col.title}</h3>
+            <ul className="grid gap-2.5">
+              {col.links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-ink-muted transition-colors hover:text-ink hover:underline"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="pl-container">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border py-6 text-[13px] text-ink-muted">
+          <span>
             &copy; {new Date().getFullYear()} {t("copyright")}
-          </p>
+          </span>
+          <span>{t("tagline")}</span>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

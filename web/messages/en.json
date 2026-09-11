@@ -73,7 +73,10 @@
     "companyContact": "Contact",
     "companyPrivacy": "Privacy",
     "companyTerms": "Terms",
-    "copyright": "PickleLlama. All rights reserved."
+    "copyright": "PickleLlama. All rights reserved.",
+    "resourcesOpinions": "Controversial opinions",
+    "resourcesProof": "Proof",
+    "tagline": "Feel better. Work smarter."
   },
   "HomePage": {
     "heroLine1": "What if the",

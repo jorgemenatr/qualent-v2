@@ -1,0 +1,2 @@
+# Slides
+Six 1280×720 templates: title, section divider, content (3 cards), big figure, facts table, quote/closing. Two backgrounds only: paper (default) and one bleed per section (pickle green, lime-300, or charcoal). Type never below 18px. Eyebrows in Oswald caps; headlines Source Sans 3 Bold.

@@ -1,0 +1,16 @@
+/* Minimal base — resets + link colours. Components style themselves with tokens. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: var(--type-body);
+  font-variant-numeric: tabular-nums;
+}
+h1, h2, h3, h4, p, figure, ul, ol { margin: 0; }
+a { color: var(--link); text-decoration: none; text-underline-offset: 3px; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-xs); }
+img, svg { display: block; max-width: 100%; }

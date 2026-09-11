@@ -1,0 +1,122 @@
+/* PickleLlama colour tokens — sampled from logo.svg and the five mug/label designs. */
+:root {
+  /* ---- Base palette ---- */
+  /* Greens (the pickle) */
+  --pl-pickle-900: #2F3A1C;
+  --pl-pickle-800: #4B5E33;   /* scrubs / dark olive on mug-05 */
+  --pl-pickle-700: #5F7A2C;   /* hover / pressed */
+  --pl-pickle-600: #789338;   /* PRIMARY — logo fill #789338 */
+  --pl-pickle-500: #909F4F;   /* logo circle backdrop */
+  --pl-pickle-400: #A9B95A;
+  --pl-lime-500:   #C4D46A;   /* headline lime, mug-01/02 */
+  --pl-lime-300:   #D8E48C;   /* mug-02 background */
+  --pl-lime-100:   #EEF2DC;   /* wash */
+  --pl-lime-050:   #F6F8EA;
+
+  /* Neutrals (charcoal ink, llama grey, paper) */
+  --pl-ink-900: #231F20;      /* logo outline */
+  --pl-ink-800: #3A3A38;      /* mug charcoal headlines */
+  --pl-ink-600: #5E5F5A;
+  --pl-ink-400: #8A8C85;
+  --pl-grey-500: #B9BDBC;     /* llama grey, logo */
+  --pl-grey-300: #D3D6D2;
+  --pl-grey-200: #E3E5DF;
+  --pl-paper-200: #EAEDDF;    /* mug-05 footer band */
+  --pl-paper-100: #F4F5EE;    /* mug cream */
+  --pl-paper-050: #FAFAF6;
+  --pl-white: #FFFFFF;
+
+  /* Accents (illustration props on mug-01, "TREATABLE" stamp on mug-05) */
+  --pl-coral-500: #F2837D;
+  --pl-coral-700: #D9403A;
+  --pl-coral-100: #FBE4E2;
+  --pl-periwinkle-500: #7C90D8;
+  --pl-periwinkle-700: #3D5FAE;
+  --pl-periwinkle-100: #E4E8F7;
+
+  /* ---- Semantic aliases (light) ---- */
+  --bg: var(--pl-paper-100);
+  --bg-subtle: var(--pl-paper-200);
+  --bg-elevated: var(--pl-white);
+  --bg-inverse: var(--pl-ink-800);
+  --bg-brand: var(--pl-pickle-600);
+  --bg-brand-soft: var(--pl-lime-100);
+  --bg-brand-loud: var(--pl-lime-300);
+
+  --fg: var(--pl-ink-800);
+  --fg-muted: var(--pl-ink-600);
+  --fg-faint: var(--pl-ink-400);
+  --fg-inverse: var(--pl-paper-100);
+  --fg-brand: var(--pl-pickle-600);
+  --fg-brand-deep: var(--pl-pickle-800);
+  --fg-on-brand: var(--pl-white);
+  --fg-on-lime: var(--pl-pickle-800);
+
+  --border: var(--pl-grey-300);
+  --border-strong: var(--pl-grey-500);
+  --border-brand: var(--pl-pickle-600);
+  --ring: var(--pl-pickle-600);
+
+  --primary: var(--pl-pickle-600);
+  --primary-hover: var(--pl-pickle-700);
+  --primary-fg: var(--pl-white);
+  --secondary: var(--pl-lime-300);
+  --secondary-hover: var(--pl-lime-500);
+  --secondary-fg: var(--pl-pickle-800);
+
+  --success: var(--pl-pickle-600);
+  --success-soft: var(--pl-lime-100);
+  --danger: var(--pl-coral-700);
+  --danger-soft: var(--pl-coral-100);
+  --info: var(--pl-periwinkle-700);
+  --info-soft: var(--pl-periwinkle-100);
+  --link: var(--pl-pickle-700);
+  --link-hover: var(--pl-pickle-800);
+
+  --mascot-grey: var(--pl-grey-500);
+  --shadow-color: 35 40 25;
+  color-scheme: light;
+}
+
+.dark, [data-theme="dark"] {
+  --bg: #1B1E15;
+  --bg-subtle: #22261B;
+  --bg-elevated: #2A2F22;
+  --bg-inverse: var(--pl-paper-100);
+  --bg-brand: var(--pl-pickle-600);
+  --bg-brand-soft: #34401F;
+  --bg-brand-loud: var(--pl-pickle-700);
+
+  --fg: #F1F2E9;
+  --fg-muted: #B8BCAF;
+  --fg-faint: #858A7C;
+  --fg-inverse: var(--pl-ink-800);
+  --fg-brand: var(--pl-lime-500);
+  --fg-brand-deep: var(--pl-lime-300);
+  --fg-on-brand: var(--pl-white);
+  --fg-on-lime: var(--pl-pickle-900);
+
+  --border: #3B412F;
+  --border-strong: #5A6249;
+  --border-brand: var(--pl-lime-500);
+  --ring: var(--pl-lime-500);
+
+  --primary: var(--pl-lime-500);
+  --primary-hover: var(--pl-lime-300);
+  --primary-fg: var(--pl-pickle-900);
+  --secondary: #34401F;
+  --secondary-hover: #414F27;
+  --secondary-fg: var(--pl-lime-300);
+
+  --success: var(--pl-lime-500);
+  --success-soft: #34401F;
+  --danger: var(--pl-coral-500);
+  --danger-soft: #4A2A28;
+  --info: var(--pl-periwinkle-500);
+  --info-soft: #2B3350;
+  --link: var(--pl-lime-500);
+  --link-hover: var(--pl-lime-300);
+
+  --shadow-color: 0 0 0;
+  color-scheme: dark;
+}

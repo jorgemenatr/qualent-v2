@@ -1,15 +1,29 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Source_Sans_3, Oswald, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/* Source Sans 3 stands in for the Myriad Pro used in the label artwork,
+   Oswald for its condensed caps. Swap for licensed faces when they arrive. */
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
   subsets: ["latin"],
+  weight: ["400", "600", "700", "900"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const oswald = Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -34,7 +48,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${sourceSans.variable} ${oswald.variable} ${plexMono.variable} antialiased min-h-screen flex flex-col`}
       >
         {children}
       </body>

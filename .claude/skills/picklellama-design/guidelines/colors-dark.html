@@ -1,0 +1,15 @@
+<!-- @dsCard group="Colors" viewport="700x170" subtitle="Same aliases under .dark — lime becomes the primary" name="Dark mode" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>
+body{padding:16px;background:var(--bg);display:flex;flex-direction:column;gap:12px;min-height:0}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.sw{flex:1 1 90px;min-width:90px;border-radius:var(--radius-sm);padding:10px;height:78px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid rgb(0 0 0/.06)}
+.sw b{font:600 12px/1.2 var(--font-mono)}.sw span{font:400 11px/1.2 var(--font-mono);opacity:.75}
+.cap{font:var(--type-eyebrow);letter-spacing:var(--tracking-caps);text-transform:uppercase;color:var(--fg-muted)}
+.dark{background:var(--bg);color:var(--fg);border-radius:var(--radius-md);padding:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{padding:8px 14px;border-radius:var(--radius-sm);font:600 14px var(--font-sans)}</style></head><body><div class="dark">
+<span class="btn" style="background:var(--primary);color:var(--primary-fg)">Book diagnostic</span>
+<span class="btn" style="background:var(--secondary);color:var(--secondary-fg)">Secondary</span>
+<span class="btn" style="border:1px solid var(--border-strong)">Outline</span>
+<span style="color:var(--fg-muted);font-size:14px">Muted body text</span>
+<span style="color:var(--fg-brand);font:600 14px var(--font-sans)">Brand text</span>
+<div style="flex-basis:100%;display:flex;gap:8px"><div class="sw" style="background:var(--bg-elevated);border-color:var(--border);height:52px"><b style="color:var(--fg)">--bg-elevated</b></div><div class="sw" style="background:var(--bg-subtle);border-color:var(--border);height:52px"><b style="color:var(--fg)">--bg-subtle</b></div><div class="sw" style="background:var(--bg-brand-soft);height:52px"><b style="color:var(--fg-brand)">--bg-brand-soft</b></div><div class="sw" style="background:var(--danger-soft);height:52px"><b style="color:var(--danger)">--danger-soft</b></div></div>
+</div></body></html>

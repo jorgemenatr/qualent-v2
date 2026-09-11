@@ -1,0 +1,12 @@
+<!-- @dsCard group="Colors" viewport="700x190" subtitle="Use these in UI, never the raw palette" name="Semantic aliases" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>
+body{padding:16px;background:var(--bg);display:flex;flex-direction:column;gap:12px;min-height:0}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.sw{flex:1 1 90px;min-width:90px;border-radius:var(--radius-sm);padding:10px;height:78px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid rgb(0 0 0/.06)}
+.sw b{font:600 12px/1.2 var(--font-mono)}.sw span{font:400 11px/1.2 var(--font-mono);opacity:.75}
+.cap{font:var(--type-eyebrow);letter-spacing:var(--tracking-caps);text-transform:uppercase;color:var(--fg-muted)}
+.al{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.al div{border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;font:500 12px/1.4 var(--font-mono)}</style></head><body><div class="al">
+<div style="background:var(--bg)">--bg</div><div style="background:var(--bg-subtle)">--bg-subtle</div><div style="background:var(--bg-elevated)">--bg-elevated</div><div style="background:var(--bg-inverse);color:var(--fg-inverse)">--bg-inverse</div>
+<div style="background:var(--bg-brand);color:var(--fg-on-brand)">--bg-brand</div><div style="background:var(--bg-brand-soft)">--bg-brand-soft</div><div style="background:var(--bg-brand-loud);color:var(--fg-on-lime)">--bg-brand-loud</div><div style="color:var(--fg-brand)">--fg-brand</div>
+<div style="color:var(--fg)">--fg</div><div style="color:var(--fg-muted)">--fg-muted</div><div style="color:var(--fg-faint)">--fg-faint</div><div style="color:var(--link);text-decoration:underline">--link</div>
+</div></body></html>

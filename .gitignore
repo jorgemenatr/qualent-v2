@@ -52,3 +52,6 @@ prisma/*.db-journal
 *.pem
 .vercel
 infra-outputs.json
+
+# design-system skill: keep source, ignore build junk
+.claude/skills/**/.DS_Store

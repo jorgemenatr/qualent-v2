@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, User, LogOut, FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/lib/auth";
+import { Wordmark } from "@/components/brand";
+import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "./locale-switcher";
 
 export function Header() {
@@ -28,6 +30,9 @@ export function Header() {
   const [mounted, setMounted] = useState(false);
   const { isAuthenticated, isLoading, name, email, login, logout } = useAuth();
   const t = useTranslations("Nav");
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`) || pathname.endsWith(href);
 
   const navigation = [
     { name: t("process"), href: "/services" },
@@ -60,30 +65,26 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-[color-mix(in_oklab,var(--pl-paper-100)_88%,transparent)] backdrop-blur-[10px]">
+      <nav className="pl-container flex h-16 items-center justify-between gap-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <span className="flex items-baseline text-xl font-semibold tracking-tight">
-            <Image
-              src="/logo-text.svg"
-              alt={t("logoAlt")}
-              width={1020}
-              height={160}
-              className="h-8 w-auto translate-y-[1px]"
-              priority
-            />
-            <span className="text-foreground" style={{ fontSize: '28px' }}>{t("logoSuffix")}</span>
-          </span>
+        <Link href="/" className="flex flex-none items-center" aria-label={t("logoAlt")}>
+          <Wordmark height={26} suffix={t("logoSuffix")} />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex md:items-center md:gap-8">
+        <div className="hidden items-center gap-[clamp(12px,2vw,28px)] lg:flex">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={cn(
+                "border-b-2 pb-0.5 text-sm font-semibold transition-colors",
+                isActive(item.href)
+                  ? "border-pickle text-ink"
+                  : "border-transparent text-ink-muted hover:text-ink"
+              )}
             >
               {item.name}
             </Link>
@@ -147,7 +148,7 @@ export function Header() {
 
         {/* Mobile Menu */}
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild className="md:hidden">
+          <SheetTrigger asChild className="lg:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-6 w-6" />
               <span className="sr-only">{t("openMenu")}</span>

@@ -1,8 +1,8 @@
-import { Link } from "@/i18n/navigation";
+import { Section } from "@/components/layout";
+import {
+  PageHero, Prose, Strong, H2, CheckList, Callout, CTA, StepRail,
+} from "@/components/page";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ArrowRight, Search, CheckCircle } from "lucide-react";
-import { Container } from "@/components/layout";
-import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -15,157 +15,65 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
   setRequestLocale(locale);
   const t = await getTranslations("ServicesResearch");
 
+  const reasons = [1, 2, 3, 4, 5, 6].map((n) => ({
+    title: t(`whenBuildReason${n}Title` as "whenBuildReason1Title"),
+    text: t(`whenBuildReason${n}Description` as "whenBuildReason1Description"),
+  }));
+
   return (
     <>
-      {/* Hero */}
-      <section className="py-16 md:py-20">
-        <Container size="small">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-            <Search className="h-6 w-6 text-primary" />
-          </div>
-          <h1 className="mt-6 text-4xl font-bold tracking-tight md:text-5xl">
-            {t("heroTitle")}
-          </h1>
-          <p className="mt-2 text-xl text-primary font-medium">
-            {t("heroSubtitle")}
-          </p>
-          <p className="mt-6 text-lg text-muted-foreground">
-            {t.rich("heroDescription", {
-              em: (chunks) => <em>{chunks}</em>,
-            })}
-          </p>
-          <p className="mt-4 text-lg font-medium text-foreground">
-            {t("heroCost")}
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow={t("heroEyebrow")}
+        title={t("heroSubtitle")}
+        lede={t.rich("heroDescription", { em: (c) => <em>{c}</em> })}
+        cost={t("heroCost")}
+      />
+      <Section className="border-t-0 py-8"><StepRail active="research" /></Section>
 
-      {/* What We Research */}
-      <section className="border-t border-border py-12 md:py-16">
-        <Container size="small">
-          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
-          <h2 className="text-2xl font-bold">{t("whatWeResearchTitle")}</h2>
-          <div className="mt-8 space-y-0">
-            {[
-              t("whatWeResearchItem1"),
-              t("whatWeResearchItem2"),
-              t("whatWeResearchItem3"),
-              t("whatWeResearchItem4"),
-              t("whatWeResearchItem5"),
-            ].map((item, index) => (
-              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-muted-foreground">{item}</span>
-              </div>
-            ))}
+      <Section narrow>
+        <div className="grid gap-10 md:grid-cols-2">
+          <div>
+            <H2>{t("whatWeResearchTitle")}</H2>
+            <CheckList
+              items={[1, 2, 3, 4, 5].map((n) => t(`whatWeResearchItem${n}` as "whatWeResearchItem1"))}
+            />
           </div>
-        </Container>
-      </section>
-
-      {/* What You Get */}
-      <section className="bg-muted/50 py-12 md:py-16">
-        <Container size="small">
-          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
-          <h2 className="text-2xl font-bold">{t("whatYouGetTitle")}</h2>
-          <div className="mt-8 space-y-0">
-            {[
-              t("whatYouGetItem1"),
-              t("whatYouGetItem2"),
-              t("whatYouGetItem3"),
-              t("whatYouGetItem4"),
-              t("whatYouGetItem5"),
-            ].map((item, index) => (
-              <div key={item} className={`flex items-start gap-3 p-3 rounded-md ${index % 2 === 1 ? "bg-muted/30" : ""}`}>
-                <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-muted-foreground">{item}</span>
-              </div>
-            ))}
+          <div>
+            <H2>{t("whatYouGetTitle")}</H2>
+            <CheckList
+              items={[1, 2, 3, 4, 5].map((n) => t(`whatYouGetItem${n}` as "whatYouGetItem1"))}
+            />
           </div>
-        </Container>
-      </section>
+        </div>
+      </Section>
 
-      {/* When We Recommend Building */}
-      <section className="py-12 md:py-16">
-        <Container size="small">
-          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
-          <h2 className="text-2xl font-bold">{t("whenBuildTitle")}</h2>
-          <p className="mt-4 text-muted-foreground">
-            {t("whenBuildIntro")}
-          </p>
-          <div className="mt-8 space-y-6">
-            {[
-              {
-                title: t("whenBuildReason1Title"),
-                description: t("whenBuildReason1Description"),
-              },
-              {
-                title: t("whenBuildReason2Title"),
-                description: t("whenBuildReason2Description"),
-              },
-              {
-                title: t("whenBuildReason3Title"),
-                description: t("whenBuildReason3Description"),
-              },
-              {
-                title: t("whenBuildReason4Title"),
-                description: t("whenBuildReason4Description"),
-              },
-              {
-                title: t("whenBuildReason5Title"),
-                description: t("whenBuildReason5Description"),
-              },
-              {
-                title: t("whenBuildReason6Title"),
-                description: t("whenBuildReason6Description"),
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-4">
-                <div className="h-1.5 w-1.5 mt-2.5 flex-shrink-0 rounded-full bg-primary" />
-                <div>
-                  <h3 className="font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-muted-foreground">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-8 text-foreground font-medium">
-            {t("whenBuildSummary")}
-          </p>
-        </Container>
-      </section>
-
-      {/* Pricing Note */}
-      <section className="bg-muted/50 py-12 md:py-16">
-        <Container size="small">
-          <div className="rounded-lg bg-amber-50 border-l-4 border-l-amber-500 p-6 md:p-8 dark:bg-amber-950/30 dark:border-l-amber-400">
-            <h3 className="text-xl font-semibold mb-4">{t("pricingNoteTitle")}</h3>
-            <div className="space-y-4 text-muted-foreground">
-              <p>{t("pricingNotePara1")}</p>
-              <p>{t("pricingNotePara2")}</p>
-              <p className="text-foreground font-medium">
-                {t("pricingNotePara3")}
-              </p>
+      <Section tone="subtle">
+        <H2>{t("whenBuildTitle")}</H2>
+        <p className="-mt-4 mb-7 text-[17px] leading-relaxed text-ink-muted">
+          {t("whenBuildIntro")}
+        </p>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {reasons.map((r) => (
+            <div key={r.title} className="rounded-xl border border-border bg-white p-6">
+              <h3 className="pl-h3">{r.title}</h3>
+              <p className="mt-2 text-[15px] leading-normal text-ink-muted">{r.text}</p>
             </div>
-          </div>
-        </Container>
-      </section>
+          ))}
+        </div>
+        <Strong><span className="mt-7 block">{t("whenBuildSummary")}</span></Strong>
+      </Section>
 
-      {/* CTA */}
-      <section className="border-t border-border py-12 md:py-16">
-        <Container size="small">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>
-            <p className="mt-4 text-muted-foreground">
-              {t("ctaSubtitle")}
-            </p>
-            <Button className="mt-6" asChild>
-              <Link href="/talk">
-                {t("ctaButton")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </Container>
-      </section>
+      <Section narrow>
+        <Callout tone="label" eyebrow={t("pricingNoteTitle")}>
+          <Prose className="text-base">
+            <p>{t("pricingNotePara1")}</p>
+            <p>{t("pricingNotePara2")}</p>
+            <Strong>{t("pricingNotePara3")}</Strong>
+          </Prose>
+        </Callout>
+      </Section>
+
+      <CTA title={t("ctaTitle")} sub={t("ctaSubtitle")} button={t("ctaButton")} />
     </>
   );
 }

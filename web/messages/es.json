@@ -329,7 +329,10 @@
     "pricingCta": "Más sobre precios",
     "ctaTitle": "¿Listo para empezar por entender?",
     "ctaSubtitle": "17 minutos para identificar tus problemas principales y ver si los números dan.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "stepLabel": "Paso {n}",
+    "heroEyebrow": "Nuestro proceso",
+    "heroHeadline": "Hay una historia y una razón detrás de cada paso."
   },
   "ServicesUnderstanding": {
     "metaTitle": "Primera reunión — Ponernos en la misma página",
@@ -358,7 +361,8 @@
     "whyPara4": "Ahora nos aseguramos de estar en la misma página antes de que se mueva un solo peso.",
     "ctaTitle": "¿Listo para empezar?",
     "ctaSubtitle": "17 minutos para identificar tus problemas principales y ver si podemos ayudar.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Paso 01 · Primera reunión"
   },
   "ServicesResearch": {
     "metaTitle": "Reporte de investigación — Encontrar soluciones sin nosotros",
@@ -400,7 +404,8 @@
     "pricingNotePara3": "De cualquier manera, te vas con un panorama claro de tus opciones.",
     "ctaTitle": "¿Listo para descubrir qué es posible?",
     "ctaSubtitle": "Empieza con un diagnóstico gratuito para ver si la investigación tiene sentido para tu caso.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Paso 02 · Reporte de investigación"
   },
   "ServicesProblemId": {
     "metaTitle": "Identificación de Problemas como Servicio (PIaaS)",
@@ -437,7 +442,8 @@
     "whyMattersPara3": "El objetivo no es generar trabajo. El objetivo es encontrar las oportunidades de mayor impacto donde el software a medida genuinamente tiene sentido.",
     "ctaTitle": "¿Listo para identificar qué vale la pena resolver?",
     "ctaSubtitle": "Empieza con un diagnóstico gratuito para entender tu situación.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Paso 03 · Identificación de problemas"
   },
   "ServicesImplementation": {
     "metaTitle": "Implementación — Construir lo correcto",
@@ -483,7 +489,8 @@
     "pricingCta": "Más sobre cómo funcionan nuestros precios",
     "ctaTitle": "¿Listo para construir?",
     "ctaSubtitle": "Empieza con un diagnóstico gratuito para platicar tu proyecto y ver si los números dan.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Paso 04 · Implementación"
   },
   "ServicesPartnership": {
     "metaTitle": "Alianza continua",
@@ -517,7 +524,8 @@
     "whyMattersPara3": "Preferimos quedarnos y asegurarnos de que lo que construimos siga generando valor.",
     "ctaTitle": "¿Quieres hablar de soporte continuo?",
     "ctaSubtitle": "Empecemos con una conversación sobre tus necesidades y cómo sería la alianza.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroEyebrow": "Paso 05 · Alianza"
   },
   "Talk": {
     "metaTitle": "17 minutos de claridad",
@@ -649,7 +657,9 @@
     "readCaseStudyButton": "Leer caso de éxito",
     "ctaHeading": "¿Tu problema está en esta lista?",
     "ctaDescription": "Si no lo está, probablemente debería estarlo. Hablemos sobre lo que te frena.",
-    "ctaButton": "Agenda tu diagnóstico"
+    "ctaButton": "Agenda tu diagnóstico",
+    "heroHeadline": "Resultados reales. Empresas reales.",
+    "filterAll": "Todos"
   },
   "ProofSlug": {
     "metaNotFoundTitle": "Caso de éxito no encontrado",

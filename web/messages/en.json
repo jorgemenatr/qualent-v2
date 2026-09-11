@@ -329,7 +329,10 @@
     "pricingCta": "More on pricing",
     "ctaTitle": "Ready to start with understanding?",
     "ctaSubtitle": "17 minutes to identify your top problems and see if the math works.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "stepLabel": "Step {n}",
+    "heroEyebrow": "Our process",
+    "heroHeadline": "There's a story and a reason behind each step."
   },
   "ServicesUnderstanding": {
     "metaTitle": "First Meeting - Getting on the Same Page",
@@ -358,7 +361,8 @@
     "whyPara4": "Now we make sure we're on the same page before any money changes hands.",
     "ctaTitle": "Ready to start?",
     "ctaSubtitle": "17 minutes to identify your top problems and see if we can help.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Step 01 · First meeting"
   },
   "ServicesResearch": {
     "metaTitle": "Research Report - Finding Solutions Without Us",
@@ -400,7 +404,8 @@
     "pricingNotePara3": "Either way, you walk away with a clear picture of your options.",
     "ctaTitle": "Ready to find out what's possible?",
     "ctaSubtitle": "Start with a free diagnostic to see if research makes sense for your situation.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Step 02 · Research report"
   },
   "ServicesProblemId": {
     "metaTitle": "Problem Identification as a Service (PIaaS)",
@@ -437,7 +442,8 @@
     "whyMattersPara3": "The goal isn't to generate work. The goal is to find the highest-impact opportunities where custom software genuinely makes sense.",
     "ctaTitle": "Ready to identify what's worth fixing?",
     "ctaSubtitle": "Start with a free diagnostic to understand your situation.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Step 03 · Problem identification"
   },
   "ServicesImplementation": {
     "metaTitle": "Implementation - Building the Right Thing",
@@ -483,7 +489,8 @@
     "pricingCta": "More on how our pricing works",
     "ctaTitle": "Ready to build?",
     "ctaSubtitle": "Start with a free diagnostic to discuss your project and see if the math works.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Step 04 · Implementation"
   },
   "ServicesPartnership": {
     "metaTitle": "Ongoing Partnership",
@@ -517,7 +524,8 @@
     "whyMattersPara3": "We prefer to stick around and make sure what we built keeps delivering value.",
     "ctaTitle": "Want to discuss ongoing support?",
     "ctaSubtitle": "Start with a conversation about your needs and what partnership might look like.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroEyebrow": "Step 05 · Partnership"
   },
   "Talk": {
     "metaTitle": "17 Minutes to Clarity",
@@ -649,7 +657,9 @@
     "readCaseStudyButton": "Read case study",
     "ctaHeading": "Your problem on this list?",
     "ctaDescription": "If it's not, it probably should be. Let's talk about what's slowing you down.",
-    "ctaButton": "Book Your Diagnostic"
+    "ctaButton": "Book Your Diagnostic",
+    "heroHeadline": "Real results. Real companies.",
+    "filterAll": "All"
   },
   "ProofSlug": {
     "metaNotFoundTitle": "Case Study Not Found",

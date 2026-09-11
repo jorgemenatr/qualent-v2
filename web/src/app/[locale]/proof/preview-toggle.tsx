@@ -33,7 +33,7 @@ export function PreviewToggle({
       <button
         type="button"
         onClick={handleToggle}
-        className="inline-flex items-center gap-1.5 self-start font-mono text-xs font-semibold uppercase tracking-wider text-emerald-600 transition-colors hover:text-emerald-500"
+        className="inline-flex items-center gap-1.5 self-start font-mono text-xs font-semibold uppercase tracking-wider text-pickle transition-colors hover:text-pickle-deep"
       >
         {isOpen ? (
           <>

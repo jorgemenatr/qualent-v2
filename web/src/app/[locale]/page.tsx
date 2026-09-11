@@ -1,21 +1,9 @@
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import {
-  ArrowRight,
-  Zap,
-  Goal,
-  Rocket,
-  XCircle,
-  Shield,
-  AlertTriangle,
-  Users,
-  TrendingDown,
-  TrendingUp,
-} from "lucide-react";
-import { Container } from "@/components/layout";
+import { ArrowRight } from "lucide-react";
+import { Section, SectionHead } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HeroBackground } from "@/components/hero-background";
+import { Eyebrow, Figure, Stamp, MascotWatermark } from "@/components/brand";
 import { getAllContent } from "@/lib/content";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -29,394 +17,260 @@ const clientLogos = [
   { name: "Buffalo Rail", src: "/clients/buffalo-rail.svg", width: 160, height: 40 },
 ];
 
+const serviceLinks = [
+  "/services/research",
+  "/services/implementation",
+  "/services/partnership",
+];
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("HomePage");
-  const caseStudies = getAllContent("case-studies");
+  const caseStudies = getAllContent("case-studies").slice(0, 3);
+
+  const whyNow = [1, 2, 3, 4, 5, 6].map((n) => ({
+    title: t(`whyNowCard${n}Title` as "whyNowCard1Title"),
+    text: t(`whyNowCard${n}Text` as "whyNowCard1Text"),
+  }));
+
+  const dontDo = [1, 2, 3, 4, 5].map((n) =>
+    t(`whatWeDontDoItem${n}` as "whatWeDontDoItem1")
+  );
+
+  const actuallyDo = [1, 2, 3].map((n) => ({
+    title: t(`whatWeActuallyDoCard${n}Title` as "whatWeActuallyDoCard1Title"),
+    text: t(`whatWeActuallyDoCard${n}Text` as "whatWeActuallyDoCard1Text"),
+    href: serviceLinks[n - 1],
+  }));
+
+  const risks = [
+    { title: t("riskOperationalTitle"), text: t("riskOperationalText") },
+    { title: t("riskPeopleTitle"), text: t("riskPeopleText") },
+    { title: t("riskCompetitiveTitle"), text: t("riskCompetitiveText") },
+  ];
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center py-20 md:py-32 overflow-hidden">
-        <HeroBackground />
-
-        <Container className="relative w-full">
-          <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl leading-tight">
-              {t("heroLine1")} <span className="text-primary">{t("heroProblems")}</span> {t("heroLine2")}
-              <br className="hidden sm:block" />
-              {t("heroLine3")} <span className="text-primary">{t("heroCheaperToFix")}</span> {t("heroLine4")}
-            </h1>
-            <p className="mt-8 text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              {t("heroSubLine1")}
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button size="lg" asChild>
-                <Link href="/talk">
-                  {t("heroCtaPrimary")}{" "}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="#guarantee">{t("heroCtaSecondary")}</Link>
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Client Logos Section */}
-      <section className="border-t border-border py-12">
-        <Container>
-          <p className="text-center text-sm text-muted-foreground mb-8">
-            {t("clientLogosLabel")}
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-70">
-            {clientLogos.map((logo) => (
-              <div
-                key={logo.name}
-                className="relative grayscale hover:grayscale-0 transition-all duration-300"
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.name}
-                  width={logo.width}
-                  height={logo.height}
-                  className={`h-8 md:h-10 w-auto object-contain ${"invert" in logo && logo.invert ? "invert" : ""}`}
-                />
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* The Guarantee Section */}
-      <section
-        id="guarantee"
-        className="border-t border-border bg-emerald-50 py-12 md:py-16"
-      >
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-primary/10 mb-5">
-              <Shield className="h-7 w-7 text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {t("guaranteeTitle")}
-            </h2>
-            <p className="mt-4 text-3xl md:text-4xl font-bold text-primary">
-              {t("guaranteeHeadline")}
-            </p>
-            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              {t("guaranteeLine1")}
-              <br />
-              {t("guaranteeLine2")}
-            </p>
-          </div>
-        </Container>
-      </section>
-
-      {/* Why Now Section - The 6 Bullets */}
-      <section className="border-t border-border py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center mb-10">
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {t("whyNowTitle")}
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              {t("whyNowSubtitle")}
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: t("whyNowCard1Title"),
-                text: t("whyNowCard1Text"),
-                borderColor: "border-l-emerald-500",
-              },
-              {
-                title: t("whyNowCard2Title"),
-                text: t("whyNowCard2Text"),
-                borderColor: "border-l-amber-500",
-              },
-              {
-                title: t("whyNowCard3Title"),
-                text: t("whyNowCard3Text"),
-                borderColor: "border-l-blue-500",
-              },
-              {
-                title: t("whyNowCard4Title"),
-                text: t("whyNowCard4Text"),
-                borderColor: "border-l-rose-500",
-              },
-              {
-                title: t("whyNowCard5Title"),
-                text: t("whyNowCard5Text"),
-                borderColor: "border-l-violet-500",
-              },
-              {
-                title: t("whyNowCard6Title"),
-                text: t("whyNowCard6Text"),
-                borderColor: "border-l-cyan-500",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className={`rounded-lg border border-border border-l-4 ${item.borderColor} bg-card p-5`}
-              >
-                <h3 className="font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  {item.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* What We Don't Do Section */}
-      <section className="border-t border-border bg-muted/50 py-12 md:py-16">
-        <Container>
-          <div className="grid gap-10 md:grid-cols-2 md:items-center">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                {t("whatWeDontDoTitle")}
-              </h2>
-              <p className="mt-3 text-muted-foreground">
-                {t("whatWeDontDoSubtitle")}
-              </p>
-              <ul className="mt-6 space-y-3 rounded-lg bg-rose-50 p-5">
-                {[
-                  t("whatWeDontDoItem1"),
-                  t("whatWeDontDoItem2"),
-                  t("whatWeDontDoItem3"),
-                  t("whatWeDontDoItem4"),
-                  t("whatWeDontDoItem5"),
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <XCircle className="h-4 w-4 flex-shrink-0 text-rose-600" />
-                    <span className="text-sm"><span className="text-rose-600 font-semibold">{t("whatWeDontDoPrefix")}</span> {item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-lg border border-border bg-card p-6 md:p-8">
-              <h3 className="text-lg font-semibold">{t("ourPromiseTitle")}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">
-                {t("ourPromiseLine1")}
-                <br />
-                {t("ourPromiseLine2")}
-              </p>
-              <p className="mt-4 text-xl font-semibold text-primary">
-                {t("ourPromisePrice")}
-              </p>
-              <Button className="mt-5" asChild>
-                <Link href="/services">{t("ourPromiseCta")}</Link>
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* What We Actually Do Section */}
-      <section className="border-t border-border py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center mb-10">
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {t("whatWeActuallyDoTitle")}
-            </h2>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            <Card className="border-t-4 border-t-emerald-500 bg-emerald-50/50 transition-colors hover:border-t-emerald-600">
-              <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                  <Goal className="h-5 w-5 text-emerald-600" />
-                </div>
-                <h3 className="mt-4 font-semibold">{t("whatWeActuallyDoCard1Title")}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  {t("whatWeActuallyDoCard1Text")}
-                </p>
-                <Link
-                  href="/services/research"
-                  className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
-                >
-                  {t("learnMore")} <ArrowRight className="ml-1 h-3 w-3" />
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-t-4 border-t-blue-500 bg-blue-50/50 transition-colors hover:border-t-blue-600">
-              <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-                  <Zap className="h-5 w-5 text-blue-600" />
-                </div>
-                <h3 className="mt-4 font-semibold">{t("whatWeActuallyDoCard2Title")}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  {t("whatWeActuallyDoCard2Text")}
-                </p>
-                <Link
-                  href="/services/implementation"
-                  className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
-                >
-                  {t("learnMore")} <ArrowRight className="ml-1 h-3 w-3" />
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-t-4 border-t-violet-500 bg-violet-50/50 transition-colors hover:border-t-violet-600">
-              <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100">
-                  <Rocket className="h-5 w-5 text-violet-600" />
-                </div>
-                <h3 className="mt-4 font-semibold">{t("whatWeActuallyDoCard3Title")}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  {t("whatWeActuallyDoCard3Text")}
-                </p>
-                <Link
-                  href="/services/partnership"
-                  className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
-                >
-                  {t("learnMore")} <ArrowRight className="ml-1 h-3 w-3" />
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-        </Container>
-      </section>
-
-      {/* Case Studies Section */}
-      <section className="border-t border-border bg-muted/50 py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center mb-10">
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {t("realResultsTitle")}
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              {t("realResultsSubtitle")}
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {caseStudies.map((study, index) => {
-              const accentColors = ["bg-emerald-500", "bg-blue-500", "bg-amber-500"];
-              const accentColor = accentColors[index % accentColors.length];
-              return (
-              <Card key={study.slug} className="flex flex-col overflow-hidden">
-                <div className={`h-1 ${accentColor}`} />
-                <CardHeader>
-                  <p className="text-sm text-muted-foreground">
-                    {study.meta.client || study.meta.industry}
-                  </p>
-                  <CardTitle className="mt-2">{study.meta.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-1 flex-col">
-                  {study.meta.result && (
-                    <div className="flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-3">
-                      <TrendingUp className="h-4 w-4 text-primary" />
-                      <p className="text-sm font-semibold text-primary">
-                        {study.meta.result}
-                      </p>
-                    </div>
-                  )}
-                  <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                    {study.meta.description}
-                  </p>
-                  <div className="mt-auto pt-4">
-                    <Link
-                      href={`/proof/${study.slug}`}
-                      className="inline-flex items-center text-sm font-medium text-primary hover:underline"
-                    >
-                      {t("readCaseStudy")} <ArrowRight className="ml-1 h-3 w-3" />
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-              );
-            })}
-          </div>
-
-          <div className="mt-8 text-center">
-            <Button variant="outline" asChild>
-              <Link href="/proof">
-                {t("viewAllCaseStudies")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </Container>
-      </section>
-
-      {/* The Three Risks Section */}
-      <section className="border-t border-border bg-muted/50 py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center mb-10">
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {t("risksTitle")}
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              {t("risksSubtitle")}
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-lg border border-border border-l-4 border-l-amber-500 bg-amber-50/50 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 mb-3">
-                <AlertTriangle className="h-5 w-5 text-amber-600" />
-              </div>
-              <h3 className="font-semibold">{t("riskOperationalTitle")}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("riskOperationalText")}
-              </p>
-            </div>
-
-            <div className="rounded-lg border border-border border-l-4 border-l-rose-500 bg-rose-50/50 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100 mb-3">
-                <Users className="h-5 w-5 text-rose-600" />
-              </div>
-              <h3 className="font-semibold">{t("riskPeopleTitle")}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("riskPeopleText")}
-              </p>
-            </div>
-
-            <div className="rounded-lg border border-border border-l-4 border-l-orange-500 bg-orange-50/50 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100 mb-3">
-                <TrendingDown className="h-5 w-5 text-orange-600" />
-              </div>
-              <h3 className="font-semibold">{t("riskCompetitiveTitle")}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("riskCompetitiveText")}
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-slate-900 text-white py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-xl text-center">
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-white">
-              {t("ctaTitle")}
-            </h2>
-            <p className="mt-4 text-slate-300">
-              {t("ctaLine1")}
-            </p>
-            <p className="mt-3 text-sm text-slate-300">
-              {t("ctaLine2")}
-            </p>
-            <p className="mt-3 text-xs text-slate-400 italic">
-              {t("ctaLine3")}
-            </p>
-            <Button size="lg" className="mt-8 text-base px-8" asChild>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-border py-[clamp(64px,10vw,128px)]">
+        <MascotWatermark />
+        <div className="pl-container relative grid justify-items-center gap-7 text-center">
+          <Eyebrow>{t("heroEyebrow")}</Eyebrow>
+          <h1 className="pl-display max-w-[900px]">
+            {t("heroLine1")}{" "}
+            <span className="text-pickle">{t("heroProblems")} {t("heroLine2")}</span>{" "}
+            {t("heroLine3")}{" "}
+            <span className="text-pickle">{t("heroCheaperToFix")}</span>{" "}
+            {t("heroLine4")}
+          </h1>
+          <p className="pl-lede max-w-[560px] text-ink-muted">{t("heroSubLine1")}</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button size="lg" asChild>
               <Link href="/talk">
-                {t("ctaButton")} <ArrowRight className="ml-2 h-4 w-4" />
+                {t("heroCtaPrimary")} <ArrowRight className="size-4" />
               </Link>
             </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="#guarantee">{t("heroCtaSecondary")}</Link>
+            </Button>
           </div>
-        </Container>
+        </div>
       </section>
+
+      {/* Client logos */}
+      <section className="border-t border-border py-10">
+        <div className="pl-container">
+          <p className="mb-6 text-center text-[13px] text-ink-muted">
+            {t("clientLogosLabelShort")}
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-11 gap-y-6">
+            {clientLogos.map((logo) => (
+              <Image
+                key={logo.name}
+                src={logo.src}
+                alt={logo.name}
+                width={logo.width}
+                height={logo.height}
+                className={`h-8 w-auto object-contain opacity-70 grayscale transition duration-[var(--dur-base)] hover:opacity-100 hover:grayscale-0 ${
+                  logo.invert ? "invert" : ""
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The guarantee — the one loud lime band on the page */}
+      <Section id="guarantee" tone="loud">
+        <div className="grid justify-items-center gap-3 text-center">
+          <Eyebrow className="text-pickle-deep">{t("guaranteeTitle")}</Eyebrow>
+          <p className="max-w-[760px] text-[clamp(2rem,4vw,3.25rem)] font-black leading-[1.05] tracking-[-0.02em] text-pickle-deep text-balance">
+            {t("guaranteeHeadline")}
+          </p>
+          <p className="max-w-[520px] text-[17px] text-pickle-deep">
+            {t("guaranteeLine1")} {t("guaranteeLine2")}
+          </p>
+        </div>
+      </Section>
+
+      {/* Why this is possible now */}
+      <Section>
+        <SectionHead eyebrow={t("whyNowTitle")} title={t("whyNowSubtitle")} />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {whyNow.map((item, i) => (
+            <div
+              key={item.title}
+              className="flex flex-col gap-3 rounded-xl border border-border bg-white p-6"
+            >
+              <Eyebrow tone="muted">{String(i + 1).padStart(2, "0")}</Eyebrow>
+              <h3 className="pl-h3">{item.title}</h3>
+              <p className="text-[15px] leading-normal text-ink-muted">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* What we don't do + the promise label */}
+      <Section tone="subtle">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div className="grid gap-4">
+            <Eyebrow>{t("whatWeDontDoTitle")}</Eyebrow>
+            <h2 className="pl-h2">{t("whatWeDontDoSubtitle")}</h2>
+            <ul className="grid gap-2.5">
+              {dontDo.map((item) => (
+                <li key={item} className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                  <Eyebrow className="text-coral">{t("whatWeDontDoPrefix")}</Eyebrow>
+                  <span className="text-base">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="pl-label-card p-8">
+            <div className="grid gap-3">
+              <Eyebrow>{t("ourPromiseTitle")}</Eyebrow>
+              <p className="text-base text-ink-muted">
+                {t("ourPromiseLine1")} {t("ourPromiseLine2")}
+              </p>
+              <p className="text-2xl font-bold text-pickle">{t("ourPromisePrice")}</p>
+              <div>
+                <Button variant="secondary" asChild>
+                  <Link href="/services">{t("ourPromiseCta")}</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Three ways in */}
+      <Section>
+        <SectionHead
+          eyebrow={t("whatWeActuallyDoTitle")}
+          title={t("whatWeActuallyDoHeadline")}
+        />
+        <div className="grid gap-4 md:grid-cols-3">
+          {actuallyDo.map((item) => (
+            <div
+              key={item.title}
+              className="flex flex-col gap-3 rounded-xl bg-lime-soft p-6"
+            >
+              <h3 className="pl-h3">{item.title}</h3>
+              <p className="text-[15px] leading-normal text-ink-muted">{item.text}</p>
+              <Link
+                href={item.href}
+                className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-pickle-deep hover:underline"
+              >
+                {t("learnMore")} <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Real results */}
+      <Section tone="subtle">
+        <SectionHead
+          eyebrow={t("realResultsTitle")}
+          title={t("realResultsHeadline")}
+          sub={t("realResultsSub")}
+        />
+        <div className="grid gap-4 md:grid-cols-3">
+          {caseStudies.map((study) => {
+            const headline = study.meta.metrics?.[0];
+            return (
+              <div
+                key={study.slug}
+                className="flex flex-col gap-4 rounded-xl border border-border bg-white p-6"
+              >
+                <Eyebrow tone="muted">
+                  {study.meta.client || study.meta.industry}
+                </Eyebrow>
+                <h3 className="pl-h3">{study.meta.title}</h3>
+                {headline ? (
+                  <Figure
+                    value={headline.value}
+                    label={headline.label}
+                    valueClassName="text-[2.125rem]"
+                  />
+                ) : null}
+                <p className="text-[15px] leading-normal text-ink-muted">
+                  {study.meta.result || study.meta.description}
+                </p>
+                <Link
+                  href={`/proof/${study.slug}`}
+                  className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-pickle-deep hover:underline"
+                >
+                  {t("readCaseStudy")} <ArrowRight className="size-4" />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-8 text-center">
+          <Button variant="outline" asChild>
+            <Link href="/proof">
+              {t("viewAllCaseStudies")} <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </Section>
+
+      {/* What you're risking */}
+      <Section>
+        <SectionHead eyebrow={t("risksTitle")} title={t("risksSubtitle")} />
+        <div className="grid gap-4 md:grid-cols-3">
+          {risks.map((risk) => (
+            <div
+              key={risk.title}
+              className="flex flex-col items-start gap-3 rounded-xl border border-border bg-white p-6"
+            >
+              <Stamp>{t("riskStamp")}</Stamp>
+              <h3 className="pl-h3">{risk.title}</h3>
+              <p className="text-[15px] leading-normal text-ink-muted">{risk.text}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Closing CTA */}
+      <Section tone="inverse">
+        <div className="mx-auto grid max-w-[600px] justify-items-center gap-4 text-center">
+          <Eyebrow tone="lime">{t("ctaTitle")}</Eyebrow>
+          <h2 className="text-[clamp(1.75rem,1.2rem+2vw,2.25rem)] font-bold leading-snug tracking-[-0.015em] text-white text-balance">
+            {t("ctaLine1")}
+          </h2>
+          <p className="text-[17px] leading-relaxed text-llama">
+            {t("ctaLine2")} {t("ctaLine3")}
+          </p>
+          <Button size="lg" variant="secondary" asChild>
+            <Link href="/talk">
+              {t("ctaButton")} <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </Section>
     </>
   );
 }

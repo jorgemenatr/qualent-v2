@@ -1,4 +1,5 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import type { MDXComponents } from "mdx/types";
 import { Link } from "@/i18n/navigation";
 
 const components = {
@@ -92,10 +93,12 @@ const components = {
 
 interface MDXContentProps {
   source: string;
+  /** Override the default prose styling — The Daily Llama sets its own. */
+  components?: MDXComponents;
 }
 
-export function MDXContent({ source }: MDXContentProps) {
-  return <MDXRemote source={source} components={components} />;
+export function MDXContent({ source, components: overrides }: MDXContentProps) {
+  return <MDXRemote source={source} components={overrides ?? components} />;
 }
 
 export { components };

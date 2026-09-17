@@ -97,6 +97,28 @@
   --dur-fast: 120ms;
   --dur-base: 200ms;
 
+  /* ---- The Daily Llama: newspaper layer ----
+     A second register that lives only on /gazette. Yellower paper and a true
+     near-black ink, so the newsprint reads as printed rather than as the site. */
+  --news-ink: var(--pl-ink-900);
+  --news-paper: #f7f5ec;
+  --news-rule: var(--pl-ink-900);
+  --news-red: var(--pl-coral-700);
+  --news-halftone: #d9d3c3;
+
+  --news-stretch-head: 75%;
+  --news-stretch-plate: 80%;
+  --type-nameplate: 900 clamp(2.5rem, 1.2rem + 6vw, 8rem) / 0.9 var(--font-archivo, sans-serif);
+  --type-news-h1: 800 clamp(1.75rem, 1.2rem + 2.4vw, 3.5rem) / 1.05 var(--font-archivo, sans-serif);
+  --type-news-h2: 800 1.75rem / 1.1 var(--font-archivo, sans-serif);
+  --type-news-h3: 800 1.25rem / 1.15 var(--font-archivo, sans-serif);
+  --type-news-body: 400 1rem / 1.55 var(--font-archivo, sans-serif);
+  --type-news-small: 400 0.8125rem / 1.45 var(--font-archivo, sans-serif);
+  --type-kicker: 600 0.75rem / 1 var(--font-oswald, sans-serif);
+  --type-dateline: 600 0.8125rem / 1 var(--font-oswald, sans-serif);
+  --type-llama-quote: italic 400 1.625rem / 1.3 var(--font-archivo, sans-serif);
+  --type-classified: 500 0.75rem / 1.4 var(--font-plex-mono, monospace);
+
   /* ---- shadcn bridge: every existing component inherits the brand ---- */
   --radius: 0.375rem; /* 6px on controls; cards opt up to 16px */
   --background: var(--pl-paper-100);
@@ -171,6 +193,11 @@
   --input: #3b412f;
   --ring: var(--pl-lime-500);
 
+  --news-ink: #f1f2e9;
+  --news-paper: #1f2219;
+  --news-rule: #f1f2e9;
+  --news-halftone: #3b412f;
+
   color-scheme: dark;
 }
 
@@ -233,9 +260,16 @@
   --color-periwinkle: var(--pl-periwinkle-700);
   --color-periwinkle-soft: var(--pl-periwinkle-100);
 
+  --color-news-ink: var(--news-ink);
+  --color-news-paper: var(--news-paper);
+  --color-news-rule: var(--news-rule);
+  --color-news-red: var(--news-red);
+  --color-news-halftone: var(--news-halftone);
+
   --font-sans: var(--font-source-sans);
   --font-condensed: var(--font-oswald);
   --font-mono: var(--font-plex-mono);
+  --font-news: var(--font-archivo);
 
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
@@ -362,6 +396,99 @@
   }
   .pl-facts tbody tr:last-child td {
     border-bottom: 0;
+  }
+
+  /* ---- The Daily Llama ----
+     The reporting register. Archivo carries a width axis, so headlines are
+     condensed by stretch rather than by a second typeface. Square corners
+     throughout: newsprint has no radius. */
+  .dl-nameplate {
+    font: var(--type-nameplate);
+    font-stretch: var(--news-stretch-plate);
+    text-transform: uppercase;
+    color: var(--news-ink);
+  }
+  .dl-h1 {
+    font: var(--type-news-h1);
+    font-stretch: var(--news-stretch-head);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    color: var(--news-ink);
+  }
+  .dl-h2 {
+    font: var(--type-news-h2);
+    font-stretch: var(--news-stretch-head);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    color: var(--news-ink);
+  }
+  .dl-h3 {
+    font: var(--type-news-h3);
+    font-stretch: 85%;
+    text-wrap: balance;
+    color: var(--news-ink);
+  }
+  .dl-body {
+    font: var(--type-news-body);
+  }
+  .dl-small {
+    font: var(--type-news-small);
+  }
+  .dl-kicker {
+    font: var(--type-kicker);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .dl-dateline {
+    font: var(--type-dateline);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+  }
+  .dl-quote {
+    font: var(--type-llama-quote);
+  }
+  .dl-classified {
+    font: var(--type-classified);
+  }
+  /* Drop cap on the opening paragraph of a filed story. */
+  .dl-drop > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--font-archivo, sans-serif);
+    font-weight: 900;
+    font-stretch: 80%;
+    font-size: 3.75rem;
+    line-height: 0.8;
+    padding: 6px 8px 0 0;
+    color: var(--news-ink);
+  }
+  /* Two-column body copy, but only where a column is still wide enough to read. */
+  .dl-columns {
+    column-gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .dl-columns {
+      columns: 2;
+      column-rule: 1px solid var(--border);
+    }
+  }
+  .dl-columns > p {
+    margin-bottom: 1rem;
+  }
+  .dl-columns > p:last-child {
+    margin-bottom: 0;
+  }
+  /* The archival bit: the original photo-real render, reprinted as newsprint. */
+  .dl-halftone {
+    filter: grayscale(1) contrast(1.1) sepia(0.25);
+  }
+  .dl-halftone-overlay {
+    background: repeating-radial-gradient(
+      circle at 30% 20%,
+      rgb(0 0 0 / 0.08) 0 1px,
+      transparent 1px 3px
+    );
+    mix-blend-mode: multiply;
   }
 }
 

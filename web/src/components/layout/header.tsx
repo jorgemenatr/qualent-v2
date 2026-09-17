@@ -40,6 +40,7 @@ export function Header() {
     { name: t("proof"), href: "/proof" },
     { name: t("pricing"), href: "/pricing" },
     { name: t("learn"), href: "/learn" },
+    { name: t("dailyLlama"), href: "/gazette" },
     { name: t("about"), href: "/about" },
   ];
 
@@ -73,14 +74,14 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-[clamp(12px,2vw,28px)] lg:flex">
+        <div className="hidden items-center gap-[clamp(10px,1.4vw,24px)] xl:flex">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "border-b-2 pb-0.5 text-sm font-semibold transition-colors",
+                "border-b-2 pb-0.5 text-sm font-semibold whitespace-nowrap transition-colors",
                 isActive(item.href)
                   ? "border-pickle text-ink"
                   : "border-transparent text-ink-muted hover:text-ink"
@@ -148,7 +149,7 @@ export function Header() {
 
         {/* Mobile Menu */}
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild className="lg:hidden">
+          <SheetTrigger asChild className="xl:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-6 w-6" />
               <span className="sr-only">{t("openMenu")}</span>

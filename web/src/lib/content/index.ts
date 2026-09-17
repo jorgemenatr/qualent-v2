@@ -25,6 +25,22 @@ export interface ContentMeta {
   band_color?: "green" | "acid" | "warm" | "dark" | "stripe";
   live_url?: string;
   unlisted?: boolean;
+  // The Daily Llama
+  section?: string;          // News, Investigation, Sighting, Archive, From the desk of
+  topic?: string;            // the green half of the kicker: Logistics, ERP, Consulting
+  place?: string;            // dateline: "Hamilton, Ont."
+  byline?: string;           // defaults to "By Gazette staff"
+  filed_at?: string;         // "Tuesday, 6:12 a.m."
+  issue?: number;
+  order?: number;          // placement within the issue; 1 is the lead
+  art?: string;              // mascot pose filename
+  caption?: string;
+  tone?: "breaking" | "archival";
+  quote?: string;            // the Llama, seven words or fewer
+  quote_context?: string;
+  sponsored?: string;        // the fine print under the story
+  filed_under?: string;
+  ad?: "pharma" | "farms" | "political" | "lawyer";
 }
 
 export interface ContentItem {
@@ -34,7 +50,7 @@ export interface ContentItem {
   readingTime: string;
 }
 
-export type ContentType = "reports" | "case-studies";
+export type ContentType = "reports" | "case-studies" | "gazette";
 
 export function getContentBySlug(
   type: ContentType,

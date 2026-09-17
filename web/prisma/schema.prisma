@@ -184,6 +184,23 @@ model ThunkBoxRequest {
 }
 
 // ============================================================================
+// The Daily Llama (letters to the editor)
+// ============================================================================
+
+model GazetteLetter {
+  id        String   @id @default(cuid())
+  place     String?  // the writer's own dateline, e.g. "Red Deer, Alta."
+  letter    String   @db.Text
+  email     String?
+  status    String   @default("unread") // "unread", "read", "printed"
+  reply     String?  // seven words or fewer, once he has answered
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("gazette_letters")
+}
+
+// ============================================================================
 // Client Project Portal
 // ============================================================================
 

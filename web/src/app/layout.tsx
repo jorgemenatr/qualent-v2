@@ -1,4 +1,4 @@
-import { Source_Sans_3, Oswald, IBM_Plex_Mono } from "next/font/google";
+import { Source_Sans_3, Oswald, IBM_Plex_Mono, Archivo } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -26,13 +26,32 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+/* The Daily Llama's reporting register. Archivo is a variable face with a
+   width axis, so the nameplate and headlines condense without a second
+   typeface — the newspaper look comes from stretch, not from a serif. */
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  axes: ["wdth"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning style={{ colorScheme: "light" }}>
+    /* The font variables have to land on <html>, not <body>: the --type-*
+       tokens in globals.css are declared on :root and a var() inside a custom
+       property is substituted where it is declared, not where it is used. On
+       <body> they resolve to the generic fallbacks. */
+    <html
+      suppressHydrationWarning
+      style={{ colorScheme: "light" }}
+      className={`${sourceSans.variable} ${oswald.variable} ${plexMono.variable} ${archivo.variable}`}
+    >
       <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-L5F4GWF2JN"
@@ -48,7 +67,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${sourceSans.variable} ${oswald.variable} ${plexMono.variable} antialiased min-h-screen flex flex-col`}
+        className="antialiased min-h-screen flex flex-col"
       >
         {children}
       </body>

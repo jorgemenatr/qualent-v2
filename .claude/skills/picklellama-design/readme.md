@@ -22,11 +22,14 @@ PickleLlama Studio (picklellama.studio) is a small software & AI shop for mid-ma
 | `tokens/base.css` | Resets + link colours |
 | `guidelines/*.html` | 15 foundation specimen cards (Colors, Type, Spacing, Brand) |
 | `components/core/` | Button, Input, Textarea, Label, Select, Checkbox, Switch, Slider, Tabs, Card, Badge, Avatar, Separator, Table, Dialog |
-| `components/brand/` | Eyebrow, Stamp, Wordmark, Mascot, Figure |
+| `components/brand/` | Eyebrow, Stamp, Wordmark, Mascot (live eyes), Figure, Motion (Reveal, TwoTone, Typed, useCountUp) |
 | `components/dev-loader.js` | Dev-only fallback that transpiles the `.jsx` in-page when `_ds_bundle.js` is absent |
 | `ui_kits/website/` | Click-through site, 16 views — see its README for the slug list |
 | `slides/` | 6 slide templates 1280×720 |
 | `templates/campaign/` | Mug-style social/print pieces |
+| `templates/gazette/` | The Daily Llama: email newsletter + 17 social tiles |
+| `components/gazette/` | Newspaper components (Masthead, Kicker, NewsCard, AdBreak, Letters…) |
+| `guidelines/gazette/` | Reporting-register type, rules, villain icons, the two type candidates |
 | `assets/logo/`, `assets/mascot/`, `assets/campaigns/`, `assets/clients/`, `assets/picklellama-qr.png` | Visual assets |
 | `SKILL.md` | Agent skill wrapper |
 
@@ -49,11 +52,21 @@ PickleLlama Studio (picklellama.studio) is a small software & AI shop for mid-ma
 - **Shape language:** soft label corners (16–32px on large frames), 6px on controls, pills only for badges. Organic blobs appear only in campaign art (mug 01/02).
 - **Borders & rules:** hairline `#D3D6D2`; dashed 1.5px rules inside labels; thick 3px black rule on "facts" tables.
 - **Shadows:** rare. Warm-tinted (`rgb(35 40 25 / α)`), only for dialogs and floating layers.
-- **Motion:** 120–200ms ease-out; buttons darken one step on hover and drop 1px on press; switches slide. No bounces in UI; the animated GIF mascot is the only "character" motion.
+- **Motion:** UI 120–480ms ease-out; buttons darken one step on hover and drop 1px on press. Brand motion lives in `components/brand/Motion.jsx` + keyframes in `tokens/base.css`: watermark halves peek in on load; posed mascots breathe (farm: walk bob + drifting clouds), blink every ~5.5s and their pupils follow the cursor; `TREATABLE`/`UNTREATED` stamps slam in on scroll; two-tone headlines (lime fades, green rises 200ms later); Pricing figures count up and the facts rule "prints"; Process step rail is sticky and fills with scroll progress; the "DIAGNOSIS:" field types itself in Oswald caps; client logos colour in with a 60ms stagger on hover. One mascot animation per page, no bouncing UI, everything off under `prefers-reduced-motion`.
 - **Hover:** darker fill (primary→pickle-700), underline on links, `grayscale→colour` on client logos.
 - **Focus:** 3px soft green ring.
 - **Imagery:** flat vector illustration with hand-drawn line quality (the mascot); watercolour landscape on the farm label. Client logos greyscale at 70%.
 - **Transparency/blur:** only the sticky header (88% paper + 10px blur).
+
+## The Daily Llama (Gazette layer)
+Satirical newspaper about the mascot (brief: `uploads/PickleLlama-Gazette-Design-Brief.md`). Deadpan AP-style reporting; the Llama is quoted in ≤7 words, never sells, never uses an exclamation point. His only CTA is fine print: "Ask your boss about PickleLlama."
+- **Type:** the "reporting register" is **Archivo** (newspaper grotesque, chosen over a serif). Nameplate 900 @ 80% width uppercase; heads 800 @ 75%; body 400. Oswald stays for kickers (NEWS · LOGISTICS), datelines (HAMILTON, ONT. — BY GAZETTE STAFF), edition lines. IBM Plex Mono for classifieds and "obtained documents". Tokens: `--font-news`, `--type-nameplate`, `--type-news-*`, `--type-kicker`, `--type-dateline`, `--type-llama-quote`, `--type-classified`.
+- **Colour:** paper `--news-paper` #F7F5EC (yellower than site paper), ink `--news-ink` #231F20 (true near-black for rules/nameplate). Green only as kicker topic + the Llama's replies. Red `--news-red` for BREAKING and attack ads. Political ads are the one black-background surface.
+- **Furniture:** 4px + 1px rules around the nameplate; 1px column rules; dashed rules between letters; black section labels; outlined ADVERTISEMENT label; DisclaimerBand closes every ad.
+- **Villains:** may be drawn (team decision), but default to objects — spreadsheet grid, redacted SOW, deck. Icons in `guidelines/gazette/villains.html`.
+- **Components:** `components/gazette/` — Masthead, Kicker, Dateline, LlamaQuote, DisclaimerBand, NewsRule, NewsCard, AdBreak (pharma / farms / political / lawyer), Letters, Classifieds.
+- **Web:** top-level nav item "The Daily Llama" → `#gazette` front page, `#gazette-article`, `#gazette-letters`, `#gazette-archive` in the UI kit (`ui_kits/website/Gazette.jsx`). Pages sit on news-paper, keep the site header/footer, and drop card radii — everything is square-cornered newsprint.
+- **Templates:** `templates/gazette/` — email newsletter (600px, table-based) + 17 social tiles. See its README.
 
 ## Iconography
 - The site uses **lucide-react** (stroke 2, 16–24px). Use lucide via CDN (`https://unpkg.com/lucide@latest`) in prototypes; the components here inline a few tiny stroke paths (chevron, check, arrow) in the same style.

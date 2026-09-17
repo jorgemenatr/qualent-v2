@@ -1,0 +1,1 @@
+`Letters` — two-column newspaper letters; reader text 14px Archivo, the Llama's ≤7-word reply set in Archivo 800 green with a tiny "THE LLAMA:" label. `Classifieds` — dense IBM Plex Mono, 3 columns, dotted rules, bold WANTED/FOR SALE prefix. Both ship with the brief's sample copy as defaults.

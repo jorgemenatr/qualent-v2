@@ -5,19 +5,23 @@ import { Eyebrow } from "../../components/brand/Eyebrow.jsx";
 import { Section } from "./Section.jsx";
 import { PageHero, Prose, Strong, H2, H3, NumberedList, Callout, CTA } from "./Prose.jsx";
 export const STEPS=[["First meeting","We listen and produce a report on what we understood","Free","first-meeting"],["Research report","We find solutions that don’t require hiring us","$5,000 · credited if you proceed","research"],["Problem identification","We quantify problems and prioritize by ROI","Included in research","problem-identification"],["Implementation","We build, prototype-first, validated with real users","50% of annual problem cost","implementation"],["Partnership","Ongoing support and evolution","Custom","partnership"]];
-export function StepRail({ active, onNav }) {
-  return <ol style={{listStyle:"none",padding:0,display:"grid",gridTemplateColumns:"repeat(5,minmax(0,1fr))",gap:0,borderTop:"1.5px dashed var(--border-strong)",paddingTop:20}}>
-    {STEPS.map(([t,,cost,slug],i)=>{const on=slug===active;return <li key={slug} onClick={()=>onNav(slug)} style={{cursor:"pointer",display:"grid",gap:6,padding:"0 12px 0 0"}}>
+export function StepRail({ active, onNav, progress }) {
+  return <ol style={{listStyle:"none",padding:0,display:"grid",gridTemplateColumns:"repeat(5,minmax(0,1fr))",gap:0,borderTop:"1.5px dashed var(--border-strong)",paddingTop:20,position:"relative"}}>
+    {progress!==undefined&&<span aria-hidden style={{position:"absolute",left:0,top:-1.5,height:1.5,width:"100%",background:"var(--primary)",transformOrigin:"left",transform:`scaleX(${progress})`,transition:"transform 300ms var(--ease-out)"}}/>}
+    {STEPS.map(([t,,cost,slug],i)=>{const on=slug===active||(progress!==undefined&&progress>=(i+0.5)/5);return <li key={slug} onClick={()=>onNav(slug)} style={{cursor:"pointer",display:"grid",gap:6,padding:"0 12px 0 0"}}>
       <span style={{font:"var(--type-eyebrow)",letterSpacing:"var(--tracking-caps)",textTransform:"uppercase",color:on?"var(--fg-brand)":"var(--fg-faint)"}}>Step 0{i+1}</span>
       <span style={{fontWeight:700,fontSize:16,color:on?"var(--fg)":"var(--fg-muted)",textDecoration:on?"underline":"none",textDecorationColor:"var(--primary)",textUnderlineOffset:6}}>{t}</span>
       <span style={{fontSize:13,color:"var(--fg-faint)"}}>{cost}</span></li>})}
   </ol>;
 }
 export function Process({ onNav }) {
+  const [prog,setProg]=React.useState(0); const [stuck,setStuck]=React.useState(false); const secs=React.useRef([]);
+  React.useEffect(()=>{const h=()=>{const els=secs.current.filter(Boolean);if(!els.length)return;const mid=innerHeight*0.45;let p=0;els.forEach((el,i)=>{const b=el.getBoundingClientRect();if(b.top<mid)p=Math.min(1,(i+Math.min(1,(mid-b.top)/b.height))/els.length)});setProg(p);setStuck(els[0].getBoundingClientRect().top<120)};addEventListener("scroll",h,{passive:true});h();return()=>removeEventListener("scroll",h)},[]);
+  const S=i=>el=>{secs.current[i]=el};
   return <>
-    <PageHero eyebrow="Our process" title="There’s a story and a reason behind each step." lede="Over the years we’ve watched projects crash and burn. Learning from failure led to a process we’re proud to share — the steps we find essential for an enjoyable long-term relationship." mascot="labcoat"/>
-    <Section style={{borderTop:0,paddingTop:40,paddingBottom:40}}><StepRail onNav={onNav}/></Section>
-    <Section narrow>
+    <PageHero eyebrow="Our process" diagnosis="Chronic spreadsheets." title="There’s a story and a reason behind each step." lede="Over the years we’ve watched projects crash and burn. Learning from failure led to a process we’re proud to share — the steps we find essential for an enjoyable long-term relationship." mascot="labcoat"/>
+    <div style={{position:"sticky",top:64,zIndex:30,background:"color-mix(in oklab, var(--bg) 92%, transparent)",backdropFilter:"blur(8px)",borderBottom:stuck?"1px solid var(--border)":"1px solid transparent",transition:"border-color 200ms"}}><div style={{maxWidth:"var(--container-md)",margin:"0 auto",padding:"20px var(--gutter) 16px"}}><StepRail onNav={onNav} progress={prog}/></div></div>
+    <Section sectionRef={S(0)} narrow>
       <H2 eyebrow="Step 01 · First meeting">Why understanding comes first</H2>
       <Prose>
         <p>For the first year after starting PickleLlama, we pretty much exclusively worked as subcontractors for other agencies. The most painful lesson from that time: what happens when no one checks with the end user to make sure the software being built is actually what they need.</p>
@@ -27,7 +31,7 @@ export function Process({ onNav }) {
       </Prose>
       <div style={{marginTop:28}}><Button variant="outline" onClick={()=>onNav("first-meeting")}>About the first meeting <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></Button></div>
     </Section>
-    <Section tone="subtle" narrow>
+    <Section sectionRef={S(1)} tone="subtle" narrow>
       <H2 eyebrow="Step 02 · Research report">Why we try to convince you not to hire us</H2>
       <Prose>
         <p>There aren’t many new ideas. With 8 billion people on the planet, someone else has almost certainly thought of it — which means you probably shouldn’t build it yourself.</p>
@@ -47,7 +51,7 @@ export function Process({ onNav }) {
       <NumberedList items={[["They trust us.","When we eventually do recommend building, they know it’s because we genuinely believe it’s the right call."],["They come back.","When they do have a problem that genuinely requires custom software, guess who they call?"],["They refer others.","“These are the people who told me NOT to hire them” is a surprisingly effective endorsement."],["We work on interesting problems.","What’s left after filtering are the high-impact projects where custom software is the right answer."]]}/>
       <div style={{marginTop:28}}><Button variant="outline" onClick={()=>onNav("research")}>About the research report <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></Button></div>
     </Section>
-    <Section narrow>
+    <Section sectionRef={S(2)} narrow>
       <H2 eyebrow="Step 03 · Problem identification">Finding the problems worth solving</H2>
       <Prose>
         <p>Most companies have dozens of problems they could throw technology at. The hard part isn’t building solutions — it’s knowing which problems are worth solving.</p>
@@ -59,7 +63,7 @@ export function Process({ onNav }) {
       <Strong>We don’t just make a list. We put numbers on everything — so you can decide what’s worth fixing and in what order.</Strong>
       <div style={{marginTop:28}}><Button variant="outline" onClick={()=>onNav("problem-identification")}>About problem identification <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></Button></div>
     </Section>
-    <Section tone="subtle" narrow>
+    <Section sectionRef={S(3)} tone="subtle" narrow>
       <H2 eyebrow="Step 04 · Implementation">When we build, we do it differently</H2>
       <Prose>
         <p>Building software used to be so expensive that building things just to see if they work was a luxury even large enterprises couldn’t afford. AI has changed the economics, especially for prototyping.</p>
@@ -71,7 +75,7 @@ export function Process({ onNav }) {
       <Strong>We prototype in days. We test with real users. We validate before we invest in production-quality code.</Strong></Prose>
       <div style={{marginTop:28}}><Button variant="outline" onClick={()=>onNav("implementation")}>About implementation <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></Button></div>
     </Section>
-    <Section tone="inverse">
+    <Section sectionRef={S(4)} tone="inverse">
       <div style={{textAlign:"center",marginBottom:40,display:"grid",gap:10}}><Eyebrow tone="inverse" style={{color:"var(--pl-lime-500)"}}>The offer</Eyebrow><h2 style={{font:"var(--type-h2)",color:"#fff"}}>Five steps. One price you can predict.</h2></div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(5,minmax(0,1fr))",gap:12}}>
         {STEPS.map(([t,d,cost,slug],i)=><div key={slug} onClick={()=>onNav(slug)} style={{cursor:"pointer",background:"#2A2F22",border:"1px solid #3B412F",borderRadius:"var(--radius-lg)",padding:20,display:"grid",gap:10,alignContent:"start"}}><span style={{font:"var(--type-eyebrow)",letterSpacing:"var(--tracking-caps)",textTransform:"uppercase",color:"var(--pl-lime-500)"}}>Step 0{i+1}</span><h3 style={{font:"var(--type-h3)",color:"#fff"}}>{t}</h3><p style={{fontSize:14,lineHeight:1.5,color:"var(--pl-grey-300)"}}>{d}</p><p style={{fontSize:13,fontWeight:600,color:"var(--pl-lime-300)",marginTop:"auto"}}>{cost}</p></div>)}

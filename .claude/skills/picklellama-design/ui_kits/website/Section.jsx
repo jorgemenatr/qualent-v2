@@ -1,8 +1,8 @@
 import React from "react";
 import { Eyebrow } from "../../components/brand/Eyebrow.jsx";
-export function Section({ tone="default", children, style, narrow=false }) {
+export function Section({ tone="default", children, style, narrow=false, sectionRef }) {
   const bg={default:"transparent",subtle:"var(--bg-subtle)",soft:"var(--bg-brand-soft)",loud:"var(--bg-brand-loud)",inverse:"var(--bg-inverse)"}[tone];
-  return <section style={{background:bg,color:tone==="inverse"?"var(--fg-inverse)":tone==="loud"?"var(--fg-on-lime)":"inherit",borderTop:"1px solid var(--border)",padding:"var(--section-y) 0",...style}}>
+  return <section ref={sectionRef} style={{background:bg,color:tone==="inverse"?"var(--fg-inverse)":tone==="loud"?"var(--fg-on-lime)":"inherit",borderTop:"1px solid var(--border)",padding:"var(--section-y) 0",...style}}>
     <div style={{maxWidth:narrow?"var(--container-sm)":"var(--container-md)",margin:"0 auto",padding:"0 var(--gutter)"}}>{children}</div>
   </section>;
 }

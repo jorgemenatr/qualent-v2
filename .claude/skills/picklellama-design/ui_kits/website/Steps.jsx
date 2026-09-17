@@ -7,7 +7,7 @@ import { PageHero, Prose, Strong, H2, CheckList, NumberedList, Callout, CTA } fr
 const Rail=({slug,onNav})=><Section style={{borderTop:0,paddingTop:32,paddingBottom:32}}><StepRail active={slug} onNav={onNav}/></Section>;
 
 export function FirstMeeting({ onNav }) { return <>
-  <PageHero eyebrow="Step 01 · First meeting" title="Getting on the same page." lede="Every engagement starts with understanding. We produce a detailed report on what we heard you say — so we’re aligned before anything else happens." cost="Free · 17-minute diagnostic call" mascot="labcoat"/>
+  <PageHero eyebrow="Step 01 · First meeting" diagnosis="Misaligned expectations." title="Getting on the same page." lede="Every engagement starts with understanding. We produce a detailed report on what we heard you say — so we’re aligned before anything else happens." cost="Free · 17-minute diagnostic call" mascot="labcoat"/>
   <Rail slug="first-meeting" onNav={onNav}/>
   <Section narrow><H2>What happens</H2><NumberedList items={[["17-minute call","We ask about your biggest problems and what they’re costing you. No small talk, no padding."],["We listen","No pitching, no selling. We’re trying to figure out if we can actually help — not convince you to hire us."],["Written report","Within 48 hours you receive a summary of what we understood. Your chance to correct us before we go further.","48 hours"]]}/></Section>
   <Section tone="subtle" narrow><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:40}}>

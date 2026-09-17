@@ -6,24 +6,31 @@ import { Eyebrow } from "../../components/brand/Eyebrow.jsx";
 import { Figure } from "../../components/brand/Figure.jsx";
 import { Mascot } from "../../components/brand/Mascot.jsx";
 import { Section, SectionHead } from "./Section.jsx";
+import { Reveal } from "../../components/brand/Motion.jsx";
 const root=()=>{const l=document.querySelector('link[href$="styles.css"]');return l?l.href.replace(/styles\.css$/,""):"/"};
 const clients=[["kroger.svg"],["anaconda.svg"],["cbts.webp",1],["stacking-projects.png",1],["reps.jpeg"],["torq-logistics.svg"],["buffalo-rail.svg"]];
 const cases=[["Buffalo Rail & Infrastructure","Rail infrastructure investment showcase","$80M+","investment platform with interactive corridor mapping"],["Specialty sports retailer","Locker55: from Excel to intelligent inventory","25 sheets → 1","system; 10–15 min saved per order"],["Manufacturing sector","AI recruitment automation platform","40–45%","cost reduction per hire, 3× recruiter capacity"]];
 const arrow=<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>;
+function LogoRow(){
+  const [hot,setHot]=React.useState(false);
+  return <div onMouseEnter={()=>setHot(true)} onMouseLeave={()=>setHot(false)} style={{display:"flex",gap:44,justifyContent:"center",alignItems:"center",flexWrap:"wrap"}}>
+    {clients.map(([s,inv],i)=><img key={s} src={root()+"assets/clients/"+s} alt="" style={{height:32,width:"auto",filter:(inv?"invert(1) ":"")+(hot?"grayscale(0)":"grayscale(1)"),opacity:hot?1:.7,transition:`filter 300ms var(--ease-out) ${i*60}ms, opacity 300ms var(--ease-out) ${i*60}ms`}}/>)}
+  </div>;
+}
 export function Home({ onNav }) {
   return <>
     <section style={{position:"relative",overflow:"hidden",padding:"clamp(64px,10vw,128px) 0",borderBottom:"1px solid var(--border)"}}>
       <Mascot variant="watermark"/>
       <div style={{position:"relative",maxWidth:"var(--container-md)",margin:"0 auto",padding:"0 var(--gutter)",textAlign:"center",display:"grid",gap:28,justifyItems:"center"}}>
-        <Eyebrow>Software & AI, minus the consulting</Eyebrow>
-        <h1 style={{font:"var(--type-display)",letterSpacing:"var(--tracking-tight)",maxWidth:900,textWrap:"balance"}}>What if the <span style={{color:"var(--fg-brand)"}}>problems you tolerate</span> are now <span style={{color:"var(--fg-brand)"}}>cheaper to fix</span> than to ignore?</h1>
-        <p style={{font:"var(--type-lede)",color:"var(--fg-muted)",maxWidth:560}}>We solve software-shaped “blood, sweat, and spreadsheets” problems.</p>
-        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center"}}><Button size="lg" onClick={()=>onNav("talk")}>Book 17-minute diagnostic {arrow}</Button><Button size="lg" variant="outline">See our guarantee</Button></div>
+        <Eyebrow style={{animation:"pl-fade 400ms var(--ease-out) both"}}>Software & AI, minus the consulting</Eyebrow>
+        <h1 style={{font:"var(--type-display)",letterSpacing:"var(--tracking-tight)",maxWidth:900,textWrap:"balance",display:"grid"}}><span style={{color:"var(--pl-lime-500)",animation:"pl-fade 520ms var(--ease-out) 100ms both"}}>What if the problems you tolerate</span><span style={{color:"var(--fg-brand)",animation:"pl-rise 520ms var(--ease-out) 300ms both"}}>are now cheaper to fix than to ignore?</span></h1>
+        <p style={{font:"var(--type-lede)",color:"var(--fg-muted)",maxWidth:560,animation:"pl-rise 520ms var(--ease-out) 450ms both"}}>We solve software-shaped “blood, sweat, and spreadsheets” problems.</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center",animation:"pl-rise 520ms var(--ease-out) 560ms both"}}><Button size="lg" onClick={()=>onNav("talk")}>Book 17-minute diagnostic {arrow}</Button><Button size="lg" variant="outline">See our guarantee</Button></div>
       </div>
     </section>
     <Section style={{padding:"40px 0"}}>
       <p style={{textAlign:"center",fontSize:13,color:"var(--fg-muted)",marginBottom:24}}>Trusted by teams at</p>
-      <div style={{display:"flex",gap:44,justifyContent:"center",alignItems:"center",flexWrap:"wrap",opacity:.7,filter:"grayscale(1)"}}>{clients.map(([s,inv])=><img key={s} src={root()+"assets/clients/"+s} alt="" style={{height:32,width:"auto",filter:inv?"invert(1)":"none"}}/>)}</div>
+      <LogoRow/>
     </Section>
     <Section tone="loud">
       <div style={{textAlign:"center",display:"grid",gap:12,justifyItems:"center"}}>
@@ -35,7 +42,7 @@ export function Home({ onNav }) {
     <Section>
       <SectionHead eyebrow="Why this is possible now" title="AI changed the economics of custom software." />
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gap:16}}>
-        {[["What we do","Elite architects + AI leverage = solutions in weeks at ~10× lower cost."],["Why now","The math flipped. Fixing problems now costs less than tolerating them."],["The hidden cost","Manual work drains money. Bottlenecks cap growth. Workarounds become expensive mistakes."],["What this means","Every manual workaround is a mistake waiting to happen. Every bottleneck is a resignation waiting to happen."],["The opportunity","Fix one bottleneck. Free up capacity. Fix the next one. Repeat."],["The next step","A 17-minute call to quantify what’s worth fixing."]].map(([t,d],i)=><Card key={t}><Eyebrow tone="muted">0{i+1}</Eyebrow><CardTitle>{t}</CardTitle><CardText>{d}</CardText></Card>)}
+        {[["What we do","Elite architects + AI leverage = solutions in weeks at ~10× lower cost."],["Why now","The math flipped. Fixing problems now costs less than tolerating them."],["The hidden cost","Manual work drains money. Bottlenecks cap growth. Workarounds become expensive mistakes."],["What this means","Every manual workaround is a mistake waiting to happen. Every bottleneck is a resignation waiting to happen."],["The opportunity","Fix one bottleneck. Free up capacity. Fix the next one. Repeat."],["The next step","A 17-minute call to quantify what’s worth fixing."]].map(([t,d],i)=><Reveal key={t} delay={(i%3)*90}><Card style={{height:"100%"}}><Eyebrow tone="muted">0{i+1}</Eyebrow><CardTitle>{t}</CardTitle><CardText>{d}</CardText></Card></Reveal>)}
       </div>
     </Section>
     <Section tone="subtle">
@@ -69,7 +76,7 @@ export function Home({ onNav }) {
     <Section>
       <SectionHead eyebrow="What you’re risking right now" title="Every day you tolerate these problems, you accept these risks." />
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gap:16}}>
-        {[["Operational risk","Manual errors and process failures that damage client relationships and cost real money."],["People risk","Burnout and frustration from talented people doing mundane work. Resignations you don’t see coming."],["Competitive risk","Capacity constraints while competitors move faster. Stuck in spreadsheet hell."]].map(([t,d])=><Card key={t}><Badge tone="danger" variant="stamp" style={{alignSelf:"flex-start"}}>Untreated</Badge><CardTitle>{t}</CardTitle><CardText>{d}</CardText></Card>)}
+        {[["Operational risk","Manual errors and process failures that damage client relationships and cost real money."],["People risk","Burnout and frustration from talented people doing mundane work. Resignations you don’t see coming."],["Competitive risk","Capacity constraints while competitors move faster. Stuck in spreadsheet hell."]].map(([t,d],i)=><Reveal key={t} delay={i*100}><Card style={{height:"100%"}}><Badge tone="danger" variant="stamp" style={{alignSelf:"flex-start"}}>Untreated</Badge><CardTitle>{t}</CardTitle><CardText>{d}</CardText></Card></Reveal>)}
       </div>
     </Section>
     <Section tone="inverse">

@@ -1,18 +1,20 @@
 import React from "react";
 import { Eyebrow } from "../../components/brand/Eyebrow.jsx";
 import { Mascot } from "../../components/brand/Mascot.jsx";
-export function PageHero({ eyebrow, title, lede, cost, mascot, children, center=false }) {
+import { Typed } from "../../components/brand/Motion.jsx";
+export function PageHero({ eyebrow, title, lede, cost, mascot, children, center=false, diagnosis }) {
   return <section style={{position:"relative",overflow:"hidden",padding:"clamp(56px,8vw,96px) 0 clamp(40px,6vw,64px)",borderBottom:"1px solid var(--border)"}}>
     {!mascot&&<Mascot variant="watermark"/>}
     <div style={{position:"relative",maxWidth:"var(--container-md)",margin:"0 auto",padding:"0 var(--gutter)",display:"grid",gridTemplateColumns:mascot?"minmax(0,1.4fr) minmax(0,1fr)":"1fr",gap:40,alignItems:"center"}}>
       <div style={{display:"grid",gap:20,textAlign:center?"center":"left",justifyItems:center?"center":"start",maxWidth:760,margin:center?"0 auto":0}}>
-        {eyebrow&&<Eyebrow>{eyebrow}</Eyebrow>}
-        <h1 style={{font:"var(--type-h1)",letterSpacing:"var(--tracking-snug)",textWrap:"balance"}}>{title}</h1>
-        {lede&&<p style={{font:"var(--type-lede)",color:"var(--fg-muted)",maxWidth:640}}>{lede}</p>}
+        {eyebrow&&<Eyebrow style={{animation:"pl-fade 400ms var(--ease-out) both"}}>{eyebrow}</Eyebrow>}
+        {diagnosis&&<div style={{display:"grid",gap:4,border:"1.5px dashed var(--border-strong)",borderRadius:"var(--radius-md)",padding:"12px 16px",background:"var(--bg-elevated)",animation:"pl-rise 400ms var(--ease-out) 150ms both"}}><Eyebrow tone="muted">Diagnosis:</Eyebrow><span style={{fontSize:28,lineHeight:1,color:"var(--fg)"}}><Typed text={diagnosis} delay={500}/></span></div>}
+        <h1 style={{font:"var(--type-h1)",letterSpacing:"var(--tracking-snug)",textWrap:"balance",animation:"pl-rise 520ms var(--ease-out) 200ms both"}}>{title}</h1>
+        {lede&&<p style={{font:"var(--type-lede)",color:"var(--fg-muted)",maxWidth:640,animation:"pl-rise 520ms var(--ease-out) 320ms both"}}>{lede}</p>}
         {cost&&<p style={{display:"inline-flex",alignItems:"center",gap:10,fontWeight:600,fontSize:16,background:"var(--bg-brand-soft)",color:"var(--fg-brand-deep)",padding:"8px 14px",borderRadius:"var(--radius-sm)"}}>{cost}</p>}
         {children}
       </div>
-      {mascot&&<div style={{display:"flex",justifyContent:"center"}}><Mascot variant={mascot} size={mascot==="farm"?300:340}/></div>}
+      {mascot&&<div style={{display:"flex",justifyContent:"center",animation:"pl-fade 600ms var(--ease-out) 250ms both"}}><Mascot variant={mascot} size={mascot==="farm"?300:340}/></div>}
     </div>
   </section>;
 }

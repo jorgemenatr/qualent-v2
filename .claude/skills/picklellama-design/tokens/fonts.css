@@ -5,3 +5,6 @@
    files arrive. The wordmark is hand-lettered: ALWAYS use assets/logo/wordmark.svg,
    never set it in type. */
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+/* Gazette "reporting" register — newspaper grotesque. Headlines condensed-black, body normal width. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400;1,62..125,700&display=swap");

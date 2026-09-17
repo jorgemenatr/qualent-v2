@@ -74,6 +74,13 @@
   --link-hover: var(--pl-pickle-800);
 
   --mascot-grey: var(--pl-grey-500);
+
+  /* Gazette */
+  --news-ink: var(--pl-ink-900);          /* rules + nameplate: near-black, not charcoal */
+  --news-paper: #F7F5EC;                  /* slightly yellower newsprint */
+  --news-rule: var(--pl-ink-900);
+  --news-red: var(--pl-coral-700);        /* attack ads, BREAKING */
+  --news-halftone: #D9D3C3;
   --shadow-color: 35 40 25;
   color-scheme: light;
 }
@@ -117,6 +124,10 @@
   --link: var(--pl-lime-500);
   --link-hover: var(--pl-lime-300);
 
+  --news-ink: #F1F2E9;
+  --news-paper: #1F2219;
+  --news-rule: #F1F2E9;
+  --news-halftone: #3B412F;
   --shadow-color: 0 0 0;
   color-scheme: dark;
 }

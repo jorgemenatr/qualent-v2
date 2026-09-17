@@ -1,0 +1,1 @@
+Inline ad break for Gazette pages and the newsletter — one per page, between lead story and letters. Four voices from the brief; copy is from the approved mug lines. Always ends in a DisclaimerBand with "Ask your boss about PickleLlama".

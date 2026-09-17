@@ -4,3 +4,5 @@ The PickleLlama character. `watermark` recreates the site hero: two half-llamas 
 <Mascot variant="labcoat" size={320}/>
 ```
 One character per view. Never mirror the face, recolour, or crop the head.
+
+**Motion (built in, `live` prop):** watermark halves peek in from the corners on load (700ms). Posed characters get a 3.4s breathe (farm: a gentle 1.6s walk bob + drifting clouds), a blink every ~5.5s, and pupils that follow the cursor within a few px. The eyes are DOM overlays positioned from measured coordinates in the PNGs — if you swap artwork, update `EYES`. Idle loops only; never bounce or spin the character.

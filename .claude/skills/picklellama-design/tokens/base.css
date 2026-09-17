@@ -14,3 +14,20 @@ a:hover { color: var(--link-hover); text-decoration: underline; }
 button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-xs); }
 img, svg { display: block; max-width: 100%; }
+
+/* Motion — brand keyframes. Everything respects prefers-reduced-motion. */
+@keyframes pl-peek-left  { from { transform: translate(-40%, 20%); opacity: 0 } to { transform: none; opacity: .14 } }
+@keyframes pl-peek-right { from { transform: translate(40%, -20%); opacity: 0 } to { transform: none; opacity: .14 } }
+@keyframes pl-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-3px) scale(1.012) } }
+@keyframes pl-blink { 0%,92%,100% { transform: scaleY(0) } 95%,97% { transform: scaleY(1) } }
+@keyframes pl-ear { 0%,90%,100% { transform: rotate(0) } 93% { transform: rotate(-8deg) } 96% { transform: rotate(5deg) } }
+@keyframes pl-rise { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+@keyframes pl-fade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes pl-stamp { 0% { opacity: 0; transform: rotate(-14deg) scale(1.9) } 60% { opacity: 1; transform: rotate(-1deg) scale(.96) } 80% { transform: rotate(-3deg) scale(1.03) } 100% { transform: rotate(-2deg) scale(1) } }
+@keyframes pl-shake { 0%,100% { transform: translate(0) } 20% { transform: translate(-1.5px, 1px) } 40% { transform: translate(1.5px, -1px) } 60% { transform: translate(-1px, 0) } 80% { transform: translate(1px, 0) } }
+@keyframes pl-print { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+@keyframes pl-walk { 0%,100% { transform: translateY(0) rotate(0) } 25% { transform: translateY(-4px) rotate(-1deg) } 50% { transform: translateY(0) rotate(0) } 75% { transform: translateY(-4px) rotate(1deg) } }
+@keyframes pl-drift { from { transform: translateX(-10px) } to { transform: translateX(10px) } }
+@keyframes pl-type { from { width: 0 } to { width: 100% } }
+@keyframes pl-caret { 50% { opacity: 0 } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

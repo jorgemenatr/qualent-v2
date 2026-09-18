@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { ContactFallback } from "@/components/contact-fallback";
 import {
   Paper,
   GazetteFooter,
@@ -16,7 +17,6 @@ import {
   Classifieds,
 } from "@/components/gazette";
 import { getFrontPage } from "@/lib/gazette";
-import { SubscribeForm } from "./subscribe-form";
 
 export async function generateMetadata({
   params,
@@ -64,7 +64,11 @@ export default async function GazettePage({
           <div className="grid gap-2">
             <Kicker section={t("subscribeLabel")} className="justify-self-start" />
             <p className="dl-body">{t("subscribeText")}</p>
-            <SubscribeForm />
+            <ContactFallback
+              body={t("subscribeFallback")}
+              cta={t("subscribeFallbackCta")}
+              subject={t("subscribeFallbackSubject")}
+            />
             <p className="dl-small text-ink-faint">{t("subscribeNote")}</p>
           </div>
         </div>

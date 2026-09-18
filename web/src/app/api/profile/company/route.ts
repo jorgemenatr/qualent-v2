@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPrisma } from "@/lib/db";
 import { getAuthenticatedUser } from "@/lib/auth/server";
-import { syncClientToCRM } from "@/lib/crm-sync";
 import { z } from "zod";
 
 const companyProfileSchema = z.object({
@@ -100,14 +99,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Sync to CRM with company info (fire and forget)
-    syncClientToCRM({
-      name: user.name || user.email.split("@")[0],
-      email: user.email,
-      company: validated.companyName,
-      notes: `Source: Company Profile Created\nIndustry: ${validated.industry || "N/A"}\nSize: ${validated.companySize || "N/A"}\nRole: ${validated.userRole || "N/A"}`,
-    }).catch((err) => console.error("CRM sync failed:", err));
-
     return NextResponse.json({
       success: true,
       profile: {
@@ -176,14 +167,6 @@ export async function PUT(request: NextRequest) {
     });
 
     // Sync to CRM with company info (fire and forget)
-    // Note: CRM API will return 409 if client exists, which is fine
-    syncClientToCRM({
-      name: user.name || user.email.split("@")[0],
-      email: user.email,
-      company: validated.companyName,
-      notes: `Source: Company Profile Updated\nIndustry: ${validated.industry || "N/A"}\nSize: ${validated.companySize || "N/A"}\nRole: ${validated.userRole || "N/A"}`,
-    }).catch((err) => console.error("CRM sync failed:", err));
-
     return NextResponse.json({
       success: true,
       profile: {

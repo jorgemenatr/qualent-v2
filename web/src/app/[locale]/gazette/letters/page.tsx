@@ -9,7 +9,7 @@ import {
   Letters,
   AdBreak,
 } from "@/components/gazette";
-import { LetterForm } from "./letter-form";
+import { ContactFallback } from "@/components/contact-fallback";
 
 export async function generateMetadata({
   params,
@@ -46,7 +46,11 @@ export default async function GazetteLettersPage({
 
         <aside className="grid content-start gap-5 border-[1.5px] border-rule-strong bg-white p-7">
           <Kicker section={t("writeInLabel")} className="justify-self-start" />
-          <LetterForm />
+          <ContactFallback
+            body={t("writeInFallback")}
+            cta={t("writeInFallbackCta")}
+            subject={t("writeInFallbackSubject")}
+          />
         </aside>
       </div>
 

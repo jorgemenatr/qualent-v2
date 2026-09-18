@@ -1015,7 +1015,10 @@
     "step3": "If it's a fit, we'll create a custom analysis or add it to our public report queue",
     "whatMakesGoodRequest": "What Makes a Good Request?",
     "goodExamples": "Good Examples",
-    "lessIdeal": "Less Ideal"
+    "lessIdeal": "Less Ideal",
+    "requestFallback": "Tell us what you want built and why it matters. The more detail about the actual problem, the more useful the answer.",
+    "requestFallbackCta": "Email your request",
+    "requestFallbackSubject": "ThunkBox request"
   },
   "Login": {
     "returnTo": "/",
@@ -1707,6 +1710,12 @@
     "issueSummary": "{count, plural, one {# story} other {# stories}} · one ad break · one letter",
     "readIssue": "Read issue No. {n}",
     "issueNo": "No. {n}",
-    "toTheEditor": "To the editor"
+    "toTheEditor": "To the editor",
+    "subscribeFallback": "The paper goes out biweekly. Email the editor and you go on the list.",
+    "subscribeFallbackCta": "Email to subscribe",
+    "subscribeFallbackSubject": "The Daily Llama — subscribe",
+    "writeInFallback": "Send your spreadsheet horror story to the editor. Real pain preferred. Names of real vendors will be removed, and it may be printed, lightly edited, and answered tersely.",
+    "writeInFallbackCta": "Write to the editor",
+    "writeInFallbackSubject": "The Daily Llama — letter to the editor"
   }
 }

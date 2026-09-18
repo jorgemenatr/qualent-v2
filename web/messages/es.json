@@ -1015,7 +1015,10 @@
     "step3": "Si encaja, creamos un análisis personalizado o lo agregamos a nuestra cola de reportes públicos",
     "whatMakesGoodRequest": "¿Qué hace una buena solicitud?",
     "goodExamples": "Buenos ejemplos",
-    "lessIdeal": "Menos ideal"
+    "lessIdeal": "Menos ideal",
+    "requestFallback": "Cuéntanos qué quieres que construyamos y por qué importa. Entre más detalle sobre el problema real, más útil será la respuesta.",
+    "requestFallbackCta": "Enviar tu solicitud",
+    "requestFallbackSubject": "Solicitud ThunkBox"
   },
   "Login": {
     "returnTo": "/",
@@ -1707,6 +1710,12 @@
     "issueSummary": "{count, plural, one {# nota} other {# notas}} · un anuncio · una carta",
     "readIssue": "Leer el número {n}",
     "issueNo": "N.º {n}",
-    "toTheEditor": "Al editor"
+    "toTheEditor": "Al editor",
+    "subscribeFallback": "El periódico sale cada quince días. Escríbele al editor y entras a la lista.",
+    "subscribeFallbackCta": "Escribir para suscribirme",
+    "subscribeFallbackSubject": "The Daily Llama — suscripción",
+    "writeInFallback": "Envíale tu historia de terror en hojas de cálculo al editor. Se prefiere dolor real. Quitaremos los nombres de proveedores reales, y puede publicarse, editarse levemente y responderse con sequedad.",
+    "writeInFallbackCta": "Escribirle al editor",
+    "writeInFallbackSubject": "The Daily Llama — carta al editor"
   }
 }

@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, FileText } from "lucide-react";
 import { Container } from "@/components/layout";
-import { ThunkBoxRequestForm } from "./request-form";
+import { ContactFallback } from "@/components/contact-fallback";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -77,7 +77,11 @@ export default async function ThunkBoxRequestPage({ params }: { params: Promise<
               </ul>
             </div>
 
-            <ThunkBoxRequestForm />
+            <ContactFallback
+              body={t("requestFallback")}
+              cta={t("requestFallbackCta")}
+              subject={t("requestFallbackSubject")}
+            />
           </div>
         </Container>
       </section>

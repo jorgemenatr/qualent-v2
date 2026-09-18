@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPrisma } from "@/lib/db";
 import { getPresignedUrl, getReportPdfKey } from "@/lib/s3";
 import { sendEmail, getDownloadConfirmationEmail } from "@/lib/email";
-import { syncClientToCRM } from "@/lib/crm-sync";
 import { z } from "zod";
 
 const downloadSchema = z.object({
@@ -34,12 +33,6 @@ export async function POST(request: NextRequest) {
       });
       contactId = contact.id;
 
-      // Sync to CRM (fire and forget)
-      syncClientToCRM({
-        name: validated.email.split("@")[0],
-        email: validated.email,
-        notes: `Source: PDF Download\nReport: ${validated.reportSlug}`,
-      }).catch((err) => console.error("CRM sync failed:", err));
     }
 
     // Generate presigned URL

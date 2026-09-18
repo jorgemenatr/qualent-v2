@@ -21,16 +21,22 @@ export default async function AudioLibraryPage({ params }: { params: Promise<{ l
   const t = await getTranslations("ThunkboxAudio");
   const reports = getAllContent("reports");
 
-  // Fetch audio metadata from database
-  const prisma = await getPrisma();
-  const audioFiles = await prisma.audioFile.findMany({
-    where: { available: true },
-    select: {
-      slug: true,
-      duration: true,
-      available: true,
-    },
-  });
+  // Audio metadata lived in Postgres, which this site no longer runs. Without
+  // it every report simply reads as having no recording yet.
+  let audioFiles: { slug: string; duration: string; available: boolean }[] = [];
+  try {
+    const prisma = await getPrisma();
+    audioFiles = await prisma.audioFile.findMany({
+      where: { available: true },
+      select: {
+        slug: true,
+        duration: true,
+        available: true,
+      },
+    });
+  } catch {
+    audioFiles = [];
+  }
 
   // Create a map of slug to audio info for quick lookup
   const audioMetadata = new Map(

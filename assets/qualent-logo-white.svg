@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 32" role="img" aria-label="Qualent">
+  <rect x="0" y="0" width="32" height="32" rx="10" fill="#6F8F2A"/>
+  <circle cx="15.5" cy="15.5" r="7" fill="none" stroke="#fff" stroke-width="3.2"/>
+  <path d="M19 19l5 5" stroke="#E8EECD" stroke-width="3.2" stroke-linecap="round"/>
+  <text x="40" y="23.5" font-family="Bricolage Grotesque, Figtree, system-ui, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.6" fill="#FFFFFF">qualent</text>
+</svg>

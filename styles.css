@@ -14,6 +14,7 @@
   --olive-700: #465C1C;
   --olive-800: #354615;
   --olive-900: #232E0F;
+  --lime: #EBF18F;      /* acento del logo */
 
   --ink:    #1E1F1A;
   --ink-2:  #30312B;
@@ -82,7 +83,7 @@ svg .fill { fill: currentColor; stroke: none; }
   content: "";
   position: absolute; z-index: -1;
   left: -.08em; right: -.08em; bottom: .04em; height: .36em;
-  background: var(--olive-200);
+  background: var(--lime);
   border-radius: .2em .5em .3em .6em;
   transform: rotate(-1.2deg) scaleX(0);
   transform-origin: left center;
@@ -129,7 +130,7 @@ svg .fill { fill: currentColor; stroke: none; }
   box-shadow: 0 1px 0 var(--line);
 }
 .header-inner { display: flex; align-items: center; gap: 24px; height: 72px; }
-.brand img { height: 30px; width: auto; }
+.brand img { height: 34px; width: auto; }
 .nav { display: none; gap: 4px; margin-left: 12px; }
 .nav a {
   font-weight: 500; font-size: 15.5px; color: var(--muted);
@@ -523,7 +524,7 @@ svg .fill { fill: currentColor; stroke: none; }
 .footer { background: var(--ink); color: #CFD1C7; padding: 72px 0 32px; }
 .footer-grid { display: grid; gap: 40px; }
 @media (min-width: 760px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
-.footer-brand img { height: 30px; width: auto; }
+.footer-brand img { height: 34px; width: auto; }
 .footer-brand p { margin-top: 16px; max-width: 22em; color: #A3A599; }
 .footer h3 { font-family: var(--f-body); font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 0; margin-bottom: 14px; }
 .footer li + li { margin-top: 10px; }

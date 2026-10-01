@@ -1,0 +1,40 @@
+/* Motion for the La Anita landing. Everything here is progressive
+   enhancement: without support, or with reduced motion, content simply
+   sits in place — nothing starts hidden and waits on JavaScript. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero: a short staggered entrance on load. The headline is left static
+     so it paints immediately (it is the LCP element). */
+  .enter {
+    animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  /* Sections: fade up as they scroll in, driven by the scroll itself. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+
+/* The price line in section 4 gets a highlighter stroke under the words
+   that matter, in Qualent lime. */
+.mark {
+  background: linear-gradient(transparent 58%, #e6ee7a 58%, #e6ee7a 92%, transparent 92%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

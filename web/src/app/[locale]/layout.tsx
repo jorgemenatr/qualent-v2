@@ -2,7 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { Header, Footer } from "@/components/layout";
+import { Header, Footer, SiteChrome } from "@/components/layout";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 
@@ -77,9 +77,14 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <Providers>
-        <Header />
+        {/* Standalone pages (QR landings) drop the global nav and footer. */}
+        <SiteChrome>
+          <Header />
+        </SiteChrome>
         <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome>
+          <Footer />
+        </SiteChrome>
       </Providers>
     </NextIntlClientProvider>
   );

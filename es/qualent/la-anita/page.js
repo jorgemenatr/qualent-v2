@@ -3,8 +3,9 @@
 
   /* ---------------- Configuración ---------------- */
   // Número de WhatsApp en formato internacional, solo dígitos (ej. 5299XXXXXXXX).
-  var WHATSAPP_NUMBER = "[NÚMERO_WHATSAPP]";
-  var WHATSAPP_TEXT = "Hola, quiero probar Qualent con las vacantes de La Anita";
+  var WHATSAPP_NUMBER = "12314420980";
+  // El [REF:…] le indica a Qualent qué vacante abrir; no quitarlo.
+  var WHATSAPP_TEXT = "Hola, vi su anuncio para Electromecánico - La Anita y me interesa saber más. [REF:electromec-nico-la-anita]";
   // Mostrar la sección "Prueba" solo cuando haya un caso o cifra real.
   var SHOW_PROOF = false;
 

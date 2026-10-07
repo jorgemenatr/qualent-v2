@@ -21,3 +21,4 @@ Tipografías: Bricolage Grotesque (títulos), Figtree (texto) y Caveat (notas a 
   - Número de WhatsApp: constante `WHATSAPP_NUMBER` en `page.js`.
   - Conversación demo: lista `<ol data-chat>` en `index.html` (`msg in` = Qualent, `msg out` = candidato).
   - Sección "Prueba": oculta; se activa con `SHOW_PROOF` en `page.js`.
+- `es/qualent/keken/`: misma propuesta para Kekén (vacante de Reclutador de campo). Misma estructura que La Anita.

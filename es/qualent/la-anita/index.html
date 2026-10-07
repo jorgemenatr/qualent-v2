@@ -24,7 +24,7 @@
   <!-- Header mínimo: sin navegación global -->
   <header class="top">
     <div class="wrap top-inner">
-      <img class="top-logo" src="../../../assets/qualent-logo-white.png" alt="Qualent" width="129" height="32">
+      <img class="top-logo" src="../../../assets/qualent-logo-white.webp" alt="Qualent" width="124" height="30">
       <p class="top-by">un producto de PickleLlama Studio</p>
     </div>
   </header>
@@ -91,7 +91,7 @@
       <div class="wrap demo-grid">
         <header class="demo-head reveal">
           <h2 id="demo-title" class="h2">Así lo vería un candidato</h2>
-          <p class="kicker">Conversación real del sistema · vacante de Chofer de Reparto</p>
+          <p class="kicker">Conversación de ejemplo · vacante de Operador de almacén</p>
         </header>
 
         <figure class="phone reveal" aria-labelledby="demo-title">
@@ -103,14 +103,29 @@
             </div>
           </div>
           <!--
-            CONVERSACIÓN DEMO (vacante de Chofer de Reparto).
-            Pegar aquí los mensajes reales, uno por <li>, en orden:
-              <li class="msg in">…</li>   → mensaje de Qualent (izquierda)
-              <li class="msg out">…</li>  → mensaje del candidato (derecha)
+            CONVERSACIÓN DEMO: ejemplo armado con los datos de la vacante de
+            Operador de almacén (volante de La Anita). Un mensaje por <li>:
+              <li class="msg in">…</li>        → Qualent (izquierda)
+              <li class="msg out">…</li>       → candidato (derecha)
+              <li class="msg out file">…</li>  → documento enviado
             La animación de "escribiendo" se aplica sola.
           -->
           <ol class="chat" data-chat aria-label="Conversación de ejemplo por WhatsApp">
-            <li class="msg in">[CONVERSACIÓN_DEMO: pegar aquí los mensajes reales]</li>
+            <li class="msg out">Hola, vi la vacante de operador de almacén. ¿Sigue disponible?</li>
+            <li class="msg in">¡Hola! 👋 Soy Qualent, el asistente de reclutamiento. Sí, la vacante de Operador de almacén sigue abierta.</li>
+            <li class="msg in">Ofrecemos pago quincenal, vales de despensa, fondo de ahorro al 10%, comedor subsidiado y bonos. Es en Ciudad Industrial, por carretera a Umán. ¿Te interesa?</li>
+            <li class="msg out">Sí. ¿Qué horario es?</li>
+            <li class="msg in">De lunes a viernes, con rotación semanal: de 9:00 a 18:36 o de 11:00 a 20:00. ¿Puedes cubrir los dos turnos?</li>
+            <li class="msg out">Sí, sin problema</li>
+            <li class="msg in">Perfecto. ¿Tienes experiencia en carga y descarga, y sabes usar patín hidráulico?</li>
+            <li class="msg out">Sí, 2 años en una bodega. Uso patín diario</li>
+            <li class="msg in">¡Muy bien! Para avanzar, mándame foto de tu INE (frente y vuelta) y tu CURP.</li>
+            <li class="msg out file"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.7-1.3 1.8-2 3-2s2.3.7 3 2M14 10h4M14 13h3"/></svg><span>INE · frente y vuelta</span></li>
+            <li class="msg out file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><span>CURP.pdf</span></li>
+            <li class="msg in">Listo ✅ Validé tu INE y tu CURP: los datos coinciden.</li>
+            <li class="msg in">Tengo entrevistas en Ciudad Industrial el jueves a las 10:00 o el viernes a las 12:00. ¿Cuál te queda mejor?</li>
+            <li class="msg out">El jueves</li>
+            <li class="msg in">Agendado: jueves a las 10:00 📅 Te mando la ubicación y un recordatorio un día antes.</li>
           </ol>
           <div class="phone-input" aria-hidden="true">
             <span>Mensaje</span>

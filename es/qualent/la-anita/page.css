@@ -27,6 +27,7 @@ body {
 img, svg { display: block; max-width: 100%; }
 svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 svg .fill { fill: currentColor; stroke: none; }
+[hidden] { display: none !important; }
 h1, h2, h3, p { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 a { color: inherit; }
@@ -242,6 +243,8 @@ a { color: inherit; }
 }
 .msg.in { align-self: flex-start; background: #fff; border-top-left-radius: 4px; }
 .msg.out { align-self: flex-end; background: #DCEFC2; border-top-right-radius: 4px; }
+.msg.file { display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; font-weight: 600; font-size: 14px; }
+.msg.file svg { width: 32px; height: 32px; padding: 6px; flex: none; border-radius: 8px; background: rgb(255 255 255 / .7); color: var(--olive-700); }
 .msg + .msg.in, .msg + .msg.out { margin-top: 0; }
 .msg.in + .msg.out, .msg.out + .msg.in { margin-top: 6px; }
 .js .msg:not([hidden]) { animation: pop .4s var(--ease) both; }

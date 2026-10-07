@@ -1,43 +1,7 @@
 /* =========================================================
    Qualent — landing
-   Paleta de marca (verde olivo) tomada del sitio original.
+   Paleta de marca (verde olivo) en assets/tokens.css.
    ========================================================= */
-
-:root {
-  --olive-50:  #F5F8EA;
-  --olive-100: #E8EECD;
-  --olive-200: #D5E0A6;
-  --olive-300: #B7CB72;
-  --olive-400: #8FAE45;
-  --olive-500: #6F8F2A;
-  --olive-600: #587421;
-  --olive-700: #465C1C;
-  --olive-800: #354615;
-  --olive-900: #232E0F;
-  --lime: #EBF18F;      /* acento del logo */
-
-  --ink:    #1E1F1A;
-  --ink-2:  #30312B;
-  --muted:  #5D5F54;
-  --soft:   #A3A599;
-  --line:   #E3E3DD;
-  --paper:  #FBFBF7;
-  --card:   #FFFFFF;
-  --danger: #D23F31;
-  --danger-bg: #FDE3E1;
-
-  --f-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
-  --f-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-hand: "Caveat", "Comic Sans MS", cursive;
-
-  --r-sm: 12px;
-  --r-md: 20px;
-  --r-lg: 32px;
-  --shadow-sm: 0 1px 2px rgb(30 31 26 / .06), 0 2px 8px rgb(30 31 26 / .04);
-  --shadow-md: 0 10px 30px -12px rgb(35 46 15 / .25), 0 2px 6px rgb(30 31 26 / .05);
-  --shadow-lg: 0 30px 60px -20px rgb(35 46 15 / .35);
-  --ease: cubic-bezier(.2, .8, .2, 1);
-}
 
 *, *::before, *::after { box-sizing: border-box; }
 html { overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
